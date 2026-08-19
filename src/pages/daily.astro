@@ -18,18 +18,252 @@ const description = "Solve today's MeowTrail daily puzzle. A new Akari logic cha
     "applicationCategory": "Game",
     "gamePlatform": "Web Browser"
   })} />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 1rem; }
+    h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .breadcrumb { font-size: 0.9rem; color: #666; margin-bottom: 1rem; }
+    .breadcrumb a { color: #e67e22; text-decoration: none; }
+    .stats { display: flex; gap: 2rem; margin: 1rem 0; padding: 1rem; background: #fef9e7; border-radius: 8px; }
+    .stat { text-align: center; }
+    .stat .value { font-size: 1.8rem; font-weight: bold; color: #e67e22; }
+    .stat .label { font-size: 0.85rem; color: #666; }
+    .board-container { display: flex; justify-content: center; margin: 1rem 0; }
+    .board { display: inline-grid; gap: 2px; background: #2d3436; padding: 3px; border-radius: 6px; }
+    .cell { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 1.2rem; user-select: none; transition: background 0.2s; border-radius: 2px; }
+    .cell.white { background: #ffeaa7; }
+    .cell.white:hover { background: #fdcb6e; }
+    .cell.white.lit { background: #fff9c4; box-shadow: inset 0 0 8px rgba(255,235,59,0.3); }
+    .cell.white.bulb { background: #fdcb6e; }
+    .cell.white.conflict { background: #e74c3c; color: white; }
+    .cell.black { background: #2d3436; cursor: default; }
+    .cell.black-number { background: #2d3436; color: #fdcb6e; cursor: default; font-size: 1.3rem; }
+    .controls { display: flex; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
+    .controls button { padding: 0.6rem 1.2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95rem; }
+    .btn-primary { background: #e67e22; color: white; }
+    .btn-primary:hover { background: #d35400; }
+    .btn-secondary { background: #636e72; color: white; }
+    .btn-secondary:hover { background: #2d3436; }
+    .message { padding: 0.8rem; border-radius: 8px; margin: 0.5rem 0; font-weight: 500; }
+    .message.success { background: #d5f5e3; color: #27ae60; }
+    .message.error { background: #fadbd8; color: #e74c3c; }
+    .share-btn { background: #3498db; color: white; }
+    .share-btn:hover { background: #2980b9; }
+    @media (max-width: 480px) {
+      .cell { width: 38px; height: 38px; font-size: 1rem; }
+      h1 { font-size: 1.4rem; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #1a1a2e; color: #eee; }
+      .stats { background: #16213e; }
+      .cell.white { background: #4a3f2a; }
+      .cell.white.lit { background: #5a4f3a; }
+      .cell.white.bulb { background: #6b5b3a; }
+      .cell.black, .cell.black-number { background: #0f0f23; }
+    }
+  </style>
 </head>
 <body>
-  <nav aria-label="Breadcrumb"><a href="/">Home</a> &gt; <span>Daily Puzzle</span></nav>
+  <nav class="breadcrumb"><a href="/">Home</a> &gt; <span>Daily Puzzle</span></nav>
   <main>
-    <h1>Daily MeowTrail Puzzle</h1>
-    <p>A new puzzle every day, same for everyone worldwide. Come back daily to keep your streak!</p>
+    <h1>📅 Daily MeowTrail</h1>
+    <p>New puzzle every day. Same for everyone worldwide.</p>
 
-    <div id="daily-board" role="grid" aria-label="Daily puzzle board"></div>
-    <div id="daily-stats">
-      <p>Date: <span id="puzzle-date"></span></p>
-      <p>Streak: <span id="streak">0</span> days</p>
+    <div class="stats">
+      <div class="stat"><div class="value" id="puzzle-date">—</div><div class="label">Today</div></div>
+      <div class="stat"><div class="value" id="streak">0</div><div class="label">Day Streak 🔥</div></div>
+      <div class="stat"><div class="value" id="best-streak">0</div><div class="label">Best Streak</div></div>
+    </div>
+
+    <div class="board-container"><div class="board" id="daily-board"></div></div>
+    <div id="message-area"></div>
+    <div class="controls">
+      <button class="btn-secondary" id="reset-btn">🔄 Reset</button>
+      <button class="btn-primary" id="check-btn">✅ Check</button>
+      <button class="btn-secondary" id="hint-btn">💡 Hint</button>
+      <button class="btn-secondary share-btn" id="share-btn" style="display:none">📤 Share</button>
     </div>
   </main>
+
+  <script>
+    import { generateDailyPuzzle, validatePuzzle, validateMove, computeIllumination, bulbsSeeEachOther, CellType } from '../lib/puzzle-engine';
+    import type { Puzzle, Cell } from '../lib/puzzle-engine';
+
+    const SIZE = 7;
+    const STORAGE_KEY = 'meowtrail-daily';
+
+    let puzzle: Puzzle;
+    let playerGrid: boolean[][];
+
+    function getToday(): string {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.date === getToday()) {
+          return data;
+        }
+      }
+      return null;
+    }
+
+    function saveState(solved: boolean) {
+      const state = loadState() || { date: getToday(), streak: 0, bestStreak: 0 };
+      if (solved && !state.solved) {
+        state.streak += 1;
+        state.bestStreak = Math.max(state.bestStreak, state.streak);
+        state.solved = true;
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function initDaily() {
+      const today = getToday();
+      document.getElementById('puzzle-date')!.textContent = today;
+
+      // Load streak
+      const state = loadState();
+      const streak = state?.streak || 0;
+      const bestStreak = state?.bestStreak || 0;
+      document.getElementById('streak')!.textContent = String(streak);
+      document.getElementById('best-streak')!.textContent = String(bestStreak);
+
+      // Generate daily puzzle
+      puzzle = generateDailyPuzzle(today, SIZE);
+      playerGrid = Array.from({ length: SIZE }, () => Array(SIZE).fill(false));
+
+      renderBoard();
+
+      if (state?.solved) {
+        showMessage('✅ Already solved today! Come back tomorrow.', 'success');
+        document.getElementById('share-btn')!.style.display = 'inline-block';
+      }
+    }
+
+    function renderBoard() {
+      const board = document.getElementById('daily-board')!;
+      board.innerHTML = '';
+      board.style.gridTemplateColumns = `repeat(${SIZE}, 48px)`;
+
+      // Compute illumination for player's bulbs
+      const displayGrid: Cell[][] = puzzle.grid.map(row => row.map(cell => ({
+        ...cell,
+        bulb: false,
+        illuminated: false,
+      })));
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          displayGrid[r][c].bulb = playerGrid[r][c];
+        }
+      }
+      computeIllumination(displayGrid);
+      const conflicts = bulbsSeeEachOther(displayGrid);
+
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          const puzzleCell = puzzle.grid[r][c];
+          const displayCell = displayGrid[r][c];
+
+          if (puzzleCell.type >= 1) {
+            cell.classList.add(puzzleCell.type >= 2 ? 'black-number' : 'black');
+            if (puzzleCell.type >= 2) {
+              cell.textContent = String(puzzleCell.type - 2);
+            }
+          } else {
+            cell.classList.add('white');
+            if (playerGrid[r][c]) {
+              const isConflict = conflicts.some(cf => cf.row === r && cf.col === c);
+              if (isConflict) {
+                cell.classList.add('conflict');
+                cell.textContent = '💡';
+              } else {
+                cell.classList.add('bulb');
+                cell.textContent = '💡';
+              }
+            } else if (displayCell.illuminated) {
+              cell.classList.add('lit');
+            }
+            cell.addEventListener('click', () => toggleBulb(r, c));
+          }
+          board.appendChild(cell);
+        }
+      }
+    }
+
+    function toggleBulb(r: number, c: number) {
+      const state = loadState();
+      if (state?.solved) return;
+      playerGrid[r][c] = !playerGrid[r][c];
+      renderBoard();
+    }
+
+    function showMessage(msg: string, type: string) {
+      const area = document.getElementById('message-area')!;
+      area.innerHTML = `<div class="message ${type}">${msg}</div>`;
+    }
+
+    document.getElementById('check-btn')!.addEventListener('click', () => {
+      // Build puzzle with player's bulbs
+      const checkPuzzle: Puzzle = {
+        size: SIZE,
+        difficulty: 'medium',
+        grid: puzzle.grid.map((row, r) => row.map((cell, c) => ({
+          ...cell,
+          bulb: playerGrid[r][c],
+          illuminated: false,
+        }))),
+      };
+
+      const result = validatePuzzle(checkPuzzle);
+      if (result.valid) {
+        showMessage('🎉 Puzzle solved! Well done!', 'success');
+        saveState(true);
+        document.getElementById('streak')!.textContent = String((loadState()?.streak || 0));
+        document.getElementById('best-streak')!.textContent = String((loadState()?.bestStreak || 0));
+        document.getElementById('share-btn')!.style.display = 'inline-block';
+      } else {
+        showMessage(`❌ Not yet — ${result.message}`, 'error');
+      }
+    });
+
+    document.getElementById('reset-btn')!.addEventListener('click', () => {
+      playerGrid = Array.from({ length: SIZE }, () => Array(SIZE).fill(false));
+      document.getElementById('message-area')!.innerHTML = '';
+      renderBoard();
+    });
+
+    document.getElementById('hint-btn')!.addEventListener('click', () => {
+      const sol = solvePuzzle(puzzle, 1);
+      if (sol.solutions.length > 0) {
+        const solution = sol.solutions[0];
+        // Find a bulb in the solution that the player hasn't placed
+        for (const bulb of solution) {
+          if (!playerGrid[bulb.row][bulb.col]) {
+            playerGrid[bulb.row][bulb.col] = true;
+            showMessage(`💡 Hint: bulb at row ${bulb.row + 1}, col ${bulb.col + 1}`, 'success');
+            renderBoard();
+            return;
+          }
+        }
+        showMessage('✅ You already have all the right bulbs placed! Check your solution.', 'success');
+      }
+    });
+
+    document.getElementById('share-btn')!.addEventListener('click', () => {
+      const today = getToday();
+      const streak = loadState()?.streak || 0;
+      const text = `MeowTrail Daily ${today}\n🔥 ${streak} day streak\n\nPlay at meowtrail.org/daily`;
+      navigator.clipboard.writeText(text).then(() => {
+        showMessage('📋 Copied to clipboard!', 'success');
+      });
+    });
+
+    initDaily();
+  </script>
 </body>
 </html>

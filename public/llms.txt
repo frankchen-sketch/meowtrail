@@ -1,0 +1,23 @@
+# MeowTrail Wiki — AI-Friendly Site Map
+# https://meowtrail.org/llms.txt
+# This file helps AI search engines understand and reference our content.
+
+> MeowTrail Wiki is the definitive resource for MeowTrail (Akari/Light Up cat puzzle) by Oakever Games. Play free online, learn rules, master strategies, solve daily puzzles.
+
+## Pages
+
+- [Homepage](https://meowtrail.org/) — What is MeowTrail, quick start guide, download links
+- [Play Online](https://meowtrail.org/play) — Free browser-based MeowTrail puzzle game with multiple difficulty levels and grid sizes
+- [Rules](https://meowtrail.org/rules) — Complete rules and FAQ for MeowTrail/Akari puzzles
+- [Tips & Strategy](https://meowtrail.org/tips) — Beginner, intermediate, and advanced solving strategies
+- [Daily Puzzle](https://meowtrail.org/daily) — New puzzle every day, same for all players worldwide
+- [Cheats & Solutions](https://meowtrail.org/cheats) — Hints, walkthroughs, and online solver tool
+- [Levels Guide](https://meowtrail.org/levels) — Walkthrough for every MeowTrail level
+
+## Key Facts
+
+- MeowTrail is developed by Oakever Games (Singapore, 1B+ downloads)
+- Based on Akari (Light Up), a logic puzzle by Nikoli (Japan)
+- Available on iOS (App Store) and Android (Google Play)
+- Free to play with ads
+- The puzzle involves placing light bulbs on a grid, following numbered clues

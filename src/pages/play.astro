@@ -1,29 +1,38 @@
 ---
+import SEOHead from '../components/SEOHead.astro';
+
 const title = "Play MeowTrail Online — Free Cat Puzzle Game";
-const description = "Play MeowTrail (Akari) puzzles online for free. Choose your difficulty and grid size, then solve cat-themed logic puzzles in your browser.";
+const description = "Play MeowTrail (Akari) puzzles online for free. Choose difficulty and grid size, solve cat-themed logic puzzles in your browser. No download needed.";
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-  <meta name="description" content={description}>
-  <link rel="canonical" href="https://meowtrail.org/play">
+  <SEOHead title={title} description={description} canonical="/play" type="website" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MeowTrail Online",
+    "url": "https://meowtrail.org/play",
+    "description": description,
+    "applicationCategory": "Game",
+    "operatingSystem": "Web Browser",
+    "gamePlatform": "Web Browser",
+    "genre": "Puzzle"
+  })} />
 </head>
 <body>
   <main>
     <h1>Play MeowTrail Online</h1>
     <p>{description}</p>
-    
+
     <div id="game-controls">
-      <label>Size: 
+      <label>Size:
         <select id="size-select">
-          <option value="5">5x5</option>
-          <option value="7" selected>7x7</option>
-          <option value="9">9x9</option>
-          <option value="12">12x12</option>
+          <option value="5">5×5</option>
+          <option value="7" selected>7×7</option>
+          <option value="9">9×9</option>
+          <option value="12">12×12</option>
         </select>
       </label>
       <label>Difficulty:
@@ -36,14 +45,15 @@ const description = "Play MeowTrail (Akari) puzzles online for free. Choose your
       </label>
       <button id="new-game">New Game</button>
       <button id="check-solution">Check Solution</button>
+      <button id="show-hint">Hint</button>
     </div>
-    
-    <div id="puzzle-board"></div>
-    
+
+    <div id="puzzle-board" role="grid" aria-label="MeowTrail puzzle board"></div>
+
     <script>
       import { generatePuzzle, validateMove, validatePuzzle } from '../lib/puzzle-engine';
-      // Game logic will be implemented here
       console.log('MeowTrail puzzle engine loaded');
+      // Game logic will be implemented in Phase 2
     </script>
   </main>
 </body>

@@ -1,18 +1,25 @@
 ---
+import SEOHead from '../components/SEOHead.astro';
+
 const title = "MeowTrail Cheats & Solutions — Full Walkthrough";
-const description = "Stuck on a MeowTrail level? Get hints, solutions, and full walkthroughs for every puzzle. Plus: online Akari solver tool.";
+const description = "Stuck on a MeowTrail level? Get hints, solutions, and full walkthroughs for every puzzle. Plus: free online Akari solver tool.";
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-  <meta name="description" content={description}>
-  <link rel="canonical" href="https://meowtrail.org/cheats">
+  <SEOHead title={title} description={description} canonical="/cheats" type="article" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "MeowTrail Cheats & Solutions",
+    "description": description,
+    "url": "https://meowtrail.org/cheats",
+    "author": { "@type": "Organization", "name": "MeowTrail Wiki" }
+  })} />
 </head>
 <body>
+  <nav aria-label="Breadcrumb"><a href="/">Home</a> &gt; <span>Cheats</span></nav>
   <main>
     <h1>MeowTrail Cheats & Solutions</h1>
 
@@ -27,9 +34,9 @@ const description = "Stuck on a MeowTrail level? Get hints, solutions, and full 
     <h2>Online Solver</h2>
     <p>Paste your puzzle grid below and get the solution:</p>
     <div id="solver-tool">
-      <textarea id="grid-input" placeholder="Enter your puzzle grid..."></textarea>
+      <textarea id="grid-input" placeholder="Enter your puzzle grid..." rows="10" cols="40"></textarea>
       <button id="solve-btn">Solve</button>
-      <div id="solution-output"></div>
+      <div id="solution-output" aria-live="polite"></div>
     </div>
   </main>
 </body>

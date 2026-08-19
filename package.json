@@ -4,15 +4,19 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
+    "postbuild": "pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.6.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "pagefind": "^1.5.2",
     "typescript": "^5.7.2"
   }
 }

@@ -1,57 +1,87 @@
 ---
-// MeowTrail Wiki — Homepage
+import SEOHead from '../components/SEOHead.astro';
+
 const title = "MeowTrail Wiki — Play Online, Rules, Tips & Daily Puzzles";
-const description = "The ultimate MeowTrail guide: play free online, learn rules, master strategies, and solve daily cat puzzles. Built for fans of Akari logic puzzles.";
+const description = "The ultimate MeowTrail guide: play free online, learn rules, master strategies, and solve daily cat puzzles. Built for fans of Akari logic puzzles by Oakever Games.";
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-  <meta name="description" content={description}>
-  <meta property="og:title" content={title}>
-  <meta property="og:description" content={description}>
-  <meta property="og:type" content="website">
-  <link rel="canonical" href="https://meowtrail.org/">
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "MeowTrail Wiki",
-    "url": "https://meowtrail.org",
-    "description": description,
-    "applicationCategory": "Game",
-    "operatingSystem": "Web Browser"
-  })} />
+  <SEOHead title={title} description={description} canonical="/" />
+  <script type="application/ld+json" set:html={JSON.stringify([
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "MeowTrail Wiki",
+      "url": "https://meowtrail.org",
+      "description": description,
+      "applicationCategory": "Game",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is MeowTrail?",
+          "acceptedAnswer": { "@type": "Answer", "text": "MeowTrail is a cat-themed logic puzzle game by Oakever Games, based on the classic Akari (Light Up) puzzle. Place light bulbs on a grid to illuminate all white cells while following numbered clues." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is MeowTrail free to play?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. MeowTrail is free to download on iOS and Android. The mobile game contains ads, but every puzzle can be solved through logic without paying." }
+        },
+        {
+          "@type": "Question",
+          "name": "How is MeowTrail different from Sudoku?",
+          "acceptedAnswer": { "@type": "Answer", "text": "MeowTrail uses light bulbs and illumination instead of numbers. You place bulbs so every white cell is lit, numbered black cells show adjacent bulb counts, and no two bulbs can see each other." }
+        }
+      ]
+    }
+  ])} />
 </head>
 <body>
   <main>
     <h1>MeowTrail Wiki</h1>
     <p>{description}</p>
-    
-    <nav>
-      <a href="/play">Play Online</a>
-      <a href="/rules">Rules</a>
-      <a href="/tips">Tips & Strategy</a>
-      <a href="/daily">Daily Puzzle</a>
-      <a href="/levels">Level Guides</a>
+
+    <nav aria-label="Main navigation">
+      <a href="/play">🎮 Play Online</a>
+      <a href="/rules">📖 Rules</a>
+      <a href="/tips">💡 Tips & Strategy</a>
+      <a href="/daily">📅 Daily Puzzle</a>
+      <a href="/levels">🗺️ Level Guides</a>
+      <a href="/cheats">🔍 Cheats & Solutions</a>
     </nav>
-    
+
     <section>
       <h2>What is MeowTrail?</h2>
-      <p>MeowTrail is a cat-themed logic puzzle by Oakever Games. Based on the classic Akari (Light Up) puzzle, you place light bulbs on a grid to illuminate all white cells while following numbered clues and avoiding bulb conflicts.</p>
+      <p>MeowTrail is a cat-themed logic puzzle by <strong>Oakever Games</strong>. Based on the classic Akari (Light Up) puzzle created by <a href="https://www.nikoli.co.jp/en/">Nikoli</a>, you place light bulbs on a grid to illuminate all white cells while following numbered clues and avoiding bulb conflicts.</p>
+      <p>Available free on <a href="https://play.google.com/store/apps/details?id=com.oakever.akari">Google Play</a> and <a href="https://apps.apple.com/app/meowtrail/id000000000">App Store</a>.</p>
     </section>
-    
+
     <section>
       <h2>How to Play</h2>
       <ol>
-        <li>Place bulbs on white cells</li>
-        <li>Each bulb lights up its entire row and column</li>
-        <li>Black cells block light</li>
-        <li>Numbered cells show how many adjacent bulbs they need</li>
-        <li>No two bulbs can see each other</li>
+        <li><strong>Place bulbs</strong> on white cells by tapping</li>
+        <li>Each bulb <strong>illuminates its row and column</strong> until blocked by a black cell</li>
+        <li><strong>Numbered black cells</strong> show how many adjacent bulbs they need</li>
+        <li><strong>No two bulbs</strong> can see each other (same row/column with no black cell between)</li>
+        <li><strong>All white cells</strong> must be illuminated to win</li>
       </ol>
+    </section>
+
+    <section>
+      <h2>Quick Links</h2>
+      <ul>
+        <li><a href="/rules">Complete Rules & FAQ</a></li>
+        <li><a href="/tips">Beginner to Advanced Strategies</a></li>
+        <li><a href="/daily">Today's Daily Puzzle</a></li>
+        <li><a href="/play">Play Free Online</a></li>
+      </ul>
     </section>
   </main>
 </body>

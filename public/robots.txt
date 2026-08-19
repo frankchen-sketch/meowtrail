@@ -1,0 +1,23 @@
+# https://meowtrail.org/robots.txt
+# MeowTrail Wiki — SEO optimized for game wiki
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://meowtrail.org/sitemap-index.xml
+
+# AI crawlers — welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /

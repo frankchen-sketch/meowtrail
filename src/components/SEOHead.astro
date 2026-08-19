@@ -1,0 +1,57 @@
+---
+// Reusable SEO head component for all pages
+// Usage: <SEOHead title="..." description="..." canonical="/play" />
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  type?: 'website' | 'article';
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  type = 'website',
+  image = '/og-default.png',
+  noindex = false,
+} = Astro.props;
+
+const fullUrl = `https://meowtrail.org${canonical}`;
+const fullTitle = canonical === '/' ? title : `${title} | MeowTrail Wiki`;
+---
+
+<!-- Primary Meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{fullTitle}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={fullUrl}>
+{noindex && <meta name="robots" content="noindex">}
+
+<!-- Open Graph -->
+<meta property="og:type" content={type}>
+<meta property="og:title" content={fullTitle}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={fullUrl}>
+<meta property="og:image" content={`https://meowtrail.org${image}`}>
+<meta property="og:site_name" content="MeowTrail Wiki">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={fullTitle}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={`https://meowtrail.org${image}`}>
+
+<!-- Favicon (placeholder — replace with actual) -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://meowtrail.org">
+
+<!-- llms.txt reference -->
+<link rel="alternate" type="text/plain" href="/llms.txt" title="AI-friendly site map">

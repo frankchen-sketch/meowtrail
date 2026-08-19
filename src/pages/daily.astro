@@ -1,23 +1,31 @@
 ---
+import SEOHead from '../components/SEOHead.astro';
+
 const title = "MeowTrail Daily Puzzle — New Cat Puzzle Every Day";
-const description = "Solve today's MeowTrail daily puzzle. A new Akari logic challenge every day, seeded by date so everyone gets the same puzzle.";
+const description = "Solve today's MeowTrail daily puzzle. A new Akari logic challenge every day, seeded by date so everyone worldwide gets the same puzzle.";
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-  <meta name="description" content={description}>
-  <link rel="canonical" href="https://meowtrail.org/daily">
+  <SEOHead title={title} description={description} canonical="/daily" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MeowTrail Daily Puzzle",
+    "url": "https://meowtrail.org/daily",
+    "description": description,
+    "applicationCategory": "Game",
+    "gamePlatform": "Web Browser"
+  })} />
 </head>
 <body>
+  <nav aria-label="Breadcrumb"><a href="/">Home</a> &gt; <span>Daily Puzzle</span></nav>
   <main>
     <h1>Daily MeowTrail Puzzle</h1>
     <p>A new puzzle every day, same for everyone worldwide. Come back daily to keep your streak!</p>
 
-    <div id="daily-board"></div>
+    <div id="daily-board" role="grid" aria-label="Daily puzzle board"></div>
     <div id="daily-stats">
       <p>Date: <span id="puzzle-date"></span></p>
       <p>Streak: <span id="streak">0</span> days</p>

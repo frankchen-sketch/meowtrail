@@ -1,0 +1,58 @@
+---
+// MeowTrail Wiki — Homepage
+const title = "MeowTrail Wiki — Play Online, Rules, Tips & Daily Puzzles";
+const description = "The ultimate MeowTrail guide: play free online, learn rules, master strategies, and solve daily cat puzzles. Built for fans of Akari logic puzzles.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://meowtrail.org/">
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MeowTrail Wiki",
+    "url": "https://meowtrail.org",
+    "description": description,
+    "applicationCategory": "Game",
+    "operatingSystem": "Web Browser"
+  })} />
+</head>
+<body>
+  <main>
+    <h1>MeowTrail Wiki</h1>
+    <p>{description}</p>
+    
+    <nav>
+      <a href="/play">Play Online</a>
+      <a href="/rules">Rules</a>
+      <a href="/tips">Tips & Strategy</a>
+      <a href="/daily">Daily Puzzle</a>
+      <a href="/levels">Level Guides</a>
+    </nav>
+    
+    <section>
+      <h2>What is MeowTrail?</h2>
+      <p>MeowTrail is a cat-themed logic puzzle by Oakever Games. Based on the classic Akari (Light Up) puzzle, you place light bulbs on a grid to illuminate all white cells while following numbered clues and avoiding bulb conflicts.</p>
+    </section>
+    
+    <section>
+      <h2>How to Play</h2>
+      <ol>
+        <li>Place bulbs on white cells</li>
+        <li>Each bulb lights up its entire row and column</li>
+        <li>Black cells block light</li>
+        <li>Numbered cells show how many adjacent bulbs they need</li>
+        <li>No two bulbs can see each other</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>

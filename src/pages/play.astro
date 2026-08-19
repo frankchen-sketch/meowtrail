@@ -1,0 +1,50 @@
+---
+const title = "Play MeowTrail Online — Free Cat Puzzle Game";
+const description = "Play MeowTrail (Akari) puzzles online for free. Choose your difficulty and grid size, then solve cat-themed logic puzzles in your browser.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href="https://meowtrail.org/play">
+</head>
+<body>
+  <main>
+    <h1>Play MeowTrail Online</h1>
+    <p>{description}</p>
+    
+    <div id="game-controls">
+      <label>Size: 
+        <select id="size-select">
+          <option value="5">5x5</option>
+          <option value="7" selected>7x7</option>
+          <option value="9">9x9</option>
+          <option value="12">12x12</option>
+        </select>
+      </label>
+      <label>Difficulty:
+        <select id="difficulty-select">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+          <option value="ultra">Ultra</option>
+        </select>
+      </label>
+      <button id="new-game">New Game</button>
+      <button id="check-solution">Check Solution</button>
+    </div>
+    
+    <div id="puzzle-board"></div>
+    
+    <script>
+      import { generatePuzzle, validateMove, validatePuzzle } from '../lib/puzzle-engine';
+      // Game logic will be implemented here
+      console.log('MeowTrail puzzle engine loaded');
+    </script>
+  </main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+---
+const title = "MeowTrail Cheats & Solutions — Full Walkthrough";
+const description = "Stuck on a MeowTrail level? Get hints, solutions, and full walkthroughs for every puzzle. Plus: online Akari solver tool.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href="https://meowtrail.org/cheats">
+</head>
+<body>
+  <main>
+    <h1>MeowTrail Cheats & Solutions</h1>
+
+    <h2>Need a Hint?</h2>
+    <p>Before looking up the full solution, try these steps:</p>
+    <ol>
+      <li>Check all "4" and "0" cells first</li>
+      <li>Look for cells that can only be lit from one direction</li>
+      <li>Use the in-game hint button (it won't solve the puzzle for you)</li>
+    </ol>
+
+    <h2>Online Solver</h2>
+    <p>Paste your puzzle grid below and get the solution:</p>
+    <div id="solver-tool">
+      <textarea id="grid-input" placeholder="Enter your puzzle grid..."></textarea>
+      <button id="solve-btn">Solve</button>
+      <div id="solution-output"></div>
+    </div>
+  </main>
+</body>
+</html>

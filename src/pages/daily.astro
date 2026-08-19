@@ -13,7 +13,7 @@ const description = "Solve today's MeowTrail daily puzzle. A new Akari logic cha
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "MeowTrail Daily Puzzle",
-    "url": "https://meowtrail.org/daily",
+    "url": "https://meowtrail.app/daily",
     "description": description,
     "applicationCategory": "Game",
     "gamePlatform": "Web Browser"
@@ -86,8 +86,8 @@ const description = "Solve today's MeowTrail daily puzzle. A new Akari logic cha
   </main>
 
   <script>
-    import { generateDailyPuzzle, validatePuzzle, validateMove, computeIllumination, bulbsSeeEachOther, CellType } from '../lib/puzzle-engine';
-    import type { Puzzle, Cell } from '../lib/puzzle-engine';
+    import { generateDailyPuzzle, validatePuzzle, validateMove, computeIllumination, bulbsSeeEachOther, CellType } from '/src/lib/puzzle-engine';
+    import type { Puzzle, Cell } from '/src/lib/puzzle-engine';
 
     const SIZE = 7;
     const STORAGE_KEY = 'meowtrail-daily';
@@ -257,7 +257,7 @@ const description = "Solve today's MeowTrail daily puzzle. A new Akari logic cha
     document.getElementById('share-btn')!.addEventListener('click', () => {
       const today = getToday();
       const streak = loadState()?.streak || 0;
-      const text = `MeowTrail Daily ${today}\n🔥 ${streak} day streak\n\nPlay at meowtrail.org/daily`;
+      const text = `MeowTrail Daily ${today}\n🔥 ${streak} day streak\n\nPlay at meowtrail.app/daily`;
       navigator.clipboard.writeText(text).then(() => {
         showMessage('📋 Copied to clipboard!', 'success');
       });

@@ -14,7 +14,7 @@ const description = "Stuck on a MeowTrail puzzle? Use our free online Akari solv
     "@type": "Article",
     "headline": "MeowTrail Cheats & Solutions",
     "description": description,
-    "url": "https://meowtrail.org/cheats",
+    "url": "https://meowtrail.app/cheats",
     "author": { "@type": "Organization", "name": "MeowTrail Wiki" }
   })} />
   <style>
@@ -111,8 +111,8 @@ const description = "Stuck on a MeowTrail puzzle? Use our free online Akari solv
   </main>
 
   <script>
-    import { solvePuzzle, CellType, computeIllumination } from '../lib/puzzle-engine';
-    import type { Puzzle, Cell } from '../lib/puzzle-engine';
+    import { solvePuzzle, CellType, computeIllumination } from '/src/lib/puzzle-engine';
+    import type { Puzzle, Cell } from '/src/lib/puzzle-engine';
 
     let gridSize = 7;
     let editMode: 'white' | 'black' | 'number' = 'white';

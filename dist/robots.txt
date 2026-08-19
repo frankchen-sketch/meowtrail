@@ -1,4 +1,4 @@
-# https://meowtrail.org/robots.txt
+# https://meowtrail.app/robots.txt
 # MeowTrail Wiki — SEO optimized for game wiki
 
 User-agent: *
@@ -7,7 +7,7 @@ Disallow: /api/
 Disallow: /admin/
 
 # Sitemap
-Sitemap: https://meowtrail.org/sitemap-index.xml
+Sitemap: https://meowtrail.app/sitemap-index.xml
 
 # AI crawlers — welcome
 User-agent: GPTBot

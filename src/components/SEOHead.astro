@@ -20,7 +20,7 @@ const {
   noindex = false,
 } = Astro.props;
 
-const fullUrl = `https://meowtrail.org${canonical}`;
+const fullUrl = `https://meowtrail.app${canonical}`;
 const fullTitle = canonical === '/' ? title : `${title} | MeowTrail Wiki`;
 ---
 
@@ -37,7 +37,7 @@ const fullTitle = canonical === '/' ? title : `${title} | MeowTrail Wiki`;
 <meta property="og:title" content={fullTitle}>
 <meta property="og:description" content={description}>
 <meta property="og:url" content={fullUrl}>
-<meta property="og:image" content={`https://meowtrail.org${image}`}>
+<meta property="og:image" content={`https://meowtrail.app${image}`}>
 <meta property="og:site_name" content="MeowTrail Wiki">
 <meta property="og:locale" content="en_US">
 
@@ -45,13 +45,13 @@ const fullTitle = canonical === '/' ? title : `${title} | MeowTrail Wiki`;
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content={fullTitle}>
 <meta name="twitter:description" content={description}>
-<meta name="twitter:image" content={`https://meowtrail.org${image}`}>
+<meta name="twitter:image" content={`https://meowtrail.app${image}`}>
 
 <!-- Favicon (placeholder — replace with actual) -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 <!-- Preconnect for performance -->
-<link rel="preconnect" href="https://meowtrail.org">
+<link rel="preconnect" href="https://meowtrail.app">
 
 <!-- llms.txt reference -->
 <link rel="alternate" type="text/plain" href="/llms.txt" title="AI-friendly site map">

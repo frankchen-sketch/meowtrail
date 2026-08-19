@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://meowtrail.org',
+  site: 'https://meowtrail.app',
   output: 'static',
   trailingSlash: 'ignore',
   integrations: [

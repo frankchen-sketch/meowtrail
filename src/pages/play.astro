@@ -269,7 +269,6 @@ const description = "Play MeowTrail (Akari) puzzles online for free. Choose diff
 
             if (playerCell.bulb) {
               cell.classList.add('cell-bulb');
-              cell.textContent = '💡';
               if (conflictSet.has(key)) {
                 cell.classList.add('cell-conflict');
               }
@@ -690,7 +689,7 @@ const description = "Play MeowTrail (Akari) puzzles online for free. Choose diff
       border-radius: 8px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
       max-width: 100%;
-      width: min(90vw, 560px);
+      width: min(90vw, 480px);
       aspect-ratio: 1 / 1;
       margin-bottom: 1rem;
     }
@@ -717,9 +716,9 @@ const description = "Play MeowTrail (Akari) puzzles online for free. Choose diff
 
     /* Black cells */
     .cell-black {
-      background: #3d2b1f;
-      color: #d4b896;
-      font-size: clamp(0.8rem, 2.8vw, 1.4rem);
+      background: #5c3a1e;
+      color: #f5d6a8;
+      font-size: clamp(0.8rem, 2.8vw, 1.2rem);
     }
 
     .cell-numbered {
@@ -739,12 +738,12 @@ const description = "Play MeowTrail (Akari) puzzles online for free. Choose diff
 
     /* White cells */
     .cell-white {
-      background: #fffcf5;
+      background: #f5e6cc;
       cursor: pointer;
     }
 
     .cell-white:hover {
-      background: #f5ede2;
+      background: #ecd9b9;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -758,20 +757,20 @@ const description = "Play MeowTrail (Akari) puzzles online for free. Choose diff
 
     /* Lit cell */
     .cell-lit {
-      background: #fff3c4;
-      box-shadow: inset 0 0 8px rgba(255, 200, 50, 0.4);
+      background: #ffedd5;
+      box-shadow: inset 0 0 12px rgba(212, 120, 60, 0.3);
     }
 
     @media (prefers-color-scheme: dark) {
       .cell-lit {
         background: #4a4230;
-        box-shadow: inset 0 0 8px rgba(255, 200, 50, 0.2);
+        box-shadow: inset 0 0 8px rgba(212, 120, 60, 0.2);
       }
     }
 
     /* Dark (unlit) white cell */
     .cell-dark {
-      background: #e8ddd0;
+      background: #d4c4a8;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -782,15 +781,19 @@ const description = "Play MeowTrail (Akari) puzzles online for free. Choose diff
 
     /* Bulb cell */
     .cell-bulb {
-      background: #fff3c4;
-      font-size: clamp(0.8rem, 3vw, 1.6rem);
-      box-shadow: inset 0 0 12px rgba(255, 200, 50, 0.6), 0 0 6px rgba(255, 200, 50, 0.3);
+      background: #ffd4a8;
+      box-shadow: inset 0 0 12px rgba(212, 120, 60, 0.5), 0 0 6px rgba(212, 120, 60, 0.3);
+    }
+    .cell-bulb::after {
+      content: '🐱';
+      font-size: clamp(0.9rem, 3vw, 1.4rem);
+      line-height: 1;
     }
 
     @media (prefers-color-scheme: dark) {
       .cell-bulb {
-        background: #4a4230;
-        box-shadow: inset 0 0 12px rgba(255, 200, 50, 0.3), 0 0 6px rgba(255, 200, 50, 0.15);
+        background: #4a3520;
+        box-shadow: inset 0 0 12px rgba(212, 120, 60, 0.3), 0 0 6px rgba(212, 120, 60, 0.15);
       }
     }
 
@@ -798,6 +801,11 @@ const description = "Play MeowTrail (Akari) puzzles online for free. Choose diff
     .cell-conflict {
       background: #ffcdd2;
       box-shadow: inset 0 0 8px rgba(244, 67, 54, 0.5), 0 0 6px rgba(244, 67, 54, 0.3);
+    }
+    .cell-conflict::after {
+      content: '❌';
+      font-size: clamp(0.9rem, 3vw, 1.4rem);
+      line-height: 1;
     }
 
     @media (prefers-color-scheme: dark) {

@@ -32,12 +32,12 @@ const description = "Stuck on a MeowTrail puzzle? Use our free online Akari solv
     #grid-builder select, #grid-builder button { padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid #ddd; font-size: 1rem; }
     #grid-builder button { background: #e67e22; color: white; border: none; cursor: pointer; }
     #grid-builder button:hover { background: #d35400; }
-    #editor-board { display: inline-grid; gap: 2px; background: #333; padding: 2px; border-radius: 4px; margin: 1rem 0; }
+    #editor-board { display: inline-grid; gap: 2px; background: #5c3a1e; padding: 2px; border-radius: 4px; margin: 1rem 0; }
     #editor-board .cell { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 1.1rem; user-select: none; transition: background 0.15s; }
-    #editor-board .cell.white { background: #ffeaa7; }
-    #editor-board .cell.white:hover { background: #fdcb6e; }
-    #editor-board .cell.black { background: #2d3436; color: white; }
-    #editor-board .cell.black-number { background: #2d3436; color: #fdcb6e; font-size: 1.2rem; }
+    #editor-board .cell.white { background: #f5e6cc; }
+    #editor-board .cell.white:hover { background: #ecd9b9; }
+    #editor-board .cell.black { background: #5c3a1e; color: white; }
+    #editor-board .cell.black-number { background: #5c3a1e; color: #f5d6a8; font-size: 1.2rem; }
     #solve-btn { background: #27ae60; color: white; border: none; padding: 0.75rem 2rem; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 1rem; }
     #solve-btn:hover { background: #219a52; }
     #solve-btn:disabled { background: #bdc3c7; cursor: not-allowed; }
@@ -49,7 +49,8 @@ const description = "Stuck on a MeowTrail puzzle? Use our free online Akari solv
     .solution-board .cell { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
     .solution-board .cell.white { background: #ffeaa7; }
     .solution-board .cell.illuminated { background: #fff9c4; }
-    .solution-board .cell.bulb { background: #fdcb6e; }
+    .solution-board .cell.bulb { background: #ffd4a8; }
+    .solution-board .cell.bulb::after { content: '🐱'; font-size: 1rem; line-height: 1; }
     .solution-board .cell.black { background: #2d3436; color: white; }
     .mode-toggle { display: flex; gap: 0.5rem; margin: 1rem 0; }
     .mode-toggle button { padding: 0.4rem 0.8rem; border: 2px solid #e67e22; background: white; color: #e67e22; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
@@ -208,7 +209,6 @@ const description = "Stuck on a MeowTrail puzzle? Use our free online Akari solv
             if (pc.type >= 2) cell.textContent = String(pc.type - 2);
           } else if (pc.bulb) {
             cell.classList.add('bulb');
-            cell.textContent = '💡';
           } else if (pc.illuminated) {
             cell.classList.add('illuminated');
           } else {

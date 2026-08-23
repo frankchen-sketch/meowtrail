@@ -21,7 +21,7 @@ const {
 } = Astro.props;
 
 const fullUrl = `https://meowtrail.org${canonical}`;
-const fullTitle = canonical === '/' ? title : `${title} | MeowTrail Wiki`;
+const fullTitle = canonical === '/' ? title : `${title} | MeowTrail`
 ---
 
 <!-- Primary Meta -->
@@ -38,7 +38,7 @@ const fullTitle = canonical === '/' ? title : `${title} | MeowTrail Wiki`;
 <meta property="og:description" content={description}>
 <meta property="og:url" content={fullUrl}>
 <meta property="og:image" content={`https://meowtrail.org${image}`}>
-<meta property="og:site_name" content="MeowTrail Wiki">
+<meta property="og:site_name" content="MeowTrail">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->

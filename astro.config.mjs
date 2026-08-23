@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import path from 'path';
 
 export default defineConfig({
-  site: 'https://meowtrail.app',
+  site: 'https://meowtrail.org',
   output: 'static',
   trailingSlash: 'ignore',
   integrations: [

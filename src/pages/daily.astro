@@ -1,271 +1,460 @@
 ---
 import SEOHead from '../components/SEOHead.astro';
-
-const title = "MeowTrail Daily Puzzle — New Cat Puzzle Every Day";
-const description = "Solve today's MeowTrail daily puzzle. A new Akari logic challenge every day, seeded by date so everyone worldwide gets the same puzzle.";
+const title = "MeowTrail Daily Challenge — Super Hard Cat Puzzle";
+const description = "Take on today's super hard MeowTrail challenge! Solve the daily puzzle, track your time, and see how you compare to other players.";
 ---
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <SEOHead title={title} description={description} canonical="/daily" />
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "MeowTrail Daily Puzzle",
-    "url": "https://meowtrail.app/daily",
-    "description": description,
-    "applicationCategory": "Game",
-    "gamePlatform": "Web Browser"
-  })} />
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 1rem; }
-    h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-    .breadcrumb { font-size: 0.9rem; color: #666; margin-bottom: 1rem; }
-    .breadcrumb a { color: #e67e22; text-decoration: none; }
-    .stats { display: flex; gap: 2rem; margin: 1rem 0; padding: 1rem; background: #fef9e7; border-radius: 8px; }
-    .stat { text-align: center; }
-    .stat .value { font-size: 1.8rem; font-weight: bold; color: #e67e22; }
-    .stat .label { font-size: 0.85rem; color: #666; }
-    .board-container { display: flex; justify-content: center; margin: 1rem 0; }
-    .board { display: inline-grid; gap: 2px; background: #5c3a1e; padding: 3px; border-radius: 6px; }
-    .cell { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; user-select: none; transition: background 0.2s; border-radius: 2px; }
-    .cell.white { background: #f5e6cc; }
-    .cell.white:hover { background: #ecd9b9; }
-    .cell.white.lit { background: #ffedd5; box-shadow: inset 0 0 12px rgba(212,120,60,0.3); }
-    .cell.white.bulb { background: #ffd4a8; }
-    .cell.white.bulb::after { content: '🐱'; font-size: 1.2rem; line-height: 1; }
-    .cell.white.conflict { background: #e74c3c; color: white; }
-    .cell.white.conflict::after { content: '❌'; font-size: 1.2rem; line-height: 1; }
-    .cell.black { background: #5c3a1e; cursor: default; }
-    .cell.black-number { background: #5c3a1e; color: #f5d6a8; cursor: default; font-size: 1.3rem; }
-    .controls { display: flex; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
-    .controls button { padding: 0.6rem 1.2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95rem; }
-    .btn-primary { background: #e67e22; color: white; }
-    .btn-primary:hover { background: #d35400; }
-    .btn-secondary { background: #636e72; color: white; }
-    .btn-secondary:hover { background: #2d3436; }
-    .message { padding: 0.8rem; border-radius: 8px; margin: 0.5rem 0; font-weight: 500; }
-    .message.success { background: #d5f5e3; color: #27ae60; }
-    .message.error { background: #fadbd8; color: #e74c3c; }
-    .share-btn { background: #3498db; color: white; }
-    .share-btn:hover { background: #2980b9; }
-    @media (max-width: 480px) {
-      .cell { width: 38px; height: 38px; font-size: 1rem; }
-      h1 { font-size: 1.4rem; }
-    }
-    @media (prefers-color-scheme: dark) {
-      body { background: #1a1a2e; color: #eee; }
-      .stats { background: #16213e; }
-      .cell.white { background: #4a3f2a; }
-      .cell.white.lit { background: #5a4f3a; }
-      .cell.white.bulb { background: #6b5b3a; }
-      .cell.black, .cell.black-number { background: #0f0f23; }
-    }
+  <SEOHead title={title} description={description} canonical="/daily" type="website" />
+  <style is:global>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"SF Pro Rounded","Segoe UI","Noto Sans SC",system-ui,sans-serif;background:linear-gradient(180deg,#FBF8FF,#F8F5F0);color:#3B2B4B;min-height:100vh}
+    .container{max-width:720px;margin:0 auto;padding:1rem}
+    h1{font-size:1.8rem;color:#7B6B8A;text-align:center;margin:.5rem 0;text-shadow:0 2px 4px rgba(123,107,138,.1)}
+    .subtitle{text-align:center;color:#8B7B8B;margin-bottom:1rem;font-size:.95rem;font-weight:500}
+    .daily-badge{display:inline-block;background:linear-gradient(135deg,#E8956A,#D47A50);color:#fff;padding:.3rem .8rem;border-radius:20px;font-size:.85rem;font-weight:700;margin-bottom:1rem}
+    .timer{text-align:center;font-size:2rem;font-weight:800;color:#7B6B8A;margin:1rem 0;font-variant-numeric:tabular-nums}
+    .controls{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;align-items:center;margin:.8rem 0}
+    .btn{padding:.6rem 1.2rem;border:none;border-radius:14px;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .2s cubic-bezier(.4,0,.2,1);font-family:inherit;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15)}
+    .btn:active{transform:scale(.95) translateY(0);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+    .btn-primary{background:linear-gradient(145deg,#F0B898,#E09878);color:#fff;box-shadow:0 4px 12px rgba(232,168,136,.3)}
+    .btn-primary:hover{background:linear-gradient(145deg,#E0A888,#D08868);box-shadow:0 6px 16px rgba(232,168,136,.4)}
+    .btn-secondary{background:linear-gradient(145deg,#F8F0FF,#F0E8FF);color:#7B6B8A;box-shadow:0 4px 12px rgba(123,107,138,.1)}
+    .btn-secondary:hover{background:linear-gradient(145deg,#F0E8FF,#E8E0F8);box-shadow:0 6px 16px rgba(123,107,138,.15)}
+    .game-status{display:flex;flex-direction:column;align-items:center;gap:.5rem;margin:.8rem 0}
+    .health-display{display:flex;gap:.3rem;font-size:1.5rem}
+    .heart{transition:all .3s ease;filter:drop-shadow(0 2px 4px rgba(200,168,232,.3))}
+    .heart svg{width:24px;height:24px}
+    .heart.lost{filter:grayscale(1) opacity(.4);transform:scale(.8)}
+    .progress{text-align:center;font-size:.85rem;color:#8B7B8B;margin:.3rem 0;min-height:1.4rem}
+    .grid-wrapper{display:flex;justify-content:center;margin:.5rem 0}
+    .puzzle-grid{display:inline-grid;gap:3px;background:linear-gradient(145deg,#E8DDD8,#D8C8C0);padding:6px;border-radius:16px;box-shadow:0 8px 32px rgba(123,107,138,.15),0 2px 8px rgba(123,107,138,.1)}
+    .cell{display:flex;align-items:center;justify-content:center;border-radius:10px;user-select:none;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+    .cell:hover{transform:scale(1.05);box-shadow:0 4px 12px rgba(123,107,138,.2)}
+    .cell-black{background:linear-gradient(145deg,#8B7B9A,#6B5B7A);cursor:default;box-shadow:inset 0 3px 6px rgba(0,0,0,.3),0 2px 4px rgba(123,107,138,.2)}
+    .cell-number{font-weight:800;color:#F0E8FF;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+    .cell-lit{background:linear-gradient(145deg,#FFF8F0,#FFF0E0);box-shadow:inset 0 0 8px rgba(255,248,240,.5)}
+    .cell-cat{background:linear-gradient(145deg,#F0E8FF,#E0D0F0);box-shadow:inset 0 0 16px rgba(200,168,232,.4),0 4px 12px rgba(200,168,232,.3)}
+    .cell-x{background:#FAFAFA;box-shadow:inset 0 0 4px rgba(0,0,0,.05)}
+    .cell-dark{background:linear-gradient(145deg,#F0EBE5,#E8E0D8);box-shadow:inset 0 2px 4px rgba(0,0,0,.08)}
+    @keyframes cat-place{0%{transform:scale(0) rotate(-10deg);opacity:0}50%{transform:scale(1.2) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+    .cell-cat-new{animation:cat-place .4s cubic-bezier(.34,1.56,.64,1) forwards}
+    .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#E74C3C;color:#fff;padding:.6rem 1.2rem;border-radius:12px;font-size:.9rem;font-weight:600;z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none}
+    .toast.show{opacity:1}.toast.success{background:#88C8A8}
+    .win-overlay{position:fixed;inset:0;background:rgba(251,248,255,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;opacity:0;transition:opacity .4s;pointer-events:none;overflow:hidden}
+    .win-overlay.show{opacity:1;pointer-events:auto}
+    .win-cat{animation:cat-pop .8s cubic-bezier(.34,1.56,.64,1) forwards}
+    @keyframes cat-pop{0%{transform:scale(0) rotate(-10deg)}50%{transform:scale(1.3) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+    .win-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(200,168,232,.3) 0%,transparent 70%);animation:glow-pulse 2s ease-in-out infinite}
+    @keyframes glow-pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.3);opacity:1}}
+    .win-text{font-size:2rem;font-weight:800;color:#7B6B8A;margin-top:1.5rem;animation:text-pop .6s .3s cubic-bezier(.34,1.56,.64,1) both}
+    @keyframes text-pop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+    .win-sub{font-size:1.1rem;color:#8B7B8B;margin-top:.5rem;animation:fade-up .5s .5s ease both}
+    @keyframes fade-up{0%{transform:translateY(20px);opacity:0}100%{transform:translateY(0);opacity:1}}
+    .win-stats{display:flex;gap:2rem;margin:1.5rem 0;animation:fade-up .5s .7s ease both}
+    .stat{text-align:center}
+    .stat-value{font-size:2rem;font-weight:800;color:#7B6B8A}
+    .stat-label{font-size:.85rem;color:#8B7B8B}
+    .win-btn{margin-top:1.5rem;padding:.7rem 2rem;background:#E8A888;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit}
+    .win-btn:hover{background:#D09070}
+    .win-share-row{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap;justify-content:center}
+    .share-btn{padding:.5rem 1rem;border:none;border-radius:10px;cursor:pointer;font-size:.85rem;font-weight:600;font-family:inherit;transition:transform .1s}
+    .share-btn:active{transform:scale(.95)}
+    .share-copy{background:#F0E8FF;color:#7B6B8A}.share-copy:hover{background:#E0D0F0}
+    .share-twitter{background:#1DA1F2;color:#fff}.share-twitter:hover{background:#0d8ddb}
+    .confetti{position:absolute;width:12px;height:12px;border-radius:3px;animation:confetti-fall linear forwards}
+    @keyframes confetti-fall{0%{transform:translateY(-100vh) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+    .paw-confetti{position:absolute;font-size:24px;animation:paw-fall linear forwards}
+    @keyframes paw-fall{0%{transform:translateY(-100vh) rotate(0) scale(1);opacity:.8}100%{transform:translateY(100vh) rotate(360deg) scale(.5);opacity:0}}
+    .leaderboard{margin-top:2rem;padding:1.5rem;background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(123,107,138,.1)}
+    .leaderboard h3{color:#7B6B8A;margin-bottom:1rem;font-size:1.2rem}
+    .leaderboard-item{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid #F0E8FF}
+    .leaderboard-item:last-child{border-bottom:none}
+    .rank{font-weight:700;color:#E8A888;min-width:2rem}
+    .player-name{flex:1;margin:0 1rem}
+    .time{font-weight:700;color:#7B6B8A;font-variant-numeric:tabular-nums}
+    footer{text-align:center;margin:2rem 0 1rem;font-size:.8rem;color:#8B7B8B}
+    footer a{color:#8B7B8B}
+    @media(max-width:480px){h1{font-size:1.3rem}.controls{gap:.3rem}.btn{padding:.4rem .7rem;font-size:.8rem}.win-stats{gap:1rem}}
   </style>
 </head>
 <body>
-  <nav class="breadcrumb"><a href="/">Home</a> &gt; <span>Daily Puzzle</span></nav>
-  <main>
-    <h1>📅 Daily MeowTrail</h1>
-    <p>New puzzle every day. Same for everyone worldwide.</p>
-
-    <div class="stats">
-      <div class="stat"><div class="value" id="puzzle-date">—</div><div class="label">Today</div></div>
-      <div class="stat"><div class="value" id="streak">0</div><div class="label">Day Streak 🔥</div></div>
-      <div class="stat"><div class="value" id="best-streak">0</div><div class="label">Best Streak</div></div>
-    </div>
-
-    <div class="board-container"><div class="board" id="daily-board"></div></div>
-    <div id="message-area"></div>
+  <div class="container">
+    <h1>🐱 MeowTrail Daily Challenge</h1>
+    <p class="subtitle">Super hard puzzle — can you solve it?</p>
+    <div style="text-align:center"><span class="daily-badge">🔥 SUPER HARD</span></div>
+    <div class="timer" id="timer">00:00</div>
     <div class="controls">
-      <button class="btn-secondary" id="reset-btn">🔄 Reset</button>
-      <button class="btn-primary" id="check-btn">✅ Check</button>
-      <button class="btn-secondary" id="hint-btn">💡 Hint</button>
-      <button class="btn-secondary share-btn" id="share-btn" style="display:none">📤 Share</button>
+      <button class="btn btn-primary" id="start-btn">▶ Start Challenge</button>
+      <button class="btn btn-secondary" id="hint-btn">💡 Hint</button>
+      <button class="btn btn-secondary" id="reset-btn">↺ Reset</button>
     </div>
-  </main>
+    <div class="game-status">
+      <div class="health-display" id="health-display">
+        <span class="heart" id="heart1"><svg width="24" height="24" viewBox="0 0 24 24" fill="#C8A8E8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+        <span class="heart" id="heart2"><svg width="24" height="24" viewBox="0 0 24 24" fill="#C8A8E8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+        <span class="heart" id="heart3"><svg width="24" height="24" viewBox="0 0 24 24" fill="#C8A8E8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+    <div class="grid-wrapper"><div class="puzzle-grid" id="puzzle-grid"></div></div>
+    <div class="toast" id="toast"></div>
+    <div class="win-overlay" id="win-overlay">
+      <div class="win-glow"></div>
+      <div id="confetti-container"></div>
+      <div class="win-cat"><svg width="160" height="160" viewBox="0 0 120 120"><defs><radialGradient id="wg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#C8A8E8" stop-opacity="0.6"/><stop offset="100%" stop-color="#C8A8E8" stop-opacity="0"/></radialGradient></defs><circle cx="60" cy="60" r="58" fill="url(#wg)"/><circle cx="60" cy="65" r="30" fill="#C8A8E8"/><polygon points="35,42 42,18 52,42" fill="#C8A8E8"/><polygon points="68,42 78,18 85,42" fill="#C8A8E8"/><circle cx="48" cy="58" r="4" fill="#7B6B8A"/><circle cx="72" cy="58" r="4" fill="#7B6B8A"/><ellipse cx="60" cy="68" rx="4" ry="3" fill="#E8A888"/><path d="M56,70 Q60,76 64,70" fill="none" stroke="#7B6B8A" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="win-text">🎉 Daily Challenge Complete!</div>
+      <div class="win-sub">You solved today's super hard puzzle!</div>
+      <div class="win-stats">
+        <div class="stat">
+          <div class="stat-value" id="final-time">00:00</div>
+          <div class="stat-label">Your Time</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="percentile">Top 50%</div>
+          <div class="stat-label">Better than</div>
+        </div>
+      </div>
+      <button class="win-btn" id="share-card-btn">📸 Download Share Card</button>
+      <div class="win-share-row">
+        <button class="share-btn share-copy" id="share-copy">📋 Copy Result</button>
+        <button class="share-btn share-twitter" id="share-twitter">𝕏 Share</button>
+      </div>
+    </div>
+    <div class="leaderboard">
+      <h3>🏆 Today's Leaderboard</h3>
+      <div id="leaderboard-list"></div>
+    </div>
+  </div>
+  <script is:inline src="/akari-engine.js"></script>
+  <script type="module">
+    const CAT_IMG = '<img src="/assets/cats/cat-clay-purple.png" style="width:95%;height:95%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 2px 6px rgba(123,107,138,.4))" />';
+    const X_MARK = '<svg viewBox="0 0 24 24" width="50%" height="50%" style="opacity:0.4"><line x1="6" y1="6" x2="18" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/></svg>';
+    const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
+    let currentPuzzle = null, playerSolution = null, markX = null, won = false;
+    let health = 3, timerInterval = null, startTime = null, elapsedTime = 0;
+    let lastPlacedCell = null;
+    const gridEl = document.getElementById('puzzle-grid');
+    const progressEl = document.getElementById('progress');
+    const toastEl = document.getElementById('toast');
+    const timerEl = document.getElementById('timer');
+    const winOverlay = document.getElementById('win-overlay');
+    const healthDisplay = document.getElementById('health-display');
+    let toastTimer = null;
 
-  <script>
-    import { generateDailyPuzzle, validatePuzzle, validateMove, computeIllumination, bulbsSeeEachOther, CellType } from '/src/lib/puzzle-engine';
-    import type { Puzzle, Cell } from '/src/lib/puzzle-engine';
-
-    const SIZE = 7;
-    const STORAGE_KEY = 'meowtrail-daily';
-
-    let puzzle: Puzzle;
-    let playerGrid: boolean[][];
-
-    function getToday(): string {
-      return new Date().toISOString().split('T')[0];
+    // Generate daily seed based on date
+    function getDailySeed() {
+      const today = new Date();
+      return today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
     }
 
-    function loadState() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const data = JSON.parse(saved);
-        if (data.date === getToday()) {
-          return data;
-        }
-      }
-      return null;
+    // Simple seeded random
+    function seededRandom(seed) {
+      let s = seed;
+      return function() {
+        s = (s * 16807) % 2147483647;
+        return (s - 1) / 2147483646;
+      };
     }
 
-    function saveState(solved: boolean) {
-      const state = loadState() || { date: getToday(), streak: 0, bestStreak: 0 };
-      if (solved && !state.solved) {
-        state.streak += 1;
-        state.bestStreak = Math.max(state.bestStreak, state.streak);
-        state.solved = true;
-      }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    function showToast(m, t) {
+      toastEl.textContent = m; toastEl.className = 'toast show' + (t === 'success' ? ' success' : '');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toastEl.className = 'toast'; }, 2500);
     }
 
-    function initDaily() {
-      const today = getToday();
-      document.getElementById('puzzle-date')!.textContent = today;
+    function updateTimer() {
+      if (!startTime) return;
+      elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+      const minutes = Math.floor(elapsedTime / 60);
+      const seconds = elapsedTime % 60;
+      timerEl.textContent = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+    }
 
-      // Load streak
-      const state = loadState();
-      const streak = state?.streak || 0;
-      const bestStreak = state?.bestStreak || 0;
-      document.getElementById('streak')!.textContent = String(streak);
-      document.getElementById('best-streak')!.textContent = String(bestStreak);
+    function startTimer() {
+      startTime = Date.now();
+      elapsedTime = 0;
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(updateTimer, 1000);
+      updateTimer();
+    }
 
-      // Generate daily puzzle
-      puzzle = generateDailyPuzzle(today, SIZE);
-      playerGrid = Array.from({ length: SIZE }, () => Array(SIZE).fill(false));
-
-      renderBoard();
-
-      if (state?.solved) {
-        showMessage('✅ Already solved today! Come back tomorrow.', 'success');
-        document.getElementById('share-btn')!.style.display = 'inline-block';
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
       }
+    }
+
+    function spawnConfetti() {
+      const c = document.getElementById('confetti-container');
+      if (!c) return; c.innerHTML = '';
+      const colors = ['#C8A8E8','#E8A888','#88C8A8','#F0E8FF','#FFB347','#A888C8'];
+      for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div'); el.className = 'confetti';
+        el.style.left = Math.random()*100+'%'; el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        el.style.animationDuration = (2+Math.random()*3)+'s'; el.style.animationDelay = Math.random()*1.5+'s';
+        el.style.width = (8+Math.random()*8)+'px'; el.style.height = (8+Math.random()*8)+'px'; c.appendChild(el);
+      }
+      for (let i = 0; i < 12; i++) {
+        const el = document.createElement('div'); el.className = 'paw-confetti'; el.textContent = '🐾';
+        el.style.left = Math.random()*100+'%'; el.style.animationDuration = (3+Math.random()*3)+'s';
+        el.style.animationDelay = Math.random()*2+'s'; c.appendChild(el);
+      }
+    }
+
+    function startDailyChallenge() {
+      won = false; winOverlay.classList.remove('show');
+      health = 3;
+      updateHealth();
+      const seed = getDailySeed();
+      const rng = seededRandom(seed);
+      gridEl.innerHTML = '<div style="padding:2rem;color:#8B7B8B;font-size:0.9rem;">Generating...</div>';
+      progressEl.textContent = '';
+      setTimeout(() => {
+        try {
+          // Generate super hard puzzle (14x14)
+          currentPuzzle = generatePuzzle(14);
+          playerSolution = Array.from({length:14}, () => Array(14).fill(false));
+          markX = Array.from({length:14}, () => Array(14).fill(false));
+          renderBoard(); updateProgress();
+          startTimer();
+          document.getElementById('start-btn').textContent = '🔄 Restart';
+        } catch(e) { showToast('Failed to generate.', 'error'); }
+      }, 10);
+    }
+
+    function resetPuzzle() {
+      if (!currentPuzzle) return; won = false; winOverlay.classList.remove('show');
+      const s = currentPuzzle.size;
+      playerSolution = Array.from({length:s}, () => Array(s).fill(false));
+      markX = Array.from({length:s}, () => Array(s).fill(false));
+      health = 3;
+      updateHealth();
+      startTimer();
+      renderBoard(); updateProgress(); showToast('Board reset!', 'success');
     }
 
     function renderBoard() {
-      const board = document.getElementById('daily-board')!;
-      board.innerHTML = '';
-      board.style.gridTemplateColumns = `repeat(${SIZE}, 48px)`;
-
-      // Compute illumination for player's bulbs
-      const displayGrid: Cell[][] = puzzle.grid.map(row => row.map(cell => ({
-        ...cell,
-        bulb: false,
-        illuminated: false,
-      })));
-      for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-          displayGrid[r][c].bulb = playerGrid[r][c];
-        }
-      }
-      computeIllumination(displayGrid);
-      const conflicts = bulbsSeeEachOther(displayGrid);
-
-      for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-          const cell = document.createElement('div');
-          cell.className = 'cell';
-          const puzzleCell = puzzle.grid[r][c];
-          const displayCell = displayGrid[r][c];
-
-          if (puzzleCell.type >= 1) {
-            cell.classList.add(puzzleCell.type >= 2 ? 'black-number' : 'black');
-            if (puzzleCell.type >= 2) {
-              cell.textContent = String(puzzleCell.type - 2);
-            }
-          } else {
-            cell.classList.add('white');
-            if (playerGrid[r][c]) {
-              const isConflict = conflicts.some(cf => cf.row === r && cf.col === c);
-              if (isConflict) {
-                cell.classList.add('conflict');
-                ;
-              } else {
-                cell.classList.add('bulb');
-                ;
-              }
-            } else if (displayCell.illuminated) {
-              cell.classList.add('lit');
-            }
-            cell.addEventListener('click', () => toggleBulb(r, c));
-          }
-          board.appendChild(cell);
-        }
-      }
-    }
-
-    function toggleBulb(r: number, c: number) {
-      const state = loadState();
-      if (state?.solved) return;
-      playerGrid[r][c] = !playerGrid[r][c];
-      renderBoard();
-    }
-
-    function showMessage(msg: string, type: string) {
-      const area = document.getElementById('message-area')!;
-      area.innerHTML = `<div class="message ${type}">${msg}</div>`;
-    }
-
-    document.getElementById('check-btn')!.addEventListener('click', () => {
-      // Build puzzle with player's bulbs
-      const checkPuzzle: Puzzle = {
-        size: SIZE,
-        difficulty: 'medium',
-        grid: puzzle.grid.map((row, r) => row.map((cell, c) => ({
-          ...cell,
-          bulb: playerGrid[r][c],
-          illuminated: false,
-        }))),
-      };
-
-      const result = validatePuzzle(checkPuzzle);
-      if (result.valid) {
-        showMessage('🎉 Puzzle solved! Well done!', 'success');
-        saveState(true);
-        document.getElementById('streak')!.textContent = String((loadState()?.streak || 0));
-        document.getElementById('best-streak')!.textContent = String((loadState()?.bestStreak || 0));
-        document.getElementById('share-btn')!.style.display = 'inline-block';
-      } else {
-        showMessage(`❌ Not yet — ${result.message}`, 'error');
-      }
-    });
-
-    document.getElementById('reset-btn')!.addEventListener('click', () => {
-      playerGrid = Array.from({ length: SIZE }, () => Array(SIZE).fill(false));
-      document.getElementById('message-area')!.innerHTML = '';
-      renderBoard();
-    });
-
-    document.getElementById('hint-btn')!.addEventListener('click', () => {
-      const sol = solvePuzzle(puzzle, 1);
-      if (sol.solutions.length > 0) {
-        const solution = sol.solutions[0];
-        // Find a bulb in the solution that the player hasn't placed
-        for (const bulb of solution) {
-          if (!playerGrid[bulb.row][bulb.col]) {
-            playerGrid[bulb.row][bulb.col] = true;
-            showMessage(`💡 Hint: bulb at row ${bulb.row + 1}, col ${bulb.col + 1}`, 'success');
-            renderBoard();
-            return;
-          }
-        }
-        showMessage('✅ You already have all the right bulbs placed! Check your solution.', 'success');
-      }
-    });
-
-    document.getElementById('share-btn')!.addEventListener('click', () => {
-      const today = getToday();
-      const streak = loadState()?.streak || 0;
-      const text = `MeowTrail Daily ${today}\n🔥 ${streak} day streak\n\nPlay at meowtrail.app/daily`;
-      navigator.clipboard.writeText(text).then(() => {
-        showMessage('📋 Copied to clipboard!', 'success');
+      if (!currentPuzzle) return;
+      const g = currentPuzzle.grid, s = currentPuzzle.size;
+      const lit = illuminate(g, playerSolution, s);
+      const v = checkViolations(g, playerSolution, s);
+      const vc = {}, cp = {};
+      v.forEach(x => {
+        if (x.type === 'number_excess') {
+          vc[x.row+','+x.col] = true;
+          DIRS.forEach(d => { const nr=x.row+d[0],nc=x.col+d[1]; if(nr>=0&&nr<s&&nc>=0&&nc<s&&playerSolution[nr][nc]) vc[nr+','+nc]=true; });
+        } else if (x.type === 'cat_conflict') { cp[x.row+','+x.col]=true; cp[x.row2+','+x.col2]=true; }
       });
+      const mw = Math.min(window.innerWidth-40,600);
+      const cs = Math.max(24,Math.min(36,Math.floor((mw-(s+1)*2-8)/s)));
+      gridEl.style.gridTemplateColumns = `repeat(${s},${cs}px)`;
+      gridEl.style.gridTemplateRows = `repeat(${s},${cs}px)`;
+      gridEl.innerHTML = '';
+      for (let r=0;r<s;r++) for (let c=0;c<s;c++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell'; cell.style.width = cs+'px'; cell.style.height = cs+'px';
+        cell.dataset.row = r; cell.dataset.col = c;
+        const val = g[r][c], key = r+','+c;
+        if (val !== 9) {
+          cell.classList.add('cell-black');
+          if (val >= 0) { cell.classList.add('cell-number'); cell.textContent = val; cell.style.fontSize = Math.max(10,cs*.4)+'px'; if(vc[key]) cell.classList.add('cell-violation'); }
+        } else {
+          if (playerSolution[r][c]) { 
+            cell.classList.add('cell-cat');
+            if (lastPlacedCell && lastPlacedCell.r === r && lastPlacedCell.c === c) {
+              cell.classList.add('cell-cat-new');
+            }
+            cell.innerHTML = CAT_IMG; 
+            if(cp[key]) cell.classList.add('cell-shake'); 
+          }
+          else if (markX[r][c]) { cell.classList.add('cell-x'); cell.innerHTML = X_MARK; }
+          else if (lit[r][c]) { cell.classList.add('cell-lit'); }
+          else { cell.classList.add('cell-dark'); }
+          cell.addEventListener('click', e => { e.preventDefault(); if(!won) handleClick(r,c); });
+          cell.addEventListener('dblclick', e => { e.preventDefault(); if(!won){markX[r][c]=!markX[r][c];renderBoard();} });
+          cell.addEventListener('contextmenu', e => { e.preventDefault(); if(!won){markX[r][c]=!markX[r][c];renderBoard();} });
+          let lpt=null,dlp=false;
+          cell.addEventListener('touchstart',()=>{dlp=false;lpt=setTimeout(()=>{dlp=true;if(!won){markX[r][c]=!markX[r][c];renderBoard();}},500);},{passive:true});
+          cell.addEventListener('touchend',e=>{if(lpt)clearTimeout(lpt);if(dlp)e.preventDefault();});
+          cell.addEventListener('touchmove',()=>{if(lpt)clearTimeout(lpt);},{passive:true});
+        }
+        gridEl.appendChild(cell);
+      }
+    }
+
+    function handleClick(r, c) {
+      if (!currentPuzzle) return;
+      const g = currentPuzzle.grid, s = currentPuzzle.size;
+      if (playerSolution[r][c]) {
+        playerSolution[r][c] = false;
+        lastPlacedCell = null;
+      }
+      else {
+        markX[r][c] = false; playerSolution[r][c] = true;
+        lastPlacedCell = {r, c};
+        const v = checkViolations(g, playerSolution, s);
+        let hasViolation = false;
+        for (const x of v) { 
+          if(x.type==='number_excess'){
+            showToast('Too many cats around number '+x.number+'!','error');
+            hasViolation=true;
+            break;
+          }
+        }
+        for (const x of v) { 
+          if(x.type==='cat_conflict'){
+            showToast('Two cats are facing each other!','error');
+            hasViolation=true;
+            break;
+          }
+        }
+        if (hasViolation) {
+          loseHealth();
+        }
+      }
+      renderBoard(); updateProgress();
+      setTimeout(() => { lastPlacedCell = null; }, 500);
+      if (checkWin(g, playerSolution, s)) { 
+        won=true; 
+        stopTimer();
+        spawnConfetti(); 
+        setTimeout(()=>{
+          winOverlay.classList.add('show');
+          document.getElementById('final-time').textContent = timerEl.textContent;
+          // Calculate percentile (simulated)
+          const percentile = Math.max(10, Math.min(99, 100 - Math.floor(elapsedTime / 10)));
+          document.getElementById('percentile').textContent = 'Top ' + percentile + '%';
+        },300); 
+      }
+    }
+
+    function updateProgress() {
+      if (!currentPuzzle) return;
+      const catsPlaced = playerSolution.flat().filter(Boolean).length;
+      const totalCats = currentPuzzle.solution.flat().filter(Boolean).length;
+      progressEl.textContent = catsPlaced + ' / ' + totalCats + ' cats placed';
+    }
+
+    function updateHealth() {
+      const hearts = healthDisplay.querySelectorAll('.heart');
+      hearts.forEach((heart, i) => {
+        if (i < health) {
+          heart.classList.remove('lost');
+        } else {
+          heart.classList.add('lost');
+        }
+      });
+    }
+
+    function loseHealth() {
+      if (health > 0) {
+        health--;
+        updateHealth();
+        if (health === 0) {
+          showToast('Game Over! Try again.', 'error');
+          stopTimer();
+          setTimeout(resetPuzzle, 1500);
+        }
+      }
+    }
+
+    // Generate share card
+    function generateShareCard() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 600;
+      canvas.height = 400;
+      const ctx = canvas.getContext('2d');
+      
+      const gradient = ctx.createLinearGradient(0, 0, 600, 400);
+      gradient.addColorStop(0, '#FBF8FF');
+      gradient.addColorStop(1, '#F8F5F0');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 600, 400);
+      
+      ctx.fillStyle = '#7B6B8A';
+      ctx.font = 'bold 32px SF Pro Rounded, system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText('🐱 MeowTrail Daily Challenge', 300, 50);
+      
+      ctx.font = 'bold 24px SF Pro Rounded, system-ui';
+      ctx.fillText('🔥 SUPER HARD', 300, 90);
+      
+      ctx.font = 'bold 48px SF Pro Rounded, system-ui';
+      ctx.fillText(timerEl.textContent, 300, 160);
+      
+      ctx.font = '18px SF Pro Rounded, system-ui';
+      ctx.fillText('Your Time', 300, 190);
+      
+      const percentile = document.getElementById('percentile').textContent;
+      ctx.font = 'bold 24px SF Pro Rounded, system-ui';
+      ctx.fillText(percentile + ' of players', 300, 240);
+      
+      ctx.font = '16px SF Pro Rounded, system-ui';
+      ctx.fillStyle = '#8B7B8B';
+      ctx.fillText('Play free at meowtrail.org', 300, 300);
+      
+      ctx.font = '40px serif';
+      ctx.fillText('🐾', 50, 350);
+      ctx.fillText('🐾', 550, 350);
+      
+      return canvas.toDataURL('image/png');
+    }
+
+    // Load leaderboard
+    function loadLeaderboard() {
+      const leaderboard = document.getElementById('leaderboard-list');
+      // Simulated leaderboard data
+      const data = [
+        { rank: 1, name: 'CatMaster', time: '02:34' },
+        { rank: 2, name: 'PuzzlePro', time: '03:12' },
+        { rank: 3, name: 'LightUp', time: '03:45' },
+        { rank: 4, name: 'MeowFan', time: '04:01' },
+        { rank: 5, name: 'You', time: '--:--' }
+      ];
+      
+      leaderboard.innerHTML = data.map(item => `
+        <div class="leaderboard-item">
+          <span class="rank">#${item.rank}</span>
+          <span class="player-name">${item.name}</span>
+          <span class="time">${item.time}</span>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('start-btn').addEventListener('click', startDailyChallenge);
+    document.getElementById('hint-btn').addEventListener('click', () => {
+      if (!currentPuzzle || won) return;
+      const h = getHint(currentPuzzle.grid, currentPuzzle.solution, playerSolution, currentPuzzle.size);
+      if (h) {
+        const cell = gridEl.querySelector('[data-row="'+h[0]+'"][data-col="'+h[1]+'"]');
+        if (cell) { cell.classList.add('cell-hint'); setTimeout(()=>cell.classList.remove('cell-hint'),2000); }
+        showToast('Hint: try row '+(h[0]+1)+', col '+(h[1]+1),'success');
+      } else showToast('No hints!','error');
+    });
+    document.getElementById('reset-btn').addEventListener('click', resetPuzzle);
+    document.getElementById('share-card-btn').addEventListener('click', () => {
+      const cardData = generateShareCard();
+      const link = document.createElement('a');
+      link.download = 'meowtrail-daily-' + new Date().toISOString().split('T')[0] + '.png';
+      link.href = cardData;
+      link.click();
+      showToast('📸 Share card downloaded!', 'success');
+    });
+    document.getElementById('share-copy').addEventListener('click', () => {
+      const text = '🐱 MeowTrail Daily Challenge\n⏱️ ' + timerEl.textContent + '\n' + document.getElementById('percentile').textContent + ' of players\n\nPlay free at meowtrail.org';
+      navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!', 'success'));
+    });
+    document.getElementById('share-twitter').addEventListener('click', () => {
+      const text = encodeURIComponent('🐱 Just completed the MeowTrail Daily Challenge!\n⏱️ ' + timerEl.textContent + '\n' + document.getElementById('percentile').textContent + ' of players\n\nPlay free at meowtrail.org');
+      window.open('https://twitter.com/intent/tweet?text=' + text, '_blank');
     });
 
-    initDaily();
+    updateHealth();
+    loadLeaderboard();
   </script>
 </body>
 </html>

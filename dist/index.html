@@ -1,134 +1,367 @@
-<!DOCTYPE html><html lang="en" data-astro-cid-j7pv25f6> <head><!-- Primary Meta --><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MeowTrail — Play Online Free | Cat Logic Puzzle Game</title><meta name="description" content="Play MeowTrail online for free. A cat-themed logic puzzle (Akari/Light Up) — place light bulbs, follow numbered clues, illuminate every cell. No download needed."><link rel="canonical" href="https://meowtrail.app/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:title" content="MeowTrail — Play Online Free | Cat Logic Puzzle Game"><meta property="og:description" content="Play MeowTrail online for free. A cat-themed logic puzzle (Akari/Light Up) — place light bulbs, follow numbered clues, illuminate every cell. No download needed."><meta property="og:url" content="https://meowtrail.app/"><meta property="og:image" content="https://meowtrail.app/og-default.png"><meta property="og:site_name" content="MeowTrail Wiki"><meta property="og:locale" content="en_US"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="MeowTrail — Play Online Free | Cat Logic Puzzle Game"><meta name="twitter:description" content="Play MeowTrail online for free. A cat-themed logic puzzle (Akari/Light Up) — place light bulbs, follow numbered clues, illuminate every cell. No download needed."><meta name="twitter:image" content="https://meowtrail.app/og-default.png"><!-- Favicon (placeholder — replace with actual) --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Preconnect for performance --><link rel="preconnect" href="https://meowtrail.app"><!-- llms.txt reference --><link rel="alternate" type="text/plain" href="/llms.txt" title="AI-friendly site map"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebApplication","name":"MeowTrail","url":"https://meowtrail.app","description":"Play MeowTrail online for free. A cat-themed logic puzzle (Akari/Light Up) — place light bulbs, follow numbered clues, illuminate every cell. No download needed.","applicationCategory":"Game","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"genre":"Puzzle"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is MeowTrail?","acceptedAnswer":{"@type":"Answer","text":"MeowTrail is a cat-themed logic puzzle game by Oakever Games, based on the classic Akari (Light Up) puzzle. Place light bulbs on a grid to illuminate all white cells while following numbered clues. No two bulbs can see each other."}},{"@type":"Question","name":"Is MeowTrail free to play?","acceptedAnswer":{"@type":"Answer","text":"Yes. MeowTrail is free to download on iOS and Android. You can also play MeowTrail online for free in your browser at meowtrail.app — no download or registration needed."}},{"@type":"Question","name":"How do you play MeowTrail?","acceptedAnswer":{"@type":"Answer","text":"Place light bulbs on white cells so every white cell is illuminated. Numbered black cells show how many adjacent bulbs they need. No two bulbs can see each other in the same row or column. All white cells must be lit to win."}},{"@type":"Question","name":"What is the difference between MeowTrail and Akari?","acceptedAnswer":{"@type":"Answer","text":"MeowTrail is Oakever Games' cat-themed version of Akari (also known as Light Up). The core rules are identical — place bulbs, follow number clues, illuminate all white cells. MeowTrail adds cute cat visuals and a mobile-friendly interface."}}]}]</script><link rel="stylesheet" href="/_astro/index.AzVU1HOI.css"></head> <body data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <!-- H1: 哥飞 SOP = 游戏名 = 品牌词 --> <h1 data-astro-cid-j7pv25f6>🐱 MeowTrail</h1> <p class="subtitle" data-astro-cid-j7pv25f6>Play the cat-themed logic puzzle online — free, no download</p> <!-- Navigation --> <nav class="top-nav" aria-label="Main navigation" data-astro-cid-j7pv25f6> <a href="/rules" data-astro-cid-j7pv25f6>📖 Rules</a> <a href="/tips" data-astro-cid-j7pv25f6>💡 Tips</a> <a href="/daily" data-astro-cid-j7pv25f6>📅 Daily</a> <a href="/cheats" data-astro-cid-j7pv25f6>🔍 Solver</a> </nav> <!-- ═══ GAME AREA (哥飞 SOP: 首页 = 直接可玩) ═══ --> <div class="game-controls" data-astro-cid-j7pv25f6> <select id="size-select" aria-label="Grid size" data-astro-cid-j7pv25f6> <option value="5" data-astro-cid-j7pv25f6>5×5</option> <option value="7" selected data-astro-cid-j7pv25f6>7×7</option> <option value="9" data-astro-cid-j7pv25f6>9×9</option> <option value="12" data-astro-cid-j7pv25f6>12×12</option> </select> <select id="difficulty-select" aria-label="Difficulty" data-astro-cid-j7pv25f6> <option value="easy" data-astro-cid-j7pv25f6>Easy</option> <option value="medium" selected data-astro-cid-j7pv25f6>Medium</option> <option value="hard" data-astro-cid-j7pv25f6>Hard</option> <option value="ultra" data-astro-cid-j7pv25f6>Ultra</option> </select> <button id="new-game-btn" class="btn btn-primary" data-astro-cid-j7pv25f6>✨ New Game</button> <button id="check-btn" class="btn btn-secondary" data-astro-cid-j7pv25f6>✓ Check</button> <button id="hint-btn" class="btn btn-secondary" data-astro-cid-j7pv25f6>💡 Hint</button> <button id="reset-btn" class="btn btn-secondary" data-astro-cid-j7pv25f6>↺ Reset</button> </div> <div id="message-area" class="message-area" role="status" aria-live="polite" data-astro-cid-j7pv25f6></div> <div style="display:flex;justify-content:center" data-astro-cid-j7pv25f6><div id="puzzle-board" class="puzzle-board" role="grid" aria-label="MeowTrail puzzle board" data-astro-cid-j7pv25f6></div></div> <div class="game-footer" data-astro-cid-j7pv25f6>
-💡 <strong data-astro-cid-j7pv25f6>How to play:</strong> Click a white cell to place a light bulb. All white cells must be lit. Numbered black cells tell you how many adjacent bulbs you need. No two bulbs can see each other.
-</div> <!-- ═══ SEO CONTENT (哥飞 SOP: 游戏下方 = 介绍 + SEO) ═══ --> <section class="seo-content" data-astro-cid-j7pv25f6> <h2 data-astro-cid-j7pv25f6>What is MeowTrail?</h2> <p data-astro-cid-j7pv25f6>MeowTrail is a <strong data-astro-cid-j7pv25f6>cat-themed logic puzzle game</strong> by <strong data-astro-cid-j7pv25f6>Oakever Games</strong>, based on the classic <a href="https://www.nikoli.co.jp/en/" data-astro-cid-j7pv25f6>Nikoli</a> puzzle <strong data-astro-cid-j7pv25f6>Akari</strong> (also known as Light Up). Your mission: place light bulbs on a grid to illuminate every white cell, following numbered clues while ensuring no two bulbs shine on each other.</p> <p data-astro-cid-j7pv25f6>Available free on <a href="https://play.google.com/store/apps/details?id=com.oakever.akari" data-astro-cid-j7pv25f6>Google Play</a> and <a href="https://apps.apple.com/app/meowtrail/" data-astro-cid-j7pv25f6>App Store</a>.</p> <h2 data-astro-cid-j7pv25f6>How to Play MeowTrail</h2> <ol data-astro-cid-j7pv25f6> <li data-astro-cid-j7pv25f6><strong data-astro-cid-j7pv25f6>Place bulbs</strong> on white cells by clicking or tapping</li> <li data-astro-cid-j7pv25f6>Each bulb <strong data-astro-cid-j7pv25f6>illuminates its entire row and column</strong> until blocked by a black cell</li> <li data-astro-cid-j7pv25f6><strong data-astro-cid-j7pv25f6>Numbered black cells</strong> are clues — a "2" means exactly 2 of its 4 neighbors must have bulbs</li> <li data-astro-cid-j7pv25f6><strong data-astro-cid-j7pv25f6>No two bulbs</strong> can see each other (same row/column with no black cell between)</li> <li data-astro-cid-j7pv25f6><strong data-astro-cid-j7pv25f6>All white cells</strong> must be illuminated to win</li> </ol> <h2 data-astro-cid-j7pv25f6>MeowTrail Tips & Strategy</h2> <ul data-astro-cid-j7pv25f6> <li data-astro-cid-j7pv25f6><strong data-astro-cid-j7pv25f6>Start with "4" cells</strong> — all 4 neighbors must be bulbs</li> <li data-astro-cid-j7pv25f6><strong data-astro-cid-j7pv25f6>Start with "0" cells</strong> — all 4 neighbors must be empty</li> <li data-astro-cid-j7pv25f6><strong data-astro-cid-j7pv25f6>Use line-of-sight</strong> — a placed bulb eliminates all cells in its row/column</li> <li data-astro-cid-j7pv25f6><strong data-astro-cid-j7pv25f6>Count remaining spots</strong> — if a "3" has 2 neighbors blocked, the other 2 must be bulbs</li> </ul> <p data-astro-cid-j7pv25f6>For more strategies, see our <a href="/tips" data-astro-cid-j7pv25f6>complete tips guide</a>.</p> <h2 data-astro-cid-j7pv25f6>Frequently Asked Questions</h2> <details data-astro-cid-j7pv25f6> <summary data-astro-cid-j7pv25f6>What is MeowTrail?</summary> <p data-astro-cid-j7pv25f6>MeowTrail is a cat-themed logic puzzle game by Oakever Games, based on the classic Akari (Light Up) puzzle. Place light bulbs on a grid to illuminate all white cells while following numbered clues.</p> </details> <details data-astro-cid-j7pv25f6> <summary data-astro-cid-j7pv25f6>Is MeowTrail free to play?</summary> <p data-astro-cid-j7pv25f6>Yes. MeowTrail is free on iOS and Android. You can also play MeowTrail online for free right here — no download or registration needed.</p> </details> <details data-astro-cid-j7pv25f6> <summary data-astro-cid-j7pv25f6>How is MeowTrail different from Sudoku?</summary> <p data-astro-cid-j7pv25f6>MeowTrail uses light bulbs and illumination instead of numbers. You place bulbs so every white cell is lit, numbered black cells show adjacent bulb counts, and no two bulbs can see each other. The logic is similar but the mechanics are different.</p> </details> <details data-astro-cid-j7pv25f6> <summary data-astro-cid-j7pv25f6>Can I play MeowTrail on my computer?</summary> <p data-astro-cid-j7pv25f6>Yes! Play MeowTrail online for free at meowtrail.app — works on any device with a web browser. No download required.</p> </details> <h2 data-astro-cid-j7pv25f6>Download MeowTrail</h2> <div class="download-links" data-astro-cid-j7pv25f6> <a href="https://play.google.com/store/apps/details?id=com.oakever.akari" data-astro-cid-j7pv25f6>📥 Google Play</a> <a href="https://apps.apple.com/app/meowtrail/" data-astro-cid-j7pv25f6>📥 App Store</a> </div> </section> <footer data-astro-cid-j7pv25f6> <p data-astro-cid-j7pv25f6>MeowTrail is developed by <a href="https://oakevergames.com/" style="color:#b0a08a" data-astro-cid-j7pv25f6>Oakever Games</a>. This is an unofficial fan site.</p> </footer> </div> <!-- ═══ GAME LOGIC (same as play.astro) ═══ --> <script type="module">
-    import {
-      generatePuzzle, validatePuzzle, computeIllumination, cloneGrid,
-      solvePuzzle, CellType, bulbsSeeEachOther, countAdjacentBulbs,
-      isBlack, isNumberedBlack, getBlackNumber
-    } from '/src/lib/puzzle-engine';
-
-    let puzzle = null;
-    let playerGrid = null;
-    let size = 7;
-    let difficulty = 'medium';
-    let solved = false;
-
-    const board = document.getElementById('puzzle-board');
-    const messageArea = document.getElementById('message-area');
-    const sizeSelect = document.getElementById('size-select');
-    const difficultySelect = document.getElementById('difficulty-select');
-
-    function newGame() {
-      size = parseInt(sizeSelect.value, 10);
-      difficulty = difficultySelect.value;
-      try {
-        puzzle = generatePuzzle(size, difficulty);
-        playerGrid = cloneGrid(puzzle.grid);
-        solved = false;
-        computeIllumination(playerGrid);
-        renderBoard();
-        setMessage(`New ${difficulty} ${size}×${size} puzzle! 🐱`, 'info');
-      } catch (e) {
-        setMessage('Failed to generate puzzle. Try a different size.', 'error');
+<!DOCTYPE html><html lang="en"> <head><!-- Primary Meta --><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MeowTrail — Play Light Up Puzzle Online Free | Cat Logic Game</title><meta name="description" content="Play MeowTrail, a free Light Up (Akari) puzzle game with cats. Place glowing cats on a grid, follow numbered clues, illuminate every cell. No download needed."><link rel="canonical" href="https://meowtrail.org/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:title" content="MeowTrail — Play Light Up Puzzle Online Free | Cat Logic Game"><meta property="og:description" content="Play MeowTrail, a free Light Up (Akari) puzzle game with cats. Place glowing cats on a grid, follow numbered clues, illuminate every cell. No download needed."><meta property="og:url" content="https://meowtrail.org/"><meta property="og:image" content="https://meowtrail.org/og-default.png"><meta property="og:site_name" content="MeowTrail Wiki"><meta property="og:locale" content="en_US"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="MeowTrail — Play Light Up Puzzle Online Free | Cat Logic Game"><meta name="twitter:description" content="Play MeowTrail, a free Light Up (Akari) puzzle game with cats. Place glowing cats on a grid, follow numbered clues, illuminate every cell. No download needed."><meta name="twitter:image" content="https://meowtrail.org/og-default.png"><!-- Favicon --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Preconnect for performance --><link rel="preconnect" href="https://meowtrail.org"><!-- llms.txt reference --><link rel="alternate" type="text/plain" href="/llms.txt" title="AI-friendly site map"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebApplication","name":"MeowTrail","url":"https://meowtrail.org","description":"Play MeowTrail, a free Light Up (Akari) puzzle game with cats. Place glowing cats on a grid, follow numbered clues, illuminate every cell. No download needed.","applicationCategory":"Game","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"genre":"Puzzle"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is MeowTrail?","acceptedAnswer":{"@type":"Answer","text":"MeowTrail is a cat-themed logic puzzle game based on the classic Akari (Light Up) puzzle. Place glowing cats on a grid to illuminate every white cell while following numbered clues. No two cats can see each other in the same row or column."}},{"@type":"Question","name":"Is MeowTrail free to play?","acceptedAnswer":{"@type":"Answer","text":"Yes. MeowTrail is completely free to play online in your browser. No download or registration needed."}}]}]</script><link rel="stylesheet" href="/_astro/index.DMSm73Do.css"></head> <body> <div class="container"> <h1>🐱 MeowTrail: Cat Logic Puzzle — Light Up the Grid</h1> <p class="subtitle">Place cats to light up every corner. A cozy Akari puzzle for cat lovers.</p> <div class="controls"> <select id="difficulty-select"><option value="easy" selected>Easy (7×7)</option><option value="medium">Medium (10×10)</option><option value="hard">Hard (12×12)</option></select> <button class="btn btn-primary" id="new-btn">🔄 New Puzzle</button> <button class="btn btn-secondary" id="hint-btn">💡 Hint</button> <button class="btn btn-secondary" id="reset-btn">↺ Reset</button> <button class="btn btn-secondary" id="save-btn">💾 Save</button> <button class="btn btn-secondary" id="load-btn">📂 Load</button> </div> <div class="game-status"> <div class="health-display" id="health-display"> <span class="heart" id="heart1"><svg width="24" height="24" viewBox="0 0 24 24" fill="#C8A8E8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg></span> <span class="heart" id="heart2"><svg width="24" height="24" viewBox="0 0 24 24" fill="#C8A8E8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg></span> <span class="heart" id="heart3"><svg width="24" height="24" viewBox="0 0 24 24" fill="#C8A8E8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg></span> </div> <div class="level-display" id="level-display">Level 1</div> <div class="progress" id="progress"></div> </div> <div class="grid-wrapper"><div class="puzzle-grid" id="puzzle-grid"></div></div> <div class="toast" id="toast"></div> <div class="win-overlay" id="win-overlay"> <div class="win-glow"></div> <div id="confetti-container"></div> <div class="win-cat"><svg width="160" height="160" viewBox="0 0 120 120"><defs><radialGradient id="wg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#C8A8E8" stop-opacity="0.6"></stop><stop offset="100%" stop-color="#C8A8E8" stop-opacity="0"></stop></radialGradient></defs><circle cx="60" cy="60" r="58" fill="url(#wg)"></circle><circle cx="60" cy="65" r="30" fill="#C8A8E8"></circle><polygon points="35,42 42,18 52,42" fill="#C8A8E8"></polygon><polygon points="68,42 78,18 85,42" fill="#C8A8E8"></polygon><circle cx="48" cy="58" r="4" fill="#7B6B8A"></circle><circle cx="72" cy="58" r="4" fill="#7B6B8A"></circle><ellipse cx="60" cy="68" rx="4" ry="3" fill="#E8A888"></ellipse><path d="M56,70 Q60,76 64,70" fill="none" stroke="#7B6B8A" stroke-width="1.5" stroke-linecap="round"></path></svg></div> <div class="win-text">🎉 Meow-velous! 🐱✨</div> <div class="win-sub">All cells lit, all constraints satisfied!</div> <button class="win-btn" id="win-next">Next Puzzle →</button> <div class="win-share-row"> <button class="share-btn share-copy" id="share-copy">📋 Copy Result</button> <button class="share-btn share-twitter" id="share-twitter">𝕏 Share</button> </div> </div> <section class="seo-content"> <h2>What is MeowTrail?</h2> <p>MeowTrail is a <strong>cat-themed logic puzzle game</strong> based on the classic <strong>Akari</strong> (Light Up) puzzle by Nikoli. Place glowing cats on a grid to illuminate every white cell, following numbered clues on black walls. No two cats can see each other in the same row or column.</p> <h2>How to Play</h2> <ol> <li><strong>Click</strong> a white cell to place or remove a glowing cat.</li> <li>Each cat <strong>illuminates its entire row and column</strong> until blocked by a black wall.</li> <li><strong>Numbered black cells</strong> show how many adjacent (up/down/left/right) cells must contain cats.</li> <li><strong>No two cats</strong> can see each other — if two are in the same row or column with no wall between, that's illegal.</li> <li><strong>All white cells</strong> must be illuminated to win.</li> </ol> <p><strong>Double-click</strong> (or right-click / long-press on mobile) to mark a cell with a paw print — useful for noting cells you know can't have cats.</p> <h2>Difficulty Levels</h2> <ul> <li><strong>Easy (7×7)</strong> — Perfect for beginners. More numbered clues, simpler deduction chains.</li> <li><strong>Medium (10×10)</strong> — The standard challenge. Requires intermediate techniques like cross-hatching.</li> <li><strong>Hard (12×12)</strong> — For experienced puzzlers. Fewer clues, deeper reasoning required.</li> </ul> <h2>Tips &amp; Strategy</h2> <h3>Start with extremes</h3> <ul> <li><strong>"4" cells</strong> — all four neighbors must be cats. Place them immediately.</li> <li><strong>"0" cells</strong> — none of its neighbors can have cats. Mark them with paw prints.</li> </ul> <h3>Use line-of-sight</h3> <ul> <li>Once you place a cat, every cell in its row and column (until a wall) is automatically lit and cannot hold another cat.</li> <li>Look for cells that can only be lit from one direction — those are forced placements.</li> </ul> <h2>FAQ</h2> <details><summary>What is Akari (Light Up)?</summary><p>Akari is a logic puzzle created by Nikoli. Place light bulbs so every white cell is illuminated. MeowTrail is the cat-themed version.</p></details> <details><summary>Is MeowTrail free?</summary><p>Yes! Play online for free right here at meowtrail.org.</p></details> <details><summary>Can I play on mobile?</summary><p>Absolutely. The grid is responsive and works on any screen size. Long-press to mark cells with paw prints.</p></details> <h2>More Cat Games</h2> <ul> <li><a href="https://furriq.com">Furriq — Free AI Cat Breed Identifier</a></li> <li><a href="https://spatialreasoninggame.com">Pictomino — Spatial Reasoning Puzzle for Kids</a></li> </ul> </section> <footer><p>MeowTrail by <a href="https://oakevergames.com/">Oakever Games</a>. Unofficial fan site.</p></footer> </div> <script src="/akari-engine.js"></script> <script type="module">
+    const CAT_IMAGES = [
+      '/assets/cats/cat-clay-purple.png',
+      '/assets/cats/cat-happy-yellow.png',
+      '/assets/cats/cat-smile-orange.png',
+      '/assets/cats/cat-grumpy-red.png',
+      '/assets/cats/cat-sleepy-blue.png'
+    ];
+    function getCatImg(level) {
+      const idx = Math.floor((level - 1) / 3) % CAT_IMAGES.length;
+      return '<img src="' + CAT_IMAGES[idx] + '" style="width:95%;height:95%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 2px 6px rgba(123,107,138,.4))" />';
+    }
+    let CAT_IMG = getCatImg(1);
+    const X_MARK = '<svg viewBox="0 0 24 24" width="50%" height="50%" style="opacity:0.4"><line x1="6" y1="6" x2="18" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/></svg>';
+    const SIZE_MAP = { easy: 7, medium: 10, hard: 12 };
+    const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
+    let currentPuzzle = null, playerSolution = null, markX = null, won = false;
+    let health = 3, level = 0;
+    let lastPlacedCell = null;
+    let gameStartTime = null;
+    
+    // Bookmark/Save system
+    function saveProgress() {
+      if (!currentPuzzle) return;
+      const saveData = {
+        level: level,
+        health: health,
+        puzzle: currentPuzzle,
+        playerSolution: playerSolution,
+        markX: markX,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('meowtrail-save', JSON.stringify(saveData));
+      showToast('💾 Progress saved!', 'success');
+    }
+    
+    function loadProgress() {
+      const saved = localStorage.getItem('meowtrail-save');
+      if (!saved) {
+        showToast('No saved progress found', 'error');
+        return false;
       }
+      try {
+        const saveData = JSON.parse(saved);
+        level = saveData.level;
+        health = saveData.health;
+        currentPuzzle = saveData.puzzle;
+        playerSolution = saveData.playerSolution;
+        markX = saveData.markX;
+        gameStartTime = saveData.timestamp;
+        CAT_IMG = getCatImg(level);
+        updateLevel();
+        updateHealth();
+        renderBoard();
+        updateProgress();
+        showToast('📂 Progress loaded!', 'success');
+        return true;
+      } catch(e) {
+        showToast('Failed to load save', 'error');
+        return false;
+      }
+    }
+    
+    function hasSavedProgress() {
+      return localStorage.getItem('meowtrail-save') !== null;
+    }
+    const gridEl = document.getElementById('puzzle-grid');
+    const progressEl = document.getElementById('progress');
+    const toastEl = document.getElementById('toast');
+    const diffSelect = document.getElementById('difficulty-select');
+    const winOverlay = document.getElementById('win-overlay');
+    const healthDisplay = document.getElementById('health-display');
+    const levelDisplay = document.getElementById('level-display');
+    let toastTimer = null;
+
+    function showToast(m, t) {
+      toastEl.textContent = m; toastEl.className = 'toast show' + (t === 'success' ? ' success' : '');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toastEl.className = 'toast'; }, 2500);
+    }
+
+    function spawnConfetti() {
+      const c = document.getElementById('confetti-container');
+      if (!c) return; c.innerHTML = '';
+      const colors = ['#C8A8E8','#E8A888','#88C8A8','#F0E8FF','#FFB347','#A888C8'];
+      for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div'); el.className = 'confetti';
+        el.style.left = Math.random()*100+'%'; el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        el.style.animationDuration = (2+Math.random()*3)+'s'; el.style.animationDelay = Math.random()*1.5+'s';
+        el.style.width = (8+Math.random()*8)+'px'; el.style.height = (8+Math.random()*8)+'px'; c.appendChild(el);
+      }
+      for (let i = 0; i < 12; i++) {
+        const el = document.createElement('div'); el.className = 'paw-confetti'; el.textContent = '🐾';
+        el.style.left = Math.random()*100+'%'; el.style.animationDuration = (3+Math.random()*3)+'s';
+        el.style.animationDelay = Math.random()*2+'s'; c.appendChild(el);
+      }
+    }
+
+    function newPuzzle() {
+      won = false; winOverlay.classList.remove('show');
+      health = 3;
+      updateHealth();
+      level++;
+      updateLevel();
+      CAT_IMG = getCatImg(level);
+      gameStartTime = Date.now();
+      // Auto-determine difficulty based on level
+      let d;
+      if (level <= 4) d = 'easy';
+      else if (level <= 9) d = 'medium';
+      else d = 'hard';
+      diffSelect.value = d;
+      const s = SIZE_MAP[d];
+      gridEl.innerHTML = '<div style="padding:2rem;color:#8B7B8B;font-size:0.9rem;">Generating...</div>';
+      progressEl.textContent = '';
+      setTimeout(() => {
+        try {
+          currentPuzzle = generatePuzzle(s);
+          playerSolution = Array.from({length:s}, () => Array(s).fill(false));
+          markX = Array.from({length:s}, () => Array(s).fill(false));
+          renderBoard(); updateProgress();
+        } catch(e) { showToast('Failed to generate.', 'error'); }
+      }, 10);
+    }
+
+    function resetPuzzle() {
+      if (!currentPuzzle) return; won = false; winOverlay.classList.remove('show');
+      const s = currentPuzzle.size;
+      playerSolution = Array.from({length:s}, () => Array(s).fill(false));
+      markX = Array.from({length:s}, () => Array(s).fill(false));
+      health = 3;
+      updateHealth();
+      renderBoard(); updateProgress(); showToast('Board reset!', 'success');
     }
 
     function renderBoard() {
-      if (!playerGrid || !puzzle) return;
-      const grid = playerGrid;
-      const origGrid = puzzle.grid;
-      const s = grid.length;
-      computeIllumination(grid);
-      const seeConflicts = bulbsSeeEachOther(grid);
-      const conflictSet = new Set(seeConflicts.map(c => `${c.row},${c.col}`));
-      const numberViolations = new Set();
-      for (let r = 0; r < s; r++) {
-        for (let c = 0; c < s; c++) {
-          if (isNumberedBlack(origGrid[r][c].type)) {
-            const expected = getBlackNumber(origGrid[r][c].type);
-            const actual = countAdjacentBulbs(grid, r, c);
-            if (actual !== expected) numberViolations.add(`${r},${c}`);
-          }
-        }
-      }
-      board.style.setProperty('--grid-size', s);
-      board.style.gridTemplateColumns = `repeat(${s}, clamp(36px, 10vw, 52px))`;
-      board.innerHTML = '';
-      for (let r = 0; r < s; r++) {
-        for (let c = 0; c < s; c++) {
-          const cell = document.createElement('div');
-          cell.className = 'cell';
-          const origCell = origGrid[r][c];
-          const playerCell = grid[r][c];
-          const key = `${r},${c}`;
-          if (isBlack(origCell.type)) {
-            cell.classList.add('cell-black');
-            const num = getBlackNumber(origCell.type);
-            if (num >= 0) { cell.classList.add('cell-numbered'); cell.textContent = num; }
-            if (numberViolations.has(key)) cell.classList.add('cell-violation');
-          } else {
-            cell.classList.add('cell-white');
-            if (playerCell.bulb) {
-              cell.classList.add('cell-bulb');
-              if (conflictSet.has(key)) cell.classList.add('cell-conflict');
-            } else if (playerCell.illuminated) {
-              cell.classList.add('cell-lit');
-            } else {
-              cell.classList.add('cell-dark');
+      if (!currentPuzzle) return;
+      const g = currentPuzzle.grid, s = currentPuzzle.size;
+      const lit = illuminate(g, playerSolution, s);
+      const v = checkViolations(g, playerSolution, s);
+      const vc = {}, cp = {};
+      v.forEach(x => {
+        if (x.type === 'number_excess') {
+          vc[x.row+','+x.col] = true;
+          DIRS.forEach(d => { const nr=x.row+d[0],nc=x.col+d[1]; if(nr>=0&&nr<s&&nc>=0&&nc<s&&playerSolution[nr][nc]) vc[nr+','+nc]=true; });
+        } else if (x.type === 'cat_conflict') { cp[x.row+','+x.col]=true; cp[x.row2+','+x.col2]=true; }
+      });
+      const mw = Math.min(window.innerWidth-40,600);
+      const cs = Math.max(30,Math.min(44,Math.floor((mw-(s+1)*2-8)/s)));
+      gridEl.style.gridTemplateColumns = `repeat(${s},${cs}px)`;
+      gridEl.style.gridTemplateRows = `repeat(${s},${cs}px)`;
+      gridEl.innerHTML = '';
+      for (let r=0;r<s;r++) for (let c=0;c<s;c++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell'; cell.style.width = cs+'px'; cell.style.height = cs+'px';
+        cell.dataset.row = r; cell.dataset.col = c;
+        const val = g[r][c], key = r+','+c;
+        if (val !== 9) {
+          cell.classList.add('cell-black');
+          if (val >= 0) { cell.classList.add('cell-number'); cell.textContent = val; cell.style.fontSize = Math.max(12,cs*.5)+'px'; if(vc[key]) cell.classList.add('cell-violation'); }
+        } else {
+          if (playerSolution[r][c]) { 
+            cell.classList.add('cell-cat');
+            if (lastPlacedCell && lastPlacedCell.r === r && lastPlacedCell.c === c) {
+              cell.classList.add('cell-cat-new');
             }
-            cell.addEventListener('click', () => { if (solved) return; playerGrid[r][c].bulb = !playerGrid[r][c].bulb; renderBoard(); setMessage('', ''); });
+            cell.innerHTML = CAT_IMG; 
+            if(cp[key]) cell.classList.add('cell-shake'); 
           }
-          board.appendChild(cell);
+          else if (markX[r][c]) { cell.classList.add('cell-x'); cell.innerHTML = X_MARK; }
+          else if (lit[r][c]) { cell.classList.add('cell-lit'); }
+          else { cell.classList.add('cell-dark'); }
+          cell.addEventListener('click', e => { e.preventDefault(); if(!won) handleClick(r,c); });
+          cell.addEventListener('dblclick', e => { e.preventDefault(); if(!won){markX[r][c]=!markX[r][c];renderBoard();} });
+          cell.addEventListener('contextmenu', e => { e.preventDefault(); if(!won){markX[r][c]=!markX[r][c];renderBoard();} });
+          let lpt=null,dlp=false;
+          cell.addEventListener('touchstart',()=>{dlp=false;lpt=setTimeout(()=>{dlp=true;if(!won){markX[r][c]=!markX[r][c];renderBoard();}},500);},{passive:true});
+          cell.addEventListener('touchend',e=>{if(lpt)clearTimeout(lpt);if(dlp)e.preventDefault();});
+          cell.addEventListener('touchmove',()=>{if(lpt)clearTimeout(lpt);},{passive:true});
+        }
+        gridEl.appendChild(cell);
+      }
+    }
+
+    function handleClick(r, c) {
+      if (!currentPuzzle) return;
+      const g = currentPuzzle.grid, s = currentPuzzle.size;
+      if (playerSolution[r][c]) {
+        playerSolution[r][c] = false;
+        lastPlacedCell = null;
+      }
+      else {
+        markX[r][c] = false; playerSolution[r][c] = true;
+        lastPlacedCell = {r, c};
+        const v = checkViolations(g, playerSolution, s);
+        let hasViolation = false;
+        for (const x of v) { 
+          if(x.type==='number_excess'){
+            showToast('Too many cats around number '+x.number+'!','error');
+            hasViolation=true;
+            break;
+          }
+        }
+        for (const x of v) { 
+          if(x.type==='cat_conflict'){
+            showToast('Two cats are facing each other!','error');
+            hasViolation=true;
+            break;
+          }
+        }
+        if (hasViolation) {
+          loseHealth();
+        }
+      }
+      renderBoard(); updateProgress();
+      // Clear lastPlacedCell after animation completes
+      setTimeout(() => { lastPlacedCell = null; }, 500);
+      if (checkWin(g, playerSolution, s)) { 
+        won=true; 
+        spawnConfetti(); 
+        setTimeout(()=>{
+          winOverlay.classList.add('show');
+          // Auto-advance to next level after 3 seconds
+          setTimeout(() => {
+            if (won) {
+              winOverlay.classList.remove('show');
+              newPuzzle();
+            }
+          }, 3000);
+        },300); 
+      }
+    }
+
+    function updateProgress() {
+      if (!currentPuzzle) return;
+      const info = countLit(currentPuzzle.grid, playerSolution, currentPuzzle.size);
+      const catsPlaced = playerSolution.flat().filter(Boolean).length;
+      const totalCats = currentPuzzle.solution.flat().filter(Boolean).length;
+      progressEl.textContent = catsPlaced + ' / ' + totalCats + ' cats placed';
+    }
+
+    function updateHealth() {
+      const hearts = healthDisplay.querySelectorAll('.heart');
+      hearts.forEach((heart, i) => {
+        if (i < health) {
+          heart.classList.remove('lost');
+        } else {
+          heart.classList.add('lost');
+        }
+      });
+    }
+
+    function updateLevel() {
+      levelDisplay.textContent = 'Level ' + level;
+    }
+
+    function loseHealth() {
+      if (health > 0) {
+        health--;
+        updateHealth();
+        if (health === 0) {
+          showToast('Game Over! Try again.', 'error');
+          setTimeout(resetPuzzle, 1500);
         }
       }
     }
 
-    function checkSolution() {
-      if (!playerGrid || !puzzle) return;
-      const result = validatePuzzle({ size: puzzle.size, difficulty: puzzle.difficulty, grid: cloneGrid(playerGrid) });
-      if (result.valid) {
-        solved = true;
-        setMessage('🎉 Meow-velous! Puzzle solved! 🐱✨', 'success');
-        document.getElementById('check-btn')?.classList.add('solved');
-      } else {
-        setMessage(result.message, 'error');
+    document.getElementById('hint-btn').addEventListener('click', () => {
+      if (!currentPuzzle || won) return;
+      const h = getHint(currentPuzzle.grid, currentPuzzle.solution, playerSolution, currentPuzzle.size);
+      if (h) {
+        const cell = gridEl.querySelector('[data-row="'+h[0]+'"][data-col="'+h[1]+'"]');
+        if (cell) { cell.classList.add('cell-hint'); setTimeout(()=>cell.classList.remove('cell-hint'),2000); }
+        showToast('Hint: try row '+(h[0]+1)+', col '+(h[1]+1),'success');
+      } else showToast('No hints!','error');
+    });
+    document.getElementById('reset-btn').addEventListener('click', resetPuzzle);
+    document.getElementById('new-btn').addEventListener('click', newPuzzle);
+    document.getElementById('save-btn').addEventListener('click', saveProgress);
+    document.getElementById('load-btn').addEventListener('click', loadProgress);
+    document.getElementById('win-next').addEventListener('click', () => { winOverlay.classList.remove('show'); newPuzzle(); });
+    document.getElementById('share-copy').addEventListener('click', () => {
+      const d = diffSelect.value, s = SIZE_MAP[d];
+      const text = '🐱 MeowTrail — Cat Logic Puzzle\n' + s + '×' + s + ' ' + d + ' puzzle solved!\n\nPlay free at meowtrail.org';
+      navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!', 'success'));
+    });
+    document.getElementById('share-twitter').addEventListener('click', () => {
+      const d = diffSelect.value, s = SIZE_MAP[d];
+      const text = encodeURIComponent('🐱 Just solved a ' + s + '×' + s + ' ' + d + ' cat logic puzzle on MeowTrail! 🧩\n\nPlay free at meowtrail.org');
+      window.open('https://twitter.com/intent/tweet?text=' + text, '_blank');
+    });
+    
+    // Generate share card image
+    function generateShareCard() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 600;
+      canvas.height = 400;
+      const ctx = canvas.getContext('2d');
+      
+      // Background
+      const gradient = ctx.createLinearGradient(0, 0, 600, 400);
+      gradient.addColorStop(0, '#FBF8FF');
+      gradient.addColorStop(1, '#F8F5F0');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 600, 400);
+      
+      // Title
+      ctx.fillStyle = '#7B6B8A';
+      ctx.font = 'bold 32px SF Pro Rounded, system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText('🐱 MeowTrail', 300, 50);
+      
+      // Level info
+      ctx.font = 'bold 24px SF Pro Rounded, system-ui';
+      ctx.fillText('Level ' + level, 300, 90);
+      
+      // Difficulty
+      const d = diffSelect.value;
+      const s = SIZE_MAP[d];
+      ctx.font = '18px SF Pro Rounded, system-ui';
+      ctx.fillText(s + '×' + s + ' ' + d.charAt(0).toUpperCase() + d.slice(1), 300, 120);
+      
+      // Stats
+      ctx.font = 'bold 20px SF Pro Rounded, system-ui';
+      ctx.fillText('❤️ ' + health + ' lives remaining', 300, 170);
+      ctx.fillText('🐱 ' + currentPuzzle.solution.flat().filter(Boolean).length + ' cats placed', 300, 200);
+      
+      // Time (if available)
+      if (gameStartTime) {
+        const timeElapsed = Math.floor((Date.now() - gameStartTime) / 1000);
+        const minutes = Math.floor(timeElapsed / 60);
+        const seconds = timeElapsed % 60;
+        ctx.fillText('⏱️ ' + minutes + ':' + seconds.toString().padStart(2, '0'), 300, 230);
       }
+      
+      // CTA
+      ctx.font = '16px SF Pro Rounded, system-ui';
+      ctx.fillStyle = '#8B7B8B';
+      ctx.fillText('Play free at meowtrail.org', 300, 300);
+      
+      // Paw prints decoration
+      ctx.font = '40px serif';
+      ctx.fillText('🐾', 50, 350);
+      ctx.fillText('🐾', 550, 350);
+      
+      return canvas.toDataURL('image/png');
     }
-
-    function getHint() {
-      if (solved || !playerGrid || !puzzle) return;
-      const sol = solvePuzzle({ size: puzzle.size, difficulty: puzzle.difficulty, grid: cloneGrid(puzzle.grid) }, 2);
-      if (sol.count === 0) { setMessage('No solution found. Try resetting.', 'error'); return; }
-      const unplaced = sol.solutions[0].filter(b => !playerGrid[b.row][b.col].bulb);
-      if (unplaced.length === 0) { setMessage('All bulbs already placed! Try checking.', 'info'); return; }
-      const hint = unplaced[0];
-      playerGrid[hint.row][hint.col].bulb = true;
-      renderBoard();
-      setMessage(`💡 Hint: bulb at row ${hint.row + 1}, col ${hint.col + 1}`, 'info');
+    
+    // Download share card
+    document.getElementById('share-copy').addEventListener('click', () => {
+      const cardData = generateShareCard();
+      const link = document.createElement('a');
+      link.download = 'meowtrail-level-' + level + '.png';
+      link.href = cardData;
+      link.click();
+      showToast('📸 Share card downloaded!', 'success');
+    });
+    diffSelect.addEventListener('change', newPuzzle);
+    updateHealth();
+    updateLevel();
+    // Check for saved progress on load
+    if (hasSavedProgress()) {
+      loadProgress();
+    } else {
+      newPuzzle();
     }
-
-    function resetBoard() {
-      if (!puzzle) return;
-      playerGrid = cloneGrid(puzzle.grid);
-      solved = false;
-      computeIllumination(playerGrid);
-      renderBoard();
-      setMessage('Board reset! 🐱', 'info');
-      document.getElementById('check-btn')?.classList.remove('solved');
-    }
-
-    function setMessage(text, type) {
-      messageArea.textContent = text;
-      messageArea.className = 'message-area';
-      if (type) messageArea.classList.add(`message-${type}`);
-    }
-
-    document.getElementById('new-game-btn').addEventListener('click', newGame);
-    document.getElementById('check-btn').addEventListener('click', checkSolution);
-    document.getElementById('hint-btn').addEventListener('click', getHint);
-    document.getElementById('reset-btn').addEventListener('click', resetBoard);
-    sizeSelect.addEventListener('change', newGame);
-    difficultySelect.addEventListener('change', newGame);
-
-    newGame();
   </script> </body> </html>

@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import path from 'path';
 
 export default defineConfig({
   site: 'https://meowtrail.app',
@@ -14,14 +15,9 @@ export default defineConfig({
     }),
   ],
   vite: {
-    build: {
-      // Keep puzzle engine in the bundle (it's client-side)
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            'puzzle-engine': ['./src/lib/puzzle-engine.ts'],
-          },
-        },
+    resolve: {
+      alias: {
+        '@lib': path.resolve('./src/lib'),
       },
     },
   },

@@ -17,7 +17,7 @@ wrangler pages deploy dist --project-name=meowtrail --commit-dirty=true  # 部�
 - 引擎编译：`scripts/bundle-engine.mjs`（esbuild → `public/akari-engine.js`）
 - 页面加载引擎：`<script is:inline src="/akari-engine.js">`（Astro 不打包内联 import）
 - 搜索：pagefind
-- 部署：Cloudflare Pages（域名 meowtrail.app）
+- 部署：Cloudflare Pages（域名 meowtrail.org）
 
 ## 目录结构
 ```
@@ -26,13 +26,15 @@ src/
   lib/step-extractor.ts  ← 关卡解法提取（生成 puzzles.json 用）
   data/puzzles.json      ← 20 关预生成数据
   pages/index.astro      ← 首页（可玩游戏）
+  pages/daily.astro      ← 每日挑战（14×14 超难关 + streak + badge）
+  pages/play.astro       ← 独立游戏页
+  pages/solver.astro     ← 求解器工具
   pages/puzzle/[id].astro← 关卡页（动态路由）
-  pages/cat-logic-puzzle.astro ← 品类词页
-  pages/akari-puzzle.astro     ← 品类词页
+  pages/*.astro          ← SEO 内容页（品类词、攻略、规则等共 19 页）
   components/SEOHead.astro     ← SEO 元数据组件
 public/
   akari-engine.js        ← 编译后的引擎（build 自动生成）
-  assets/options/        ← 3D 猫图标 + 爪印纹理
+  assets/cats/           ← 猫图标素材
   og-default.png         ← 社交分享图
   favicon.svg            ← SVG 猫脸
 scripts/
@@ -47,11 +49,12 @@ scripts/
 - **部署到 CF Pages**，不用 Vercel
 
 ## 当前状态
-- 20 关卡页（puzzle-001~020），个位5/10的倍数=12×12困难关
-- 首页可玩 + 品类词页 + 关卡页 + SEO 内容
+- 19 个页面（首页 + daily + play + solver + 15 个 SEO 内容页）
+- 每日挑战：14×14 超难关 + streak 追踪 + badge 系统（3/7/14/30 天）
+- 首页有 "🔥 Daily Challenge" 入口按钮
 - og:image / favicon 已替换为真实素材
-- 无 App Store 假链接
+- GSC 已提交 sitemap
 
 ## 下一步
-- 正文从 420 词扩到 1200 词
-- 外链起步（品类词页已上线，可以喂外链）
+- 分享卡升级为棋盘截图合成（当前只有文字统计）
+- 自定义棋盘生成器（用户创建题目 → 分享链接）

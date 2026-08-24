@@ -1,0 +1,61 @@
+---
+import SEOHead from '../../components/SEOHead.astro';
+const title = "Hard Akari Puzzles — Play 10 Levels Online | MeowTrail";
+const description = "Play 10 hard Akari (Light Up) puzzles online free. 12×12 grids with dense walls and tricky logic. Solve them all at MeowTrail.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <SEOHead title={title} description={description} canonical="/levels/hard" type="article" />
+  <style is:global>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"SF Pro Rounded","Segoe UI","Noto Sans SC",system-ui,sans-serif;background:linear-gradient(180deg,#FBF8FF,#F8F5F0);color:#3B2B4B;min-height:100vh}
+    .container{max-width:720px;margin:0 auto;padding:1rem}
+    h1{font-size:1.8rem;color:#7B6B8A;text-align:center;margin:.5rem 0}
+    .seo-content{margin-top:1.5rem;padding-top:1.5rem;border-top:2px solid #E0D0F0}
+    .seo-content p{margin:.5rem 0;line-height:1.7}
+    .seo-content a{color:#A888C8;text-decoration:underline}
+    .seo-content h2{font-size:1.3rem;color:#7B6B8A;margin:1.5rem 0 .5rem}
+    .level-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin:1rem 0}
+    .level-link{display:block;padding:.8rem;background:linear-gradient(145deg,#F0E8FF,#E8E0F8);border-radius:10px;text-align:center;text-decoration:none;color:#7B6B8A;font-weight:600;transition:all .2s}
+    .level-link:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(123,107,138,.2)}
+    details{margin:.5rem 0;padding:.5rem .8rem;background:#FBF8FF;border-radius:8px}
+    summary{cursor:pointer;font-weight:600;color:#A888C8}
+    footer{text-align:center;margin:2rem 0 1rem;font-size:.8rem;color:#8B7B8B}
+    footer a{color:#8B7B8B}
+    .play-cta{display:block;text-align:center;margin:2rem 0;padding:1rem;background:linear-gradient(145deg,#F0B898,#E09878);color:#fff;border-radius:12px;text-decoration:none;font-weight:600;font-size:1.1rem}
+    .play-cta:hover{background:linear-gradient(145deg,#E0A888,#D08868)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐱 Hard Akari Puzzles</h1>
+    <p style="text-align:center;color:#8B7B8B;margin-bottom:1rem;">10 hard puzzles to solve.</p>
+    <section class="seo-content">
+      <h2>All Hard Puzzles</h2>
+      <div class="level-grid">
+        <a href="/puzzle/puzzle-021" class="level-link">Puzzle 21</a>
+        <a href="/puzzle/puzzle-022" class="level-link">Puzzle 22</a>
+        <a href="/puzzle/puzzle-023" class="level-link">Puzzle 23</a>
+        <a href="/puzzle/puzzle-024" class="level-link">Puzzle 24</a>
+        <a href="/puzzle/puzzle-025" class="level-link">Puzzle 25</a>
+        <a href="/puzzle/puzzle-026" class="level-link">Puzzle 26</a>
+        <a href="/puzzle/puzzle-027" class="level-link">Puzzle 27</a>
+        <a href="/puzzle/puzzle-028" class="level-link">Puzzle 28</a>
+        <a href="/puzzle/puzzle-029" class="level-link">Puzzle 29</a>
+        <a href="/puzzle/puzzle-030" class="level-link">Puzzle 30</a>
+      </div>
+      <details>
+        <summary>What makes these puzzles "hard"?</summary>
+        <p>Hard Akari puzzles use 12×12 grids packed with walls and numbered constraints. Solving them requires advanced deduction chains — placing one bulb can cascade into multiple forced placements across the grid.</p>
+      </details>
+      <details>
+        <summary>How do I play Akari?</summary>
+        <p>Place light bulbs on empty cells so that every white cell is illuminated. Light travels in straight lines until it hits a wall. No two bulbs may shine on each other. Numbers on walls indicate how many bulbs sit adjacent to that wall.</p>
+      </details>
+    </section>
+    <a href="/" class="play-cta">🎮 Play Random Puzzle</a>
+    <footer><p>MeowTrail by <a href="https://oakevergames.com/">Oakever Games</a>. Unofficial fan site.</p></footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+---
+import SEOHead from '../../components/SEOHead.astro';
+const title = "Medium Akari Puzzles — Play 10 Levels Online | MeowTrail";
+const description = "Play 10 medium Akari (Light Up) puzzles online free. 10×10 grids with balanced challenge. Solve them all at MeowTrail.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <SEOHead title={title} description={description} canonical="/levels/medium" type="article" />
+  <style is:global>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"SF Pro Rounded","Segoe UI","Noto Sans SC",system-ui,sans-serif;background:linear-gradient(180deg,#FBF8FF,#F8F5F0);color:#3B2B4B;min-height:100vh}
+    .container{max-width:720px;margin:0 auto;padding:1rem}
+    h1{font-size:1.8rem;color:#7B6B8A;text-align:center;margin:.5rem 0}
+    .seo-content{margin-top:1.5rem;padding-top:1.5rem;border-top:2px solid #E0D0F0}
+    .seo-content p{margin:.5rem 0;line-height:1.7}
+    .seo-content a{color:#A888C8;text-decoration:underline}
+    .seo-content h2{font-size:1.3rem;color:#7B6B8A;margin:1.5rem 0 .5rem}
+    .level-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin:1rem 0}
+    .level-link{display:block;padding:.8rem;background:linear-gradient(145deg,#F0E8FF,#E8E0F8);border-radius:10px;text-align:center;text-decoration:none;color:#7B6B8A;font-weight:600;transition:all .2s}
+    .level-link:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(123,107,138,.2)}
+    details{margin:.5rem 0;padding:.5rem .8rem;background:#FBF8FF;border-radius:8px}
+    summary{cursor:pointer;font-weight:600;color:#A888C8}
+    footer{text-align:center;margin:2rem 0 1rem;font-size:.8rem;color:#8B7B8B}
+    footer a{color:#8B7B8B}
+    .play-cta{display:block;text-align:center;margin:2rem 0;padding:1rem;background:linear-gradient(145deg,#F0B898,#E09878);color:#fff;border-radius:12px;text-decoration:none;font-weight:600;font-size:1.1rem}
+    .play-cta:hover{background:linear-gradient(145deg,#E0A888,#D08868)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐱 Medium Akari Puzzles</h1>
+    <p style="text-align:center;color:#8B7B8B;margin-bottom:1rem;">10 medium puzzles to solve.</p>
+    <section class="seo-content">
+      <h2>All Medium Puzzles</h2>
+      <div class="level-grid">
+        <a href="/puzzle/puzzle-011" class="level-link">Puzzle 11</a>
+        <a href="/puzzle/puzzle-012" class="level-link">Puzzle 12</a>
+        <a href="/puzzle/puzzle-013" class="level-link">Puzzle 13</a>
+        <a href="/puzzle/puzzle-014" class="level-link">Puzzle 14</a>
+        <a href="/puzzle/puzzle-015" class="level-link">Puzzle 15</a>
+        <a href="/puzzle/puzzle-016" class="level-link">Puzzle 16</a>
+        <a href="/puzzle/puzzle-017" class="level-link">Puzzle 17</a>
+        <a href="/puzzle/puzzle-018" class="level-link">Puzzle 18</a>
+        <a href="/puzzle/puzzle-019" class="level-link">Puzzle 19</a>
+        <a href="/puzzle/puzzle-020" class="level-link">Puzzle 20</a>
+      </div>
+      <details>
+        <summary>What makes these puzzles "medium"?</summary>
+        <p>Medium Akari puzzles use 10×10 grids with more walls and numbered constraints. They require multi-step reasoning — you'll often need to deduce bulb placements from wall numbers before filling in the rest.</p>
+      </details>
+      <details>
+        <summary>How do I play Akari?</summary>
+        <p>Place light bulbs on empty cells so that every white cell is illuminated. Light travels in straight lines until it hits a wall. No two bulbs may shine on each other. Numbers on walls indicate how many bulbs sit adjacent to that wall.</p>
+      </details>
+    </section>
+    <a href="/" class="play-cta">🎮 Play Random Puzzle</a>
+    <footer><p>MeowTrail by <a href="https://oakevergames.com/">Oakever Games</a>. Unofficial fan site.</p></footer>
+  </div>
+</body>
+</html>

@@ -97,12 +97,10 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     <p class="subtitle">Place cats to light up every corner. A cozy Akari puzzle for cat lovers.</p>
     <div class="controls">
       <a href="/daily/" class="btn btn-primary" style="text-decoration:none;background:linear-gradient(145deg,#E8956A,#D47A50)">🔥 Daily Challenge</a>
-      <select id="difficulty-select"><option value="easy" selected>Easy (7×7)</option><option value="medium">Medium (10×10)</option><option value="hard">Hard (12×12)</option></select>
+      <select id="difficulty-select"><option value="beginner">Beginner (5×5)</option><option value="easy" selected>Easy (7×7)</option><option value="medium">Medium (10×10)</option><option value="hard">Hard (12×12)</option></select>
       <button class="btn btn-primary" id="new-btn">🔄 New Puzzle</button>
       <button class="btn btn-secondary" id="hint-btn">💡 Hint</button>
       <button class="btn btn-secondary" id="reset-btn">↺ Reset</button>
-      <button class="btn btn-secondary" id="save-btn">💾 Save</button>
-      <button class="btn btn-secondary" id="load-btn">📂 Load</button>
     </div>
     <div class="game-status">
       <div class="health-display" id="health-display">
@@ -141,9 +139,10 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       <p><strong>Double-click</strong> (or right-click / long-press on mobile) to mark a cell with a paw print — useful for noting cells you know can't have cats.</p>
       <h2>Difficulty Levels</h2>
       <ul>
-        <li><strong>Easy (7×7)</strong> — Perfect for beginners. More numbered clues, simpler deduction chains.</li>
-        <li><strong>Medium (10×10)</strong> — The standard challenge. Requires intermediate techniques like cross-hatching.</li>
-        <li><strong>Hard (12×12)</strong> — For experienced puzzlers. Fewer clues, deeper reasoning required.</li>
+        <li><strong>Beginner (5×5)</strong> — Perfect for first-timers. Small grid, simple clues, quick wins.</li>
+        <li><strong>Easy (7×7)</strong> — Great for learning. More numbered clues, straightforward deduction.</li>
+        <li><strong>Medium (10×10)</strong> — The standard challenge. Requires intermediate techniques.</li>
+        <li><strong>Hard (12×12)</strong> — For experienced puzzlers. Fewer clues, deeper reasoning.</li>
       </ul>
       <h2>Tips &amp; Strategy</h2>
       <h3>Start with extremes</h3>
@@ -192,38 +191,36 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     }
     let CAT_IMG = getCatImg(1);
     const X_MARK = '<svg viewBox="0 0 24 24" width="50%" height="50%" style="opacity:0.4"><line x1="6" y1="6" x2="18" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/></svg>';
-    const SIZE_MAP = { easy: 7, medium: 10, hard: 12 };
+    const SIZE_MAP = { beginner: 5, easy: 7, medium: 10, hard: 12 };
     const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
     let currentPuzzle = null, playerSolution = null, markX = null, won = false;
     let health = 3, level = 0;
     let lastPlacedCell = null;
     let gameStartTime = null;
     
-    // Bookmark/Save system
-    function saveProgress() {
-      if (!currentPuzzle) return;
+    // Auto-save current puzzle state
+    function autoSave() {
+      if (!currentPuzzle || won) return;
       const saveData = {
         level: level,
         health: health,
+        puzzleId: currentPuzzle.id,
         puzzle: currentPuzzle,
         playerSolution: playerSolution,
         markX: markX,
-        timestamp: Date.now()
+        timestamp: gameStartTime
       };
-      localStorage.setItem('meowtrail-save', JSON.stringify(saveData));
-      showToast('💾 Progress saved!', 'success');
+      try { localStorage.setItem('meowtrail-autosave', JSON.stringify(saveData)); } catch(e) {}
     }
     
-    function loadProgress() {
-      const saved = localStorage.getItem('meowtrail-save');
-      if (!saved) {
-        showToast('No saved progress found', 'error');
-        return false;
-      }
+    function loadAutoSave() {
+      const saved = localStorage.getItem('meowtrail-autosave');
+      if (!saved) return false;
       try {
         const saveData = JSON.parse(saved);
-        level = saveData.level;
-        health = saveData.health;
+        if (!saveData.puzzle || !saveData.playerSolution) return false;
+        level = saveData.level || 0;
+        health = saveData.health || 3;
         currentPuzzle = saveData.puzzle;
         playerSolution = saveData.playerSolution;
         markX = saveData.markX;
@@ -233,16 +230,12 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
         updateHealth();
         renderBoard();
         updateProgress();
-        showToast('📂 Progress loaded!', 'success');
         return true;
-      } catch(e) {
-        showToast('Failed to load save', 'error');
-        return false;
-      }
+      } catch(e) { return false; }
     }
     
-    function hasSavedProgress() {
-      return localStorage.getItem('meowtrail-save') !== null;
+    function clearAutoSave() {
+      localStorage.removeItem('meowtrail-autosave');
     }
     const gridEl = document.getElementById('puzzle-grid');
     const progressEl = document.getElementById('progress');
@@ -286,7 +279,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       gameStartTime = Date.now();
       // Auto-determine difficulty based on level
       let d;
-      if (level <= 4) d = 'easy';
+      if (level <= 2) d = 'beginner';
+      else if (level <= 4) d = 'easy';
       else if (level <= 9) d = 'medium';
       else d = 'hard';
       diffSelect.value = d;
@@ -311,6 +305,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       health = 3;
       updateHealth();
       renderBoard(); updateProgress(); showToast('Board reset!', 'success');
+      autoSave();
     }
 
     function renderBoard() {
@@ -393,10 +388,12 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
         }
       }
       renderBoard(); updateProgress();
+      autoSave();
       // Clear lastPlacedCell after animation completes
       setTimeout(() => { lastPlacedCell = null; }, 500);
       if (checkWin(g, playerSolution, s)) { 
         won=true; 
+        clearAutoSave();
         spawnConfetti(); 
         setTimeout(()=>{
           winOverlay.classList.add('show');
@@ -456,8 +453,6 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     });
     document.getElementById('reset-btn').addEventListener('click', resetPuzzle);
     document.getElementById('new-btn').addEventListener('click', newPuzzle);
-    document.getElementById('save-btn').addEventListener('click', saveProgress);
-    document.getElementById('load-btn').addEventListener('click', loadProgress);
     document.getElementById('win-next').addEventListener('click', () => { winOverlay.classList.remove('show'); newPuzzle(); });
     document.getElementById('share-copy').addEventListener('click', () => {
       const d = diffSelect.value, s = SIZE_MAP[d];
@@ -538,10 +533,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     diffSelect.addEventListener('change', newPuzzle);
     updateHealth();
     updateLevel();
-    // Check for saved progress on load
-    if (hasSavedProgress()) {
-      loadProgress();
-    } else {
+    // Try to restore auto-saved puzzle, otherwise start new
+    if (!loadAutoSave()) {
       newPuzzle();
     }
   </script>

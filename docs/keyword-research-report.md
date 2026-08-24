@@ -1,94 +1,127 @@
-# MeowTrail 关键词研究报告（修正版）
+# MeowTrail 关键词研究报告（最终版）
 
 ## 📊 数据来源
 - **KD**：web.cafe/kd（哥飞版，唯一可信 KD 源）
-- **搜索量**：DataForSEO Google Ads API（美国区，12 月均值）
-- **KDROI**：搜索量 / KD（桶低值估算）
+- **搜索量**：Google Keyword Planner（KWP，美国区，桶值）
+- **KDROI**：桶低值 / KD
 
 ---
 
 ## 🎯 完整数据表（按 KDROI 排序）
 
-| 排名 | 关键词 | 搜索量 | 搜索量桶 | KD | KDROI | Top3 竞争对手 | 意图匹配 |
-|------|--------|--------|----------|-----|-------|--------------|----------|
-| 1 | **logic puzzle game** | 14,800 | 10K-100K | 44.9 | 330 | logic.puzzlebaron.com(DR51), play.google.com(DR99) | ⚠️ 中 |
-| 2 | **online puzzle game** | 14,800 | 10K-100K | 68.7 | 215 | crazygames.com(DR81), jigsawexplorer.com(DR68) | ✅ 高 |
-| 3 | **free puzzle game** | 8,100 | 1K-10K | 63.6 | 127 | apps.apple.com(DR97), poki.com(DR79) | ✅ 高 |
-| 4 | **puzzle game free** | 8,100 | 1K-10K | 77.5 | 105 | apps.apple.com(DR97), poki.com(DR79) | ✅ 高 |
-| 5 | **cat game online** | 3,600 | 1K-10K | 57.7 | 62 | poki.com(DR79), youtube.com(DR99) | ✅ 高 |
-| 6 | **light up game** | 480 | 100-1K | 24.4 | 20 | puzzle-light-up.com(DR34), brainbashers.com(DR56) | ✅ 高 |
-| 7 | **light up puzzle** | 590 | 100-1K | 31.1 | 19 | puzzle-light-up.com(DR34), brainbashers.com(DR56) | ✅ 高 |
-| 8 | **browser puzzle game** | 480 | 100-1K | 39 | 12 | reddit.com(DR95), crazygames.com(DR81) | ⚠️ 中 |
-| 9 | **akari puzzle** | 320 | 100-1K | 32.2 | 10 | puzzle-light-up.com(DR34), dailyakari.com(DR14) | ✅ 高 |
-| 10 | **cat puzzle game** | 390 | 100-1K | 43.2 | 9 | apps.apple.com, reddit.com | ✅ 高 |
-| 11 | **cat puzzle online** | 30 | 10-100 | 16.7 | 2 | play.google.com(DR99), jigsaw365.com(DR12) | ✅ 高 |
-| 12 | **akari online** | 10 | 10-100 | 15.7 | 1 | dailyakari.com(DR14), thinkygames.com(DR47) | ✅ 高 |
-| 13 | **akari light up** | 20 | 10-100 | 38.7 | 1 | puzzle-light-up.com(DR34), dailyakari.com(DR14) | ✅ 高 |
-| 14 | **puzzle game for cats** | 20 | 10-100 | 32 | 1 | play.google.com(DR99), reddit.com(DR95) | ⚠️ 中 |
-| 15 | **cat logic puzzle** | 10 | 10-100 | 33.4 | 0.3 | amazon.com, ravensburger.us(DR72) | ✅ 高 |
+| 排名 | 关键词 | KWP 搜索量 | 搜索量桶 | 桶低值 | KD | KDROI | 竞争 | Top3 竞争对手 |
+|------|--------|-----------|----------|--------|-----|-------|------|--------------|
+| 1 | **logic puzzle game** | 50,000 | 10K-100K | 10,000 | 44.9 | **223** | 低 | logic.puzzlebaron.com(DR51), play.google.com(DR99) |
+| 2 | **online puzzle game** | 50,000 | 10K-100K | 10,000 | 68.7 | **146** | 低 | crazygames.com(DR81), jigsawexplorer.com(DR68) |
+| 3 | **cat game online** | 5,000 | 1K-10K | 1,000 | 57.7 | **17** | 低 | poki.com(DR79), youtube.com(DR99) |
+| 4 | **free puzzle game** | 5,000 | 1K-10K | 1,000 | 63.6 | **16** | 低 | apps.apple.com(DR97), poki.com(DR79) |
+| 5 | **light up game** | 500 | 100-1K | 100 | 24.4 | **4** | 中 | puzzle-light-up.com(DR34), brainbashers.com(DR56) |
+| 6 | **light up puzzle** | 500 | 100-1K | 100 | 31.1 | **3** | 中 | puzzle-light-up.com(DR34), brainbashers.com(DR56) |
+| 7 | **akari puzzle** | 500 | 100-1K | 100 | 32.2 | **3** | 低 | puzzle-light-up.com(DR34), dailyakari.com(DR14) |
+| 8 | **browser puzzle game** | 500 | 100-1K | 100 | 39 | **3** | 低 | reddit.com(DR95), crazygames.com(DR81) |
+| 9 | **cat puzzle game** | 500 | 100-1K | 100 | 43.2 | **2** | 高 | apps.apple.com, reddit.com |
+| 10 | **akari online** | 50 | 10-100 | 10 | 15.7 | **1** | 低 | dailyakari.com(DR14), thinkygames.com(DR47) |
+| 11 | **cat puzzle online** | 50 | 10-100 | 10 | 16.7 | **1** | 中 | play.google.com(DR99), jigsaw365.com(DR12) |
+| 12 | **akari light up** | 50 | 10-100 | 10 | 38.7 | **0.3** | 低 | puzzle-light-up.com(DR34), dailyakari.com(DR14) |
+| 13 | **cat logic puzzle** | 50 | 10-100 | 10 | 33.4 | **0.3** | 低 | amazon.com, ravensburger.us(DR72) |
+| 14 | **puzzle game for cats** | 50 | 10-100 | 10 | 32 | **0.3** | 高 | play.google.com(DR99), reddit.com(DR95) |
 
 ---
 
 ## 💡 关键发现
 
-### ❌ Serpstat vs 真实数据对比
+### 1. KWP vs DataForSEO 搜索量对比
 
-| 关键词 | Serpstat KD | web.cafe KD | 差距 | Serpstat Vol | KWP Vol |
-|--------|-------------|-------------|------|-------------|---------|
-| online puzzle game | 6 | **68.7** | **11x** | 14,800 | 14,800 |
-| free puzzle game | 4 | **63.6** | **16x** | 8,100 | 8,100 |
-| puzzle game free | 4 | **77.5** | **19x** | 8,100 | 8,100 |
-| cat game online | 6 | **57.7** | **10x** | 3,600 | 3,600 |
-| akari puzzle | 2 | **32.2** | **16x** | 260 | 320 |
-| light up puzzle | 14 | **31.1** | **2x** | 590 | 590 |
+| 关键词 | KWP | DataForSEO | 差距 |
+|--------|-----|------------|------|
+| online puzzle game | **50,000** | 14,800 | 3.4x |
+| logic puzzle game | **50,000** | 14,800 | 3.4x |
+| free puzzle game | **5,000** | 8,100 | 0.6x |
+| cat game online | **5,000** | 3,600 | 1.4x |
+| light up puzzle | **500** | 590 | 0.85x |
+| akari puzzle | **500** | 320 | 1.6x |
 
-**结论**：Serpstat 的搜索量基本准确，但 **KD 严重低估**（10-19 倍）。按 Serpstat 做会踩大坑。
+**结论**：KWP 桶值更保守，DataForSEO 的精确值不可信。
+
+### 2. KDROI 排序（桶低值计算）
+
+| 排名 | 关键词 | KDROI | 说明 |
+|------|--------|-------|------|
+| 1 | logic puzzle game | **223** | 最高！但意图偏广 |
+| 2 | online puzzle game | **146** | 高！但 KD 68.7 |
+| 3 | cat game online | 17 | 中等 |
+| 4 | free puzzle game | 16 | 中等 |
+| 5 | light up game | **4** | 最佳品类词！ |
+| 6 | light up puzzle | 3 | 品类核心词 |
+| 7 | akari puzzle | 3 | 品类核心词 |
+
+### 3. 竞争格局
+
+**高竞争（KD > 50）**：
+- online puzzle game (KD 68.7) — crazygames.com DR81
+- free puzzle game (KD 63.6) — poki/apps.apple DR97
+- cat game online (KD 57.7) — poki DR79
+
+**中竞争（KD 30-50）**：
+- logic puzzle game (KD 44.9) — puzzlebaron DR51
+- cat puzzle game (KD 43.2) — apps.apple DR97
+- browser puzzle game (KD 39) — reddit DR95
+- akari light up (KD 38.7) — puzzle-light-up DR34
+- cat logic puzzle (KD 33.4) — amazon DR96
+- akari puzzle (KD 32.2) — dailyakari DR14
+- puzzle game for cats (KD 32) — play.google DR99
+- light up puzzle (KD 31.1) — puzzle-light-up DR34
+
+**低竞争（KD < 30）**：
+- light up game (KD 24.4) — puzzle-light-up DR34 ✅
+- cat puzzle online (KD 16.7) — jigsaw365 DR12 ✅
+- akari online (KD 15.7) — dailyakari DR14 ✅
 
 ---
 
 ## 🎯 策略分层
 
-### 🔴 第一梯队：主攻（KD < 35 + 意图匹配）
+### 🔴 第一梯队：主攻（KD < 35 + 意图匹配 + 搜索量 100+）
 
-| 关键词 | 搜索量 | KD | 竞争对手 | 承接页 | 策略 |
-|--------|--------|-----|----------|--------|------|
-| **light up game** | 480 | 24.4 | puzzle-light-up.com(DR34) | /light-up-puzzle | 直接竞争 |
-| **light up puzzle** | 590 | 31.1 | puzzle-light-up.com(DR34) | /light-up-puzzle | 直接竞争 |
-| **akari puzzle** | 320 | 32.2 | dailyakari.com(DR14) | /akari-puzzle | 弱站真空 |
+| 关键词 | 搜索量 | KD | KDROI | 竞争对手 | 承接页 |
+|--------|--------|-----|-------|----------|--------|
+| **light up game** | 500 | **24.4** | 4 | puzzle-light-up.com(DR34) | /light-up-puzzle |
+| **light up puzzle** | 500 | **31.1** | 3 | puzzle-light-up.com(DR34) | /light-up-puzzle |
+| **akari puzzle** | 500 | **32.2** | 3 | dailyakari.com(DR14) | /akari-puzzle |
 
 **为什么这 3 个是核心**：
 - KD < 35，新站可排
+- 搜索量 500（100-1K 桶）
 - 意图完美匹配（就是 Akari/Light Up 游戏）
 - 竞争对手 DR 不高（DR14-34）
-- 搜索量稳定（100-1K 桶）
 
 ### 🟡 第二梯队：语义覆盖（KD 35-50）
 
 | 关键词 | 搜索量 | KD | 策略 |
 |--------|--------|-----|------|
-| **cat puzzle game** | 390 | 43.2 | 品类词页 + 首页语义覆盖 |
-| **logic puzzle game** | 14,800 | 44.9 | 首页 FAQ 语义覆盖 |
-| **browser puzzle game** | 480 | 39 | 首页语义覆盖 |
-| **akari light up** | 20 | 38.7 | 品类词页内链 |
+| **logic puzzle game** | 50,000 | 44.9 | 首页 FAQ 语义覆盖 |
+| **cat puzzle game** | 500 | 43.2 | 品类词页 + 首页语义覆盖 |
+| **browser puzzle game** | 500 | 39 | 首页语义覆盖 |
+| **akari light up** | 50 | 38.7 | 品类词页内链 |
+| **cat logic puzzle** | 50 | 33.4 | 品类词页覆盖 |
 
 ### 🔴 第三梯队：暂不主攻（KD > 50）
 
 | 关键词 | 搜索量 | KD | 原因 |
 |--------|--------|-----|------|
-| **online puzzle game** | 14,800 | 68.7 | crazygames.com(DR81) 垄断 |
-| **free puzzle game** | 8,100 | 63.6 | poki/apps.apple(DR97) 垄断 |
-| **puzzle game free** | 8,100 | 77.5 | 最难，巨头垄断 |
-| **cat game online** | 3,600 | 57.7 | poki(DR79)/youtube(DR99) 垄断 |
+| **online puzzle game** | 50,000 | 68.7 | crazygames.com(DR81) 垄断 |
+| **free puzzle game** | 5,000 | 63.6 | poki/apps.apple(DR97) 垄断 |
+| **cat game online** | 5,000 | 57.7 | poki(DR79)/youtube(DR99) 垄断 |
 
 ### ⚪ 长尾词（搜索量 < 100）
 
 | 关键词 | 搜索量 | KD | 策略 |
 |--------|--------|-----|------|
-| **cat puzzle online** | 30 | 16.7 | 品类词页覆盖 |
-| **akari online** | 10 | 15.7 | 品类词页覆盖 |
-| **cat logic puzzle** | 10 | 33.4 | 品类词页覆盖 |
-| **akari light up** | 20 | 38.7 | 品类词页覆盖 |
-| **puzzle game for cats** | 20 | 32 | 语义覆盖 |
+| **akari online** | 50 | 15.7 | 品类词页覆盖 |
+| **cat puzzle online** | 50 | 16.7 | 品类词页覆盖 |
+| **akari light up** | 50 | 38.7 | 品类词页覆盖 |
+| **cat logic puzzle** | 50 | 33.4 | 品类词页覆盖 |
+| **puzzle game for cats** | 50 | 32 | 语义覆盖 |
 
 ---
 
@@ -181,9 +214,9 @@
 | 数据源 | 可信度 | 说明 |
 |--------|--------|------|
 | web.cafe KD | ✅ 唯一可信 | 哥飞版，逐词查询 |
-| DataForSEO Vol | ✅ 可信 | Google Ads API，美国区 |
+| KWP 搜索量 | ✅ 唯一可信 | Google Keyword Planner，美国区，桶值 |
+| DataForSEO Vol | ❌ 不可信 | 与 KWP 差距大 |
 | Serpstat KD | ❌ 禁用 | 偏差 10-19 倍 |
-| Serpstat Vol | ⚠️ 参考 | 与 KWP 基本一致 |
 
 ---
 

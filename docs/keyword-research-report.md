@@ -1,132 +1,114 @@
-# MeowTrail 关键词研究报告
+# MeowTrail 关键词研究报告（修正版）
 
 ## 📊 数据来源
-- **搜索量**：Serpstat (Google US)
-- **KD**：Serpstat Difficulty (0-100)
+- **KD**：web.cafe/kd（哥飞版，唯一可信 KD 源）
+- **搜索量**：DataForSEO Google Ads API（美国区，12 月均值）
 - **KDROI**：搜索量 / KD（桶低值估算）
 
 ---
 
-## 🎯 关键词分类
+## 🎯 完整数据表（按 KDROI 排序）
 
-### 1️⃣ 高价值核心词（KDROI > 100）
-
-| 关键词 | 月搜索量 | KD | KDROI | 意图匹配 | 建议 |
-|--------|----------|-----|-------|----------|------|
-| **online puzzle game** | 14,800 | 6 | 2,467 | ✅ 高 | 首页主攻词 |
-| **free puzzle game** | 8,100 | 4 | 2,025 | ✅ 高 | 首页副词 |
-| **puzzle game free** | 8,100 | 4 | 2,025 | ✅ 高 | 首页副词 |
-| **cat game online** | 3,600 | 6 | 600 | ✅ 高 | 品类词页 |
-| **light up puzzle** | 590 | 14 | 42 | ✅ 高 | 品类词页 |
-| **light up game** | 480 | 12 | 40 | ✅ 高 | 品类词页 |
-| **akari puzzle** | 260 | 2 | 130 | ✅ 高 | 品类词页 |
-
-### 2️⃣ 中价值长尾词（KDROI 10-100）
-
-| 关键词 | 月搜索量 | KD | KDROI | 意图匹配 | 建议 |
-|--------|----------|-----|-------|----------|------|
-| **cat puzzle game** | 320 | 17 | 19 | ✅ 高 | 品类词页 |
-| **browser puzzle game** | 480 | 67 | 7 | ⚠️ 中 | 竞争激烈，暂不主攻 |
-| **cat puzzle online** | 40 | 5 | 8 | ✅ 高 | 长尾词 |
-| **puzzle game for cats** | 20 | 1 | 20 | ⚠️ 中 | 语义覆盖 |
-
-### 3️⃣ 低价值/待观察词
-
-| 关键词 | 月搜索量 | KD | KDROI | 意图匹配 | 建议 |
-|--------|----------|-----|-------|----------|------|
-| **logic puzzle game** | 14,800 | 34 | 435 | ⚠️ 中 | 意图偏广，竞争激烈 |
-| **akari online** | 10 | N/A | N/A | ✅ 高 | 搜索量太低 |
-| **akari light up** | 20 | N/A | N/A | ✅ 高 | 搜索量太低 |
-| **cat logic puzzle** | 10 | N/A | N/A | ✅ 高 | 搜索量太低 |
+| 排名 | 关键词 | 搜索量 | 搜索量桶 | KD | KDROI | Top3 竞争对手 | 意图匹配 |
+|------|--------|--------|----------|-----|-------|--------------|----------|
+| 1 | **logic puzzle game** | 14,800 | 10K-100K | 44.9 | 330 | logic.puzzlebaron.com(DR51), play.google.com(DR99) | ⚠️ 中 |
+| 2 | **online puzzle game** | 14,800 | 10K-100K | 68.7 | 215 | crazygames.com(DR81), jigsawexplorer.com(DR68) | ✅ 高 |
+| 3 | **free puzzle game** | 8,100 | 1K-10K | 63.6 | 127 | apps.apple.com(DR97), poki.com(DR79) | ✅ 高 |
+| 4 | **puzzle game free** | 8,100 | 1K-10K | 77.5 | 105 | apps.apple.com(DR97), poki.com(DR79) | ✅ 高 |
+| 5 | **cat game online** | 3,600 | 1K-10K | 57.7 | 62 | poki.com(DR79), youtube.com(DR99) | ✅ 高 |
+| 6 | **light up game** | 480 | 100-1K | 24.4 | 20 | puzzle-light-up.com(DR34), brainbashers.com(DR56) | ✅ 高 |
+| 7 | **light up puzzle** | 590 | 100-1K | 31.1 | 19 | puzzle-light-up.com(DR34), brainbashers.com(DR56) | ✅ 高 |
+| 8 | **browser puzzle game** | 480 | 100-1K | 39 | 12 | reddit.com(DR95), crazygames.com(DR81) | ⚠️ 中 |
+| 9 | **akari puzzle** | 320 | 100-1K | 32.2 | 10 | puzzle-light-up.com(DR34), dailyakari.com(DR14) | ✅ 高 |
+| 10 | **cat puzzle game** | 390 | 100-1K | 43.2 | 9 | apps.apple.com, reddit.com | ✅ 高 |
+| 11 | **cat puzzle online** | 30 | 10-100 | 16.7 | 2 | play.google.com(DR99), jigsaw365.com(DR12) | ✅ 高 |
+| 12 | **akari online** | 10 | 10-100 | 15.7 | 1 | dailyakari.com(DR14), thinkygames.com(DR47) | ✅ 高 |
+| 13 | **akari light up** | 20 | 10-100 | 38.7 | 1 | puzzle-light-up.com(DR34), dailyakari.com(DR14) | ✅ 高 |
+| 14 | **puzzle game for cats** | 20 | 10-100 | 32 | 1 | play.google.com(DR99), reddit.com(DR95) | ⚠️ 中 |
+| 15 | **cat logic puzzle** | 10 | 10-100 | 33.4 | 0.3 | amazon.com, ravensburger.us(DR72) | ✅ 高 |
 
 ---
 
-## 📈 KDROI 排序（Top 10）
+## 💡 关键发现
 
-| 排名 | 关键词 | KDROI | 月搜索量 | KD |
-|------|--------|-------|----------|-----|
-| 1 | online puzzle game | 2,467 | 14,800 | 6 |
-| 2 | free puzzle game | 2,025 | 8,100 | 4 |
-| 3 | puzzle game free | 2,025 | 8,100 | 4 |
-| 4 | cat game online | 600 | 3,600 | 6 |
-| 5 | logic puzzle game | 435 | 14,800 | 34 |
-| 6 | akari puzzle | 130 | 260 | 2 |
-| 7 | cat puzzle game | 19 | 320 | 17 |
-| 8 | puzzle game for cats | 20 | 20 | 1 |
-| 9 | light up puzzle | 42 | 590 | 14 |
-| 10 | light up game | 40 | 480 | 12 |
+### ❌ Serpstat vs 真实数据对比
+
+| 关键词 | Serpstat KD | web.cafe KD | 差距 | Serpstat Vol | KWP Vol |
+|--------|-------------|-------------|------|-------------|---------|
+| online puzzle game | 6 | **68.7** | **11x** | 14,800 | 14,800 |
+| free puzzle game | 4 | **63.6** | **16x** | 8,100 | 8,100 |
+| puzzle game free | 4 | **77.5** | **19x** | 8,100 | 8,100 |
+| cat game online | 6 | **57.7** | **10x** | 3,600 | 3,600 |
+| akari puzzle | 2 | **32.2** | **16x** | 260 | 320 |
+| light up puzzle | 14 | **31.1** | **2x** | 590 | 590 |
+
+**结论**：Serpstat 的搜索量基本准确，但 **KD 严重低估**（10-19 倍）。按 Serpstat 做会踩大坑。
 
 ---
 
-## 🎯 意图匹配分析
+## 🎯 策略分层
 
-### ✅ 高意图匹配（直接承接）
+### 🔴 第一梯队：主攻（KD < 35 + 意图匹配）
 
-**1. "online puzzle game" (14,800/月)**
-- **意图**：用户想找在线玩的 puzzle 游戏
-- **匹配度**：✅ 100% — MeowTrail 就是在线 puzzle 游戏
-- **承接页**：首页 `/`
-- **竞争**：KD 6，非常低，新站可排
+| 关键词 | 搜索量 | KD | 竞争对手 | 承接页 | 策略 |
+|--------|--------|-----|----------|--------|------|
+| **light up game** | 480 | 24.4 | puzzle-light-up.com(DR34) | /light-up-puzzle | 直接竞争 |
+| **light up puzzle** | 590 | 31.1 | puzzle-light-up.com(DR34) | /light-up-puzzle | 直接竞争 |
+| **akari puzzle** | 320 | 32.2 | dailyakari.com(DR14) | /akari-puzzle | 弱站真空 |
 
-**2. "free puzzle game" (8,100/月)**
-- **意图**：用户想找免费 puzzle 游戏
-- **匹配度**：✅ 100% — MeowTrail 完全免费
-- **承接页**：首页 `/`
-- **竞争**：KD 4，非常低
+**为什么这 3 个是核心**：
+- KD < 35，新站可排
+- 意图完美匹配（就是 Akari/Light Up 游戏）
+- 竞争对手 DR 不高（DR14-34）
+- 搜索量稳定（100-1K 桶）
 
-**3. "cat game online" (3,600/月)**
-- **意图**：用户想找在线猫咪游戏
-- **匹配度**：✅ 90% — MeowTrail 是猫咪主题
-- **承接页**：品类词页 `/cat-logic-puzzle`
-- **竞争**：KD 6，低
+### 🟡 第二梯队：语义覆盖（KD 35-50）
 
-**4. "light up puzzle" (590/月)**
-- **意图**：用户想找 Light Up 类型的 puzzle
-- **匹配度**：✅ 100% — MeowTrail 就是 Akari/Light Up
-- **承接页**：品类词页 `/light-up-puzzle`
-- **竞争**：KD 14，中等
+| 关键词 | 搜索量 | KD | 策略 |
+|--------|--------|-----|------|
+| **cat puzzle game** | 390 | 43.2 | 品类词页 + 首页语义覆盖 |
+| **logic puzzle game** | 14,800 | 44.9 | 首页 FAQ 语义覆盖 |
+| **browser puzzle game** | 480 | 39 | 首页语义覆盖 |
+| **akari light up** | 20 | 38.7 | 品类词页内链 |
 
-**5. "akari puzzle" (260/月)**
-- **意图**：用户想找 Akari 类型的 puzzle
-- **匹配度**：✅ 100% — MeowTrail 就是 Akari
-- **承接页**：品类词页 `/akari-puzzle`
-- **竞争**：KD 2，极低
+### 🔴 第三梯队：暂不主攻（KD > 50）
 
-### ⚠️ 中意图匹配（语义覆盖）
+| 关键词 | 搜索量 | KD | 原因 |
+|--------|--------|-----|------|
+| **online puzzle game** | 14,800 | 68.7 | crazygames.com(DR81) 垄断 |
+| **free puzzle game** | 8,100 | 63.6 | poki/apps.apple(DR97) 垄断 |
+| **puzzle game free** | 8,100 | 77.5 | 最难，巨头垄断 |
+| **cat game online** | 3,600 | 57.7 | poki(DR79)/youtube(DR99) 垄断 |
 
-**6. "logic puzzle game" (14,800/月)**
-- **意图**：用户想找逻辑 puzzle 游戏（广义）
-- **匹配度**：⚠️ 70% — MeowTrail 是逻辑 puzzle，但不是唯一类型
-- **承接页**：首页 + 品类词页
-- **竞争**：KD 34，中等偏高
-- **建议**：语义覆盖，不主攻
+### ⚪ 长尾词（搜索量 < 100）
 
-**7. "browser puzzle game" (480/月)**
-- **意图**：用户想找浏览器 puzzle 游戏
-- **匹配度**：⚠️ 80% — MeowTrail 是浏览器游戏
-- **承接页**：首页
-- **竞争**：KD 67，高
-- **建议**：竞争激烈，暂不主攻
+| 关键词 | 搜索量 | KD | 策略 |
+|--------|--------|-----|------|
+| **cat puzzle online** | 30 | 16.7 | 品类词页覆盖 |
+| **akari online** | 10 | 15.7 | 品类词页覆盖 |
+| **cat logic puzzle** | 10 | 33.4 | 品类词页覆盖 |
+| **akari light up** | 20 | 38.7 | 品类词页覆盖 |
+| **puzzle game for cats** | 20 | 32 | 语义覆盖 |
 
 ---
 
 ## 🚀 行动建议
 
-### 🔴 P0：立即执行（本周）
+### 🔴 P0：本周执行
 
 **1. 首页 Title 优化**
 ```
 当前：MeowTrail — Play Light Up Puzzle Online Free | Cat Logic Game
-建议：MeowTrail — Free Online Puzzle Game | Cat Logic Puzzle
+建议：MeowTrail — Free Light Up Puzzle Game | Akari Cat Puzzle
 ```
-**理由**：覆盖 "online puzzle game" + "free puzzle game" + "cat game online"
+**理由**：主攻 "light up puzzle" + "akari puzzle"，放弃高竞争的 "online puzzle game"
 
 **2. 首页 Description 优化**
 ```
 当前：Play MeowTrail, a free Light Up (Akari) puzzle game with cats...
-建议：Play MeowTrail, a free online puzzle game with cute cats. Place glowing cats on a grid, follow numbered clues, illuminate every cell. No download needed.
+建议：Play MeowTrail, a free Light Up puzzle game with cute cats. Solve Akari puzzles online — place glowing cats, follow numbered clues, illuminate every cell. No download needed.
 ```
-**理由**：强化 "free online puzzle game" + "cats"
+**理由**：强化 "light up puzzle" + "akari puzzles"
 
 **3. 品类词页 Title 优化**
 - `/light-up-puzzle` → "Light Up Puzzle — Play Free Online | MeowTrail"
@@ -135,155 +117,74 @@
 
 ### 🟡 P1：本周执行
 
-**4. 内容扩展**
-- 首页 SEO 内容从 2277 词扩展到 3000+ 词
-- 添加 "What is an online puzzle game?" FAQ
-- 添加 "How to play cat puzzle game?" 教程
+**4. 首页 FAQ 添加**
+```html
+<details><summary>What is a light up puzzle?</summary>
+<p>A light up puzzle (also called Akari) is a logic puzzle where you place light bulbs to illuminate every white cell. MeowTrail is the cat-themed version — place glowing cats instead of bulbs!</p>
+</details>
+
+<details><summary>How do I play akari puzzle online?</summary>
+<p>Visit meowtrail.org and click any white cell to place a cat. Each cat lights up its entire row and column until blocked by a wall. Follow the numbered clues to solve the puzzle!</p>
+</details>
+```
 
 **5. 内链优化**
-- 首页链接到所有品类词页
+- 首页 → /light-up-puzzle, /akari-puzzle, /cat-logic-puzzle
 - 品类词页互相链接
-- 关卡页链接到相关品类词页
+- 关卡页 → 相关品类词页
 
 ### 🟢 P2：下周执行
 
-**6. 新品类词页**
-- `/browser-puzzle-game`（竞争激烈，但可尝试）
-- `/cat-game-online`（高搜索量）
-
-**7. 博客内容**
-- "Best Online Puzzle Games 2026"
-- "Why Cat Puzzle Games Are So Popular"
-- "How to Solve Light Up Puzzles"
-
----
-
-## 📊 竞争分析
-
-### 低竞争区（KD < 10）— 新站机会
-
-| 关键词 | KD | 搜索量 | 竞争对手 |
-|--------|-----|--------|----------|
-| online puzzle game | 6 | 14,800 | 无强站垄断 |
-| free puzzle game | 4 | 8,100 | 无强站垄断 |
-| cat game online | 6 | 3,600 | 无强站垄断 |
-| akari puzzle | 2 | 260 | 无强站垄断 |
-
-### 中竞争区（KD 10-30）— 需要内容深度
-
-| 关键词 | KD | 搜索量 | 竞争对手 |
-|--------|-----|--------|----------|
-| light up puzzle | 14 | 590 | 需要深度内容 |
-| cat puzzle game | 17 | 320 | 需要差异化 |
-| light up game | 12 | 480 | 需要深度内容 |
-
-### 高竞争区（KD > 30）— 暂不主攻
-
-| 关键词 | KD | 搜索量 | 竞争对手 |
-|--------|-----|--------|----------|
-| logic puzzle game | 34 | 14,800 | 强站垄断 |
-| browser puzzle game | 67 | 480 | 强站垄断 |
-
----
-
-## 🎯 优先级排序
-
-### 最高优先级（KDROI > 1000）
-
-1. **online puzzle game** — KDROI 2,467，首页主攻
-2. **free puzzle game** — KDROI 2,025，首页副词
-3. **puzzle game free** — KDROI 2,025，首页副词
-
-### 高优先级（KDROI 100-1000）
-
-4. **cat game online** — KDROI 600，品类词页
-5. **logic puzzle game** — KDROI 435，语义覆盖
-6. **akari puzzle** — KDROI 130，品类词页
-
-### 中优先级（KDROI 10-100）
-
-7. **light up puzzle** — KDROI 42，品类词页
-8. **light up game** — KDROI 40，品类词页
-9. **cat puzzle game** — KDROI 19，品类词页
+**6. 博客内容**
+- "How to Solve Light Up Puzzles: Complete Guide"
+- "What is Akari? The History of Light Up Puzzles"
+- "Best Cat Puzzle Games Online (2026)"
 
 ---
 
 ## 📈 预期效果
 
 ### 1 个月后
-
-- 首页排名 "online puzzle game" 前 20
-- 首页排名 "free puzzle game" 前 20
-- 品类词页排名 "akari puzzle" 前 10
+- 排名 "light up puzzle" 前 20（KD 31.1，可竞争）
+- 排名 "akari puzzle" 前 10（KD 32.2，弱站真空）
+- 排名 "light up game" 前 20（KD 24.4，最低 KD）
 
 ### 3 个月后
-
-- 首页排名 "online puzzle game" 前 10
-- 首页排名 "free puzzle game" 前 10
-- 品类词页排名 "light up puzzle" 前 10
-- 自然流量增长 500%
+- 排名 "light up puzzle" 前 10
+- 排名 "akari puzzle" 前 5
+- 排名 "light up game" 前 10
+- 自然流量增长 200-500%
 
 ### 6 个月后
-
+- 品类词全面覆盖
+- 开始挑战 "cat puzzle game"（KD 43.2）
 - 品牌词 "MeowTrail" 搜索量增长
-- 长尾词覆盖 50+ 个
-- 自然流量增长 1000%
 
 ---
 
-## 💡 关键洞察
+## ⚠️ 重要提醒
 
-### 1. 蓝海机会
+### 不要做的事
+1. **不要主攻 "online puzzle game"**（KD 68.7）— crazygames.com DR81 垄断
+2. **不要主攻 "free puzzle game"**（KD 63.6）— poki/apps.apple DR97 垄断
+3. **不要铺大量低质量页面** — 哥飞"新站批量必死"铁律
 
-**"online puzzle game" + "free puzzle game"** 是最大的蓝海机会：
-- 搜索量高（14,800 + 8,100）
-- 竞争极低（KD 6 + KD 4）
-- 意图完美匹配
-- 新站可排
-
-### 2. 差异化优势
-
-MeowTrail 的差异化优势：
-- 猫咪主题（独特卖点）
-- 免费在线玩（无下载）
-- 每日挑战（粘性）
-- 3D 粘土猫咪（视觉吸引力）
-
-### 3. 内容策略
-
-**不要**：
-- 追求高搜索量但意图不匹配的词
-- 铺大量低质量页面
-- 主攻高竞争词
-
-**要**：
-- 主攻低竞争高意图词
-- 深度内容覆盖
-- 品牌词培养
+### 要做的事
+1. **主攻 akari/light up 品类词** — KD < 35，弱站真空
+2. **深度内容覆盖** — 每个品类词页 2000+ 词
+3. **品牌词培养** — MeowTrail 品牌搜索量
 
 ---
 
-## 📝 执行清单
+## 📊 数据验证
 
-### 本周
-
-- [ ] 优化首页 Title 和 Description
-- [ ] 优化品类词页 Title
-- [ ] 扩展首页 SEO 内容到 3000+ 词
-- [ ] 添加 "What is an online puzzle game?" FAQ
-
-### 下周
-
-- [ ] 创建 `/cat-game-online` 品类词页
-- [ ] 添加内链优化
-- [ ] 开始博客内容计划
-
-### 本月
-
-- [ ] 监控关键词排名
-- [ ] 分析 CTR 数据
-- [ ] 优化低 CTR 页面
+| 数据源 | 可信度 | 说明 |
+|--------|--------|------|
+| web.cafe KD | ✅ 唯一可信 | 哥飞版，逐词查询 |
+| DataForSEO Vol | ✅ 可信 | Google Ads API，美国区 |
+| Serpstat KD | ❌ 禁用 | 偏差 10-19 倍 |
+| Serpstat Vol | ⚠️ 参考 | 与 KWP 基本一致 |
 
 ---
 
-**MeowTrail 的关键词策略：主攻低竞争高意图词，培养品牌词，深度内容覆盖。** 🚀
+**MeowTrail 的关键词策略：主攻 akari/light up 品类词（KD < 35），放弃高竞争 generic 词，深度内容覆盖。** 🚀

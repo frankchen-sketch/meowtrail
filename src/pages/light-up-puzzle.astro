@@ -80,53 +80,78 @@ const description = "Play Light Up puzzle online free. Place glowing cats on a g
     </div>
     <section class="seo-content">
       <h2>What Is a Light Up Puzzle?</h2>
-      <p>A <strong>Light Up puzzle</strong> (also known as <strong>Akari</strong>) is a logic puzzle where you place light bulbs on a grid to illuminate every white cell. Each bulb sends light in four directions — up, down, left, and right — until it hits a black wall. Numbered black cells tell you exactly how many bulbs must be placed in their four adjacent cells. No two bulbs can see each other in the same row or column.</p>
-      <p>Light Up puzzles were created by <a href="https://www.nikoli.co.jp/en/">Nikoli</a>, the Japanese puzzle publisher behind Sudoku. They're a pure <strong>spatial reasoning</strong> puzzle — no math required, just logical deduction about lines of sight and adjacency.</p>
+      <p>A <strong>light up puzzle</strong> is a grid-based logic puzzle where your goal is to place light bulbs (or, in MeowTrail's case, glowing cats) on a grid so that every white cell is illuminated. Each light source sends beams in four cardinal directions — up, down, left, and right — until the beam hits a black wall or the edge of the grid. Black cells may contain numbers from 0 to 4, indicating exactly how many light bulbs must be placed in the four orthogonally adjacent cells. The catch: no two bulbs can see each other along the same row or column without a wall blocking their line of sight.</p>
+      <p>This type of <strong>logic puzzle</strong> is also widely known as <strong>Akari</strong> (あかり, Japanese for "light"). It was created by <a href="https://www.nikoli.co.jp/en/">Nikoli</a>, the legendary Japanese puzzle publisher that also brought Sudoku to the world. Unlike number-based puzzles, a light up game relies entirely on <strong>spatial reasoning</strong> — you think in terms of lines of sight, adjacency, and illumination rather than arithmetic. That makes it accessible to players of all ages, including those who say they "aren't good at math."</p>
+      <p>MeowTrail reimagines the classic <strong>light up puzzle</strong> with a cozy cat theme. Instead of cold light bulbs, you place adorable glowing cats that cast warm golden light across the grid. The rules are identical to traditional Akari, but the visuals make the experience feel more like play than homework.</p>
+
       <h2>How to Play Light Up Puzzles Online</h2>
+      <p>Playing a <strong>light up puzzle</strong> online on MeowTrail is simple and intuitive. Here is a step-by-step walkthrough:</p>
       <ol>
-        <li><strong>Click a white cell</strong> to place a glowing cat (your light source). Click again to remove it.</li>
-        <li>Each cat <strong>illuminates its entire row and column</strong> until blocked by a black wall.</li>
-        <li><strong>Numbered black cells</strong> are your clues. A "2" means exactly 2 of its 4 adjacent cells must contain cats.</li>
-        <li><strong>No two cats can see each other</strong> — if two cats share a row or column with no wall between them, that's illegal.</li>
-        <li><strong>Light up every white cell</strong> to win.</li>
+        <li><strong>Click a white cell</strong> to place a glowing cat (your light source). Click the same cell again to remove it.</li>
+        <li>Each cat <strong>illuminates its entire row and column</strong> until the light hits a black wall or the grid boundary. Illuminated cells turn a warm golden color.</li>
+        <li><strong>Numbered black cells</strong> are your clues. A "2" means exactly 2 of its 4 adjacent (up, down, left, right) cells must contain cats. A "0" means none of its neighbors can have a cat.</li>
+        <li><strong>No two cats can see each other</strong> — if two cats share the same row or column with no wall between them, that placement is illegal and the grid will warn you.</li>
+        <li><strong>Light up every white cell</strong> on the board to win the puzzle.</li>
       </ol>
-      <p>On mobile, <strong>long-press</strong> a cell to mark it with a paw print — useful for noting cells you know can't have cats.</p>
-      <h2>Light Up Puzzle Strategy</h2>
+      <p>On mobile devices, <strong>long-press</strong> a cell to mark it with a paw print. This is useful for tracking cells you have logically determined cannot contain a cat — a key technique in harder puzzles. On desktop, right-click or double-click to toggle the paw mark.</p>
+
+      <h2>History of Light Up Puzzles</h2>
+      <p>The <strong>light up puzzle</strong> was first published by <a href="https://www.nikoli.co.jp/en/">Nikoli</a> in 2001 under the Japanese name "Akari." Nikoli has been inventing and refining logic puzzles since 1980, and their editorial philosophy is strict: every puzzle must have a unique solution that can be reached through pure logical deduction alone — no guessing, no trial and error, no luck.</p>
+      <p>Akari joined Nikoli's roster of iconic puzzles alongside Sudoku (popularized worldwide in 2004), Kakuro (cross-sum puzzles), Slitherlink (loop-drawing), and Nonograms (pixel art by numbers). While Sudoku captured the global spotlight, Akari quietly built a devoted following among players who preferred <strong>spatial reasoning</strong> over number manipulation.</p>
+      <p>The puzzle spread internationally through puzzle magazines, newspaper syndication, and eventually online puzzle sites. Today, you can find <strong>light up puzzles</strong> on dozens of websites, but MeowTrail stands out by wrapping the classic Akari experience in a warm, cat-themed visual layer. The core mechanics remain faithful to Nikoli's original design — the only difference is that your light sources are adorable glowing cats.</p>
+      <p>Akari's enduring appeal comes from its elegant simplicity. The rules fit in a single paragraph, yet the deduction chains can be surprisingly deep. A well-constructed <strong>light up puzzle</strong> rewards patience and careful observation, making it a favorite among logic puzzle enthusiasts who enjoy the meditative flow of systematic elimination.</p>
+      <p>Today, the <strong>light up puzzle</strong> genre has expanded far beyond its Nikoli origins. Variations include different grid sizes, irregular shapes, and themed versions like MeowTrail's cat edition. But the core mechanic — placing light sources to illuminate a grid while respecting numbered constraints — remains one of the most satisfying puzzle designs ever created. Whether you call it Akari or Light Up, the experience of watching a dark grid fill with light, one logical deduction at a time, is uniquely rewarding.</p>
+
+      <h2>Tips &amp; Strategies for Light Up Puzzles</h2>
       <h3>Start with Extremes</h3>
+      <p>The fastest way to begin any <strong>light up puzzle</strong> is to scan for extreme clues:</p>
       <ul>
-        <li><strong>"4" cells</strong> — all four neighbors must be cats. Place them immediately.</li>
-        <li><strong>"0" cells</strong> — none of its neighbors can have cats. Mark all four neighbors right away.</li>
-        <li><strong>Corners and edges</strong> — corner cells can only be lit from two directions, making them easier to solve.</li>
+        <li><strong>"4" cells</strong> — all four neighbors must contain cats. Place them immediately. This is the single most powerful starting move.</li>
+        <li><strong>"0" cells</strong> — none of its neighbors can have cats. Mark all four adjacent cells with paw prints right away to eliminate them from consideration.</li>
+        <li><strong>Corners and edges</strong> — a corner cell can only be lit from two directions, and an edge cell from three. These constrained positions often lead to forced placements early in the solve.</li>
       </ul>
-      <h3>Use Line-of-Sight</h3>
+      <h3>Master Line-of-Sight Elimination</h3>
+      <p>Every cat you place illuminates its entire row and column until blocked by a wall. This has two consequences:</p>
       <ul>
-        <li>Once you place a cat, every cell in its row and column (until a wall) is automatically lit and cannot hold another cat.</li>
-        <li>Look for cells that can only be lit from <strong>one remaining direction</strong> — those are forced placements.</li>
+        <li>All illuminated cells are <strong>automatically satisfied</strong> — they do not need another cat to light them.</li>
+        <li>No other cat can be placed in the same unobstructed row or column — doing so would create an illegal "cat conflict."</li>
       </ul>
+      <p>After placing each cat, scan the newly lit cells. If any unlit cell can now only be illuminated from <strong>one remaining direction</strong>, that direction must hold a cat. This "last remaining option" technique solves a surprising number of cells.</p>
+      <h3>Count Available Neighbors</h3>
+      <p>For numbered cells, count how many adjacent positions are still available (not blocked by a wall, not already occupied, and not illuminated by a conflicting cat). If a "3" cell has only three available neighbors left, all three must be cats. If a "2" cell already has two cat neighbors, mark the remaining neighbors as impossible.</p>
+      <h3>Use Hypothetical Deduction on Hard Puzzles</h3>
+      <p>On harder <strong>light up puzzles</strong>, simple constraint propagation may not be enough. Try this: pick a cell and mentally assume "a cat goes here." Follow the logical consequences — which cells become illuminated, which neighbors become impossible. If you reach a contradiction (a numbered cell gets too many cats, or an unlit cell becomes impossible to light), then your assumption was wrong and that cell cannot hold a cat. This technique separates intermediate solvers from experts.</p>
       <h3>Never Guess</h3>
-      <p>If you're stuck, you've missed a deduction. Go back and check every numbered cell — there's always a logical next step. Use the Hint button if you need a nudge.</p>
-      <h2>Light Up vs Sudoku</h2>
+      <p>If you feel stuck, you have likely missed a deduction. Go back and re-examine every numbered cell — check available neighbors, recount constraints. Every well-constructed <strong>light up puzzle</strong> has a logical next step. Use the Hint button on MeowTrail if you need a gentle nudge in the right direction.</p>
+
+      <h2>Light Up vs Sudoku: How Do They Compare?</h2>
+      <p>Both <strong>light up puzzles</strong> and Sudoku are Nikoli creations built on pure logic, but they exercise different cognitive skills:</p>
       <table style="width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.95rem;">
         <thead><tr style="border-bottom:2px solid #A888C8;text-align:left;"><th style="padding:.4rem;">Feature</th><th style="padding:.4rem;">Light Up (Akari)</th><th style="padding:.4rem;">Sudoku</th></tr></thead>
         <tbody>
           <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Reasoning type</td><td style="padding:.4rem;">Spatial + logical</td><td style="padding:.4rem;">Number logic</td></tr>
-          <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Math needed?</td><td style="padding:.4rem;">No</td><td style="padding:.4rem;">Basic (1-9)</td></tr>
+          <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Math needed?</td><td style="padding:.4rem;">No</td><td style="padding:.4rem;">Basic (1–9)</td></tr>
           <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Visual feedback</td><td style="padding:.4rem;">Cells light up in real time</td><td style="padding:.4rem;">None until complete</td></tr>
+          <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Grid size</td><td style="padding:.4rem;">Varies (7×7 to 12×12+)</td><td style="padding:.4rem;">Fixed 9×9</td></tr>
           <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Origin</td><td style="padding:.4rem;">Nikoli, Japan (2001)</td><td style="padding:.4rem;">Nikoli, Japan (1984)</td></tr>
-          <tr><td style="padding:.4rem;">Theme</td><td style="padding:.4rem;">🐱 Glowing cats</td><td style="padding:.4rem;">Numbers</td></tr>
+          <tr><td style="padding:.4rem;">Theme on MeowTrail</td><td style="padding:.4rem;">🐱 Glowing cats</td><td style="padding:.4rem;">Numbers</td></tr>
         </tbody>
       </table>
+      <p>If you enjoy Sudoku but want something that feels more visual and less numerical, the <strong>light up puzzle</strong> genre is an excellent next step. The real-time illumination feedback makes progress feel tangible — you can literally see the grid getting brighter as you solve. Many players who try a <strong>light up puzzle</strong> for the first time find themselves hooked by the satisfying loop of deduction and visual reward that no other logic puzzle quite matches.</p>
+
       <h2>FAQ</h2>
-      <details><summary>Is Light Up the same as Akari?</summary><p>Yes. "Akari" (あかり) is the original Japanese name by Nikoli. "Light Up" is the English localization. Same puzzle, same rules.</p></details>
-      <details><summary>Is this Light Up puzzle free?</summary><p>Yes. MeowTrail is completely free — no ads, no registration, no download. Just open and play.</p></details>
-      <details><summary>Can I play on my phone?</summary><p>Absolutely. The grid is fully responsive. Long-press to mark cells with paw prints on mobile.</p></details>
-      <details><summary>What if I get stuck?</summary><p>Use the Hint button to highlight a cell. You can also check <a href="/puzzle/puzzle-001">step-by-step solutions</a> to learn techniques.</p></details>
+      <details><summary>Is Light Up the same as Akari?</summary><p>Yes. "Akari" (あかり) is the original Japanese name given by Nikoli. "Light Up" is the English localization. Same puzzle, same rules, same logic. MeowTrail uses both names interchangeably.</p></details>
+      <details><summary>Is this light up puzzle free to play?</summary><p>Yes. MeowTrail is completely free — no ads, no registration, no download, no hidden paywalls. Just open the page and start solving.</p></details>
+      <details><summary>Can I play on my phone or tablet?</summary><p>Absolutely. The grid is fully responsive and adapts to any screen size. On mobile, long-press a cell to mark it with a paw print instead of placing a cat.</p></details>
+      <details><summary>What if I get stuck on a hard puzzle?</summary><p>Use the Hint button to highlight a cell that needs attention. You can also check <a href="/puzzle/puzzle-001">step-by-step solutions</a> to learn new techniques. Remember: every <strong>light up puzzle</strong> on MeowTrail has a unique solution reachable through pure logic — no guessing required.</p></details>
+      <details><summary>Are light up puzzles good for brain training?</summary><p>Yes. Regularly solving <strong>logic puzzles</strong> like Akari exercises spatial reasoning, pattern recognition, and deductive thinking. Many players find the meditative flow of illuminating a grid to be a relaxing form of mental exercise.</p></details>
+
       <h2>More from MeowTrail</h2>
       <ul>
         <li><a href="/">Play MeowTrail</a> — the main game with all difficulty levels</li>
-        <li><a href="/logic-puzzle">Logic Puzzle Guide</a> — what are logic puzzles</li>
-        <li><a href="/akari-puzzle">Akari Puzzle Guide</a> — history and advanced techniques</li>
-        <li><a href="/games-like-sudoku">Games Like Sudoku</a> — 10 alternatives to try</li>
+        <li><a href="/akari-puzzle">Akari Puzzle Guide</a> — deep dive into history and advanced techniques</li>
+        <li><a href="/cat-logic-puzzle">Cat Logic Puzzle</a> — beginner-friendly strategies with cat visuals</li>
+        <li><a href="/games-like-sudoku">Games Like Sudoku</a> — 10 logic puzzle alternatives to try</li>
       </ul>
     </section>
     <footer><p>MeowTrail — Light Up Puzzle Online · <a href="/" style="color:#8B7B8B">Play More</a></p></footer>

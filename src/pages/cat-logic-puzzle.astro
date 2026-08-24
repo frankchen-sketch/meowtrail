@@ -79,55 +79,106 @@ const description = "Play cat logic puzzles online free. Place glowing cats on a
     </div>
     <section class="seo-content">
       <h2>What Is a Cat Logic Puzzle?</h2>
-      <p>A <strong>cat logic puzzle</strong> is a grid-based deduction game inspired by the classic Japanese puzzle <strong>Akari</strong> (Light Up), created by <a href="https://www.nikoli.co.jp/en/">Nikoli</a>. In MeowTrail's cat-themed version, you place adorable glowing cats on a grid instead of light bulbs. Each cat illuminates its entire row and column until blocked by a wall. Your goal: light up every white cell while following numbered clues.</p>
-      <p>Unlike Sudoku, which relies on number placement, cat logic puzzles use <strong>spatial reasoning</strong>. You need to think about lines of sight, adjacency constraints, and elimination — all without any arithmetic. The cat theme makes it approachable and cozy, perfect for a relaxing brain workout.</p>
+      <p>A <strong>cat logic puzzle</strong> is a grid-based deduction game inspired by the classic Japanese puzzle Akari (Light Up), created by <a href="https://www.nikoli.co.jp/en/">Nikoli</a>. In MeowTrail's cat-themed version, you place adorable glowing cats on a grid instead of light bulbs. Each cat illuminates its entire row and column until blocked by a wall. Your goal: light up every white cell while following numbered clues on black walls.</p>
+      <p>Unlike Sudoku, which relies on number placement, a <strong>cat logic puzzle</strong> uses <strong>spatial reasoning</strong>. You think in terms of lines of sight, adjacency constraints, and elimination — all without any arithmetic. The cat theme makes it approachable and cozy, perfect for a relaxing <strong>brain training</strong> session. Whether you are a seasoned puzzle veteran or a complete beginner, the <strong>cat puzzle game</strong> format on MeowTrail offers a warm, inviting entry point into the world of logic puzzles.</p>
+      <p>The concept is simple: numbered black cells tell you how many of their four adjacent cells must contain cats. No two cats can see each other along the same row or column. Every white cell must be illuminated. That is the entire ruleset — but the deductions it enables can be surprisingly deep and satisfying.</p>
+
       <h2>How to Play Cat Logic Puzzles</h2>
+      <p>Playing a <strong>cat logic puzzle</strong> on MeowTrail is intuitive, even if you have never tried an Akari-style puzzle before:</p>
       <ol>
-        <li><strong>Click a white cell</strong> to place a glowing cat. Click again to remove it.</li>
-        <li>Each cat <strong>illuminates its entire row and column</strong> — light travels outward until it hits a black wall or the grid edge.</li>
-        <li><strong>Numbered black cells</strong> are your clues. A "2" means exactly 2 of its 4 adjacent cells must contain cats.</li>
-        <li><strong>No two cats can see each other</strong> — if two cats are in the same row or column with no wall between them, that's illegal.</li>
-        <li><strong>All white cells must be illuminated</strong> to win.</li>
+        <li><strong>Click a white cell</strong> to place a glowing cat. Click the same cell again to remove it.</li>
+        <li>Each cat <strong>illuminates its entire row and column</strong> — light travels outward until it hits a black wall or the grid edge. Illuminated cells glow with a warm golden color.</li>
+        <li><strong>Numbered black cells</strong> are your clues. A "2" means exactly 2 of its 4 adjacent cells must contain cats. A "0" means none of its neighbors can have a cat.</li>
+        <li><strong>No two cats can see each other</strong> — if two cats are in the same row or column with no wall between them, that placement is illegal and the grid will warn you.</li>
+        <li><strong>All white cells must be illuminated</strong> to win the puzzle.</li>
       </ol>
-      <h2>Cat Logic Puzzle Strategy Guide</h2>
-      <h3>Beginner: Start with Extremes</h3>
+      <p>On mobile, <strong>long-press</strong> a cell to mark it with a paw print — useful for noting cells you know cannot have cats. On desktop, right-click or double-click to toggle the paw mark. This annotation system is essential for harder puzzles where tracking impossibilities becomes critical.</p>
+
+      <h2>Why Cats Make Puzzles Better</h2>
+      <p>You might wonder: why add cats to a logic puzzle? The answer goes beyond aesthetics. The cat theme in this <strong>cat puzzle game</strong> serves several practical purposes that genuinely improve the solving experience:</p>
       <ul>
-        <li><strong>"4" cells</strong> — all four neighbors must be cats. Place them immediately.</li>
-        <li><strong>"0" cells</strong> — none of its neighbors can have cats. Mark all four neighbors right away.</li>
-        <li><strong>Work from corners and edges</strong> — corner cells can only be lit from two directions.</li>
+        <li><strong>Lower intimidation barrier</strong> — A grid full of cute cats looks like play, not homework. Players who might shy away from a "logic puzzle" happily engage with a "cat puzzle." This makes the <strong>cat logic puzzle</strong> format ideal for introducing friends and family to deduction games.</li>
+        <li><strong>Emotional warmth</strong> — The warm golden glow of illuminated cells and the round, friendly cat icons create a cozy atmosphere. This transforms solving from a stressful test into a meditative, calming activity. Many players describe the experience as "digital hygge."</li>
+        <li><strong>Better visual feedback</strong> — Cat icons are larger and more distinct than plain light bulb symbols, making it easier to scan the grid at a glance. The visual hierarchy (cats vs illuminated vs dark cells) is clearer with the cat theme than with traditional Akari graphics.</li>
+        <li><strong>Memorable identity</strong> — There are hundreds of generic Akari clones online. The cat theme gives MeowTrail a distinct personality that players remember and return to. A <strong>cat logic puzzle</strong> is not just another grid — it is a cozy world you step into.</li>
+      </ul>
+      <p>The cat theme also makes this <strong>logic puzzle</strong> more shareable. "I just solved a cat logic puzzle" is a more engaging social media post than "I completed a constraint satisfaction problem." The whimsical framing invites curiosity and lowers the social barrier to sharing puzzle achievements.</p>
+
+      <h2>Difficulty Levels</h2>
+      <p>MeowTrail offers three difficulty tiers for the <strong>cat logic puzzle</strong>, each designed for a different skill level:</p>
+      <table style="width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.95rem;">
+        <thead><tr style="border-bottom:2px solid #A888C8;text-align:left;"><th style="padding:.4rem;">Level</th><th style="padding:.4rem;">Grid</th><th style="padding:.4rem;">Techniques Needed</th><th style="padding:.4rem;">Best For</th></tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;"><strong>Easy</strong></td><td style="padding:.4rem;">7×7</td><td style="padding:.4rem;">Basic constraint checking only</td><td style="padding:.4rem;">Beginners, quick sessions, kids</td></tr>
+          <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;"><strong>Medium</strong></td><td style="padding:.4rem;">10×10</td><td style="padding:.4rem;">Propagation + 1–4 elimination steps</td><td style="padding:.4rem;">Intermediate solvers</td></tr>
+          <tr><td style="padding:.4rem;"><strong>Hard</strong></td><td style="padding:.4rem;">12×12</td><td style="padding:.4rem;">Propagation + multiple elimination chains</td><td style="padding:.4rem;">Experienced puzzlers seeking a challenge</td></tr>
+        </tbody>
+      </table>
+      <p>If you are new to the <strong>cat puzzle game</strong> format, start with Easy. The 7×7 grid has more numbered clues relative to its size, which means more forced placements and fewer dead ends. You will build intuition quickly. Once you can solve Easy puzzles without hints, move to Medium. Hard puzzles are for players who have mastered all the techniques in the strategy guide below.</p>
+
+      <h2>Strategy Guide for Cat Logic Puzzles</h2>
+      <h3>Beginner: Start with Extremes</h3>
+      <p>The fastest way to begin any <strong>cat logic puzzle</strong> is to scan for extreme clues:</p>
+      <ul>
+        <li><strong>"4" cells</strong> — all four neighbors must be cats. Place them immediately. This is the single most powerful starting move in any <strong>logic puzzle</strong> of this type.</li>
+        <li><strong>"0" cells</strong> — none of its neighbors can have cats. Mark all four adjacent cells with paw prints right away to eliminate them from consideration.</li>
+        <li><strong>Work from corners and edges</strong> — a corner cell can only be lit from two directions, and an edge cell from three. These constrained positions often lead to forced placements early in the solve.</li>
       </ul>
       <h3>Intermediate: Constraint Propagation</h3>
+      <p>Once you have placed all obvious cats from extreme clues, move to constraint propagation:</p>
       <ul>
-        <li><strong>Count remaining neighbors</strong> — if a "3" cell has two neighbors blocked, the remaining two must both be cats.</li>
-        <li><strong>Line-of-sight elimination</strong> — once you place a cat, every cell in its row and column cannot hold another cat.</li>
-        <li><strong>Shadow mapping</strong> — track illuminated cells. A cell that can only be lit from one direction is forced.</li>
+        <li><strong>Count remaining neighbors</strong> — if a "3" cell has two neighbors already blocked (by walls, paw marks, or conflicting cats), the remaining two must both be cats.</li>
+        <li><strong>Line-of-sight elimination</strong> — once you place a cat, every cell in its row and column cannot hold another cat. This often forces placements in distant parts of the grid.</li>
+        <li><strong>Shadow mapping</strong> — track which cells are illuminated. A dark cell that can only be lit from one remaining direction is a forced placement. This technique is the bread and butter of Medium puzzles.</li>
       </ul>
       <h3>Advanced: Elimination Reasoning</h3>
+      <p>On Hard <strong>cat logic puzzles</strong>, simple propagation may not be enough. Use these advanced techniques:</p>
       <ul>
-        <li><strong>Hypothetical deduction</strong> — if placing a cat at X leads to a contradiction, X must be empty.</li>
-        <li><strong>Chain reasoning</strong> — placing one cat forces or eliminates others. Follow the consequences.</li>
+        <li><strong>Hypothetical deduction</strong> — pick an undecided cell and mentally assume "a cat goes here." Propagate all consequences. If you reach a contradiction (a numbered cell gets too many cats, or a white cell becomes impossible to light), then your assumption was wrong and that cell cannot hold a cat.</li>
+        <li><strong>Chain reasoning</strong> — placing one cat forces or eliminates others in a cascade. Follow the consequences as far as they go before making your next move.</li>
+        <li><strong>Shadow map narrowing</strong> — for each undecided cell, track which directions could still illuminate it. As the grid fills in, the shadow map narrows until only one option remains.</li>
       </ul>
-      <h2>Why Cat Logic Puzzles Are Good for Your Brain</h2>
-      <p>Cat logic puzzles exercise <strong>spatial reasoning</strong>, <strong>logical deduction</strong>, and <strong>pattern recognition</strong>. Unlike timed games, Akari-style puzzles reward patience and careful thinking. The cozy cat theme adds emotional comfort, making it an ideal <strong>mindfulness exercise</strong> disguised as a game.</p>
+      <h3>Expert: Pattern Recognition</h3>
+      <p>After solving dozens of <strong>cat logic puzzles</strong>, you will start recognizing common patterns. A "2" cell in a corner with one wall neighbor almost always forces a specific configuration. A row of three consecutive white cells between two walls has limited valid arrangements. These pattern libraries build naturally through practice and dramatically speed up your solving.</p>
+
+      <h2>Why Cat Logic Puzzles Are Good for Brain Training</h2>
+      <p>A <strong>cat logic puzzle</strong> exercises multiple cognitive skills simultaneously, making it one of the most efficient forms of <strong>brain training</strong> available in a casual game format:</p>
+      <ul>
+        <li><strong>Spatial reasoning</strong> — you must visualize lines of sight across the entire grid, tracking which cells are illuminated and which remain dark.</li>
+        <li><strong>Logical deduction</strong> — every placement must be justified by a chain of reasoning. Guessing leads to contradictions; only logic leads to solutions.</li>
+        <li><strong>Pattern recognition</strong> — experienced solvers recognize common configurations instantly, building a mental library of puzzle patterns.</li>
+        <li><strong>Working memory</strong> — you must hold multiple constraints in mind simultaneously: which numbered cells are not yet satisfied, which cells are still dark, which positions are impossible.</li>
+        <li><strong>Patience and focus</strong> — unlike timed games, the <strong>cat puzzle game</strong> rewards careful, unhurried thinking. There is no clock, no penalty for taking your time.</li>
+      </ul>
+      <p>Research suggests that regularly engaging with <strong>logic puzzles</strong> like Akari-style games can help maintain cognitive flexibility and processing speed. The cozy cat theme adds an emotional comfort layer that makes the <strong>brain training</strong> feel like self-care rather than work. Many players describe their daily <strong>cat logic puzzle</strong> session as a form of meditation — focused, calming, and deeply satisfying when the final cat lights up the last dark cell.</p>
+
       <h2>Cat Logic Puzzle vs Other Puzzles</h2>
+      <p>How does the <strong>cat logic puzzle</strong> compare to other popular puzzle types?</p>
       <table style="width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.95rem;">
         <thead><tr style="border-bottom:2px solid #A888C8;text-align:left;"><th style="padding:.4rem;">Feature</th><th style="padding:.4rem;">Cat Logic Puzzle</th><th style="padding:.4rem;">Sudoku</th><th style="padding:.4rem;">Nonograms</th></tr></thead>
         <tbody>
           <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Core mechanic</td><td style="padding:.4rem;">Place cats, light cells</td><td style="padding:.4rem;">Fill numbers 1–9</td><td style="padding:.4rem;">Color cells by clues</td></tr>
           <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Reasoning type</td><td style="padding:.4rem;">Spatial + logical</td><td style="padding:.4rem;">Number logic</td><td style="padding:.4rem;">Counting + pattern</td></tr>
           <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Math needed?</td><td style="padding:.4rem;">No</td><td style="padding:.4rem;">Basic</td><td style="padding:.4rem;">Counting only</td></tr>
+          <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Visual feedback</td><td style="padding:.4rem;">Real-time illumination</td><td style="padding:.4rem;">None until complete</td><td style="padding:.4rem;">Picture emerges</td></tr>
+          <tr style="border-bottom:1px solid #E0D0F0;"><td style="padding:.4rem;">Stress level</td><td style="padding:.4rem;">Low (no timer)</td><td style="padding:.4rem;">Medium</td><td style="padding:.4rem;">Low</td></tr>
           <tr><td style="padding:.4rem;">Theme</td><td style="padding:.4rem;">🐱 Cats</td><td style="padding:.4rem;">Numbers</td><td style="padding:.4rem;">Pictures</td></tr>
         </tbody>
       </table>
+      <p>The <strong>cat logic puzzle</strong> stands out for its combination of zero math, real-time visual feedback, and low stress. There is no timer, no score, no competition — just you and the grid. The cat theme makes it uniquely inviting among <strong>logic puzzle</strong> options.</p>
+
       <h2>FAQ</h2>
-      <details><summary>What is the difference between a cat logic puzzle and Akari?</summary><p>Akari is the original Japanese puzzle. A cat logic puzzle is the same game with a cat theme — instead of light bulbs, you place glowing cats. The rules are identical.</p></details>
-      <details><summary>Are cat logic puzzles free?</summary><p>Yes! MeowTrail is completely free to play online. No download or registration required.</p></details>
-      <details><summary>Can I play on my phone?</summary><p>Absolutely. MeowTrail is fully responsive. Long-press to mark cells with paw prints on mobile.</p></details>
-      <details><summary>What if I get stuck?</summary><p>Use the Hint button to highlight a cell. You can also check <a href="/puzzle/puzzle-001">step-by-step solutions</a> to learn techniques.</p></details>
+      <details><summary>What is the difference between a cat logic puzzle and Akari?</summary><p>Akari is the original Japanese puzzle by Nikoli. A <strong>cat logic puzzle</strong> is the same game with a cat theme — instead of light bulbs, you place glowing cats. The rules, logic, and deduction techniques are identical. MeowTrail simply wraps the classic experience in a warmer, more inviting visual package.</p></details>
+      <details><summary>Are cat logic puzzles free to play?</summary><p>Yes! MeowTrail is completely free to play online. No download, no registration, no ads, no hidden paywalls. Just open the page and start solving your <strong>cat puzzle game</strong>.</p></details>
+      <details><summary>Can I play on my phone or tablet?</summary><p>Absolutely. MeowTrail is fully responsive and works on any screen size. On mobile, long-press a cell to mark it with a paw print instead of placing a cat. The touch controls are optimized for both phones and tablets.</p></details>
+      <details><summary>What if I get stuck on a hard puzzle?</summary><p>Use the Hint button to highlight a cell that needs attention. You can also check <a href="/puzzle/puzzle-001">step-by-step solutions</a> to learn new techniques. Every <strong>cat logic puzzle</strong> on MeowTrail has a unique solution reachable through pure logic — no guessing required.</p></details>
+      <details><summary>Are cat logic puzzles good for brain training?</summary><p>Yes. A <strong>cat logic puzzle</strong> exercises spatial reasoning, logical deduction, pattern recognition, and working memory. The cozy cat theme makes the <strong>brain training</strong> feel like relaxation rather than work. Many players incorporate a daily puzzle into their mindfulness routine.</p></details>
+
       <h2>More from MeowTrail</h2>
       <ul>
-        <li><a href="/">Play MeowTrail</a> — the main game</li>
+        <li><a href="/">Play MeowTrail</a> — the main game with all difficulty levels</li>
         <li><a href="/akari-puzzle">Akari Puzzle Guide</a> — history and advanced techniques</li>
+        <li><a href="/light-up-puzzle">Light Up Puzzle Guide</a> — rules, strategy, and tips</li>
         <li><a href="/puzzle/puzzle-001">Puzzle #001 with Solution</a> — step-by-step walkthrough</li>
       </ul>
     </section>

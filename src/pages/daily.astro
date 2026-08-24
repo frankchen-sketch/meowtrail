@@ -86,6 +86,12 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
     <p class="subtitle">Super hard puzzle — can you solve it?</p>
     <div style="text-align:center"><span class="daily-badge">🔥 SUPER HARD</span></div>
     <div class="timer" id="timer">00:00</div>
+    <div style="display:flex;gap:1.5rem;justify-content:center;margin:.5rem 0;flex-wrap:wrap">
+      <div style="text-align:center"><div style="font-size:1.5rem;font-weight:800;color:#E8A888" id="streak-count">0</div><div style="font-size:.75rem;color:#8B7B8B">Streak 🔥</div></div>
+      <div style="text-align:center"><div style="font-size:1.5rem;font-weight:800;color:#7B6B8A" id="best-streak">0</div><div style="font-size:.75rem;color:#8B7B8B">Best Streak</div></div>
+      <div style="text-align:center"><div style="font-size:1.5rem;font-weight:800;color:#88C8A8" id="best-time">--:--</div><div style="font-size:.75rem;color:#8B7B8B">Best Time</div></div>
+    </div>
+    <div style="text-align:center;margin:.3rem 0"><span id="streak-badge" style="display:none;padding:.3rem .8rem;border-radius:20px;font-size:.85rem;font-weight:700;border:2px solid #E8A888;background:#FFF8F0"></span></div>
     <div class="controls">
       <button class="btn btn-primary" id="start-btn">▶ Start Challenge</button>
       <button class="btn btn-secondary" id="hint-btn">💡 Hint</button>
@@ -113,10 +119,11 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
           <div class="stat-label">Your Time</div>
         </div>
         <div class="stat">
-          <div class="stat-value" id="percentile">Top 50%</div>
-          <div class="stat-label">Better than</div>
+          <div class="stat-value" id="win-streak-info">🔥 0 day streak</div>
+          <div class="stat-label">Current Streak</div>
         </div>
       </div>
+      <div id="win-badge" style="display:none;font-size:1.2rem;font-weight:700;margin:.5rem 0;padding:.4rem 1rem;border-radius:20px;background:#FFF8F0;border:2px solid #E8A888"></div>
       <button class="win-btn" id="share-card-btn">📸 Download Share Card</button>
       <div class="win-share-row">
         <button class="share-btn share-copy" id="share-copy">📋 Copy Result</button>
@@ -124,8 +131,13 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       </div>
     </div>
     <div class="leaderboard">
-      <h3>🏆 Today's Leaderboard</h3>
-      <div id="leaderboard-list"></div>
+      <h3>📊 Your Daily Stats</h3>
+      <div style="display:flex;gap:2rem;justify-content:center;padding:1rem 0">
+        <div style="text-align:center"><div style="font-size:2rem;font-weight:800;color:#E8A888" id="stat-streak">0</div><div style="font-size:.85rem;color:#8B7B8B">Current Streak</div></div>
+        <div style="text-align:center"><div style="font-size:2rem;font-weight:800;color:#7B6B8A" id="stat-best-streak">0</div><div style="font-size:.85rem;color:#8B7B8B">Best Streak</div></div>
+        <div style="text-align:center"><div style="font-size:2rem;font-weight:800;color:#88C8A8" id="stat-best-time">--:--</div><div style="font-size:.85rem;color:#8B7B8B">Best Time</div></div>
+      </div>
+      <div id="stat-badge" style="text-align:center;margin:.5rem 0"></div>
     </div>
   </div>
   <script is:inline src="/akari-engine.js"></script>
@@ -136,6 +148,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
     let currentPuzzle = null, playerSolution = null, markX = null, won = false;
     let health = 3, timerInterval = null, startTime = null, elapsedTime = 0;
     let lastPlacedCell = null;
+    const STORAGE_KEY = 'meowtrail-daily';
     const gridEl = document.getElementById('puzzle-grid');
     const progressEl = document.getElementById('progress');
     const toastEl = document.getElementById('toast');
@@ -143,6 +156,79 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
     const winOverlay = document.getElementById('win-overlay');
     const healthDisplay = document.getElementById('health-display');
     let toastTimer = null;
+
+    // Streak system
+    function getToday() { return new Date().toISOString().split('T')[0]; }
+    function getYesterday() { const d = new Date(); d.setDate(d.getDate() - 1); return d.toISOString().split('T')[0]; }
+    function loadState() {
+      const s = localStorage.getItem(STORAGE_KEY);
+      if (!s) return null;
+      const d = JSON.parse(s);
+      const today = getToday();
+      if (d.date === today) return d;
+      const yesterday = getYesterday();
+      const lastDate = d.lastPlayedDate || d.date;
+      if (lastDate === yesterday) {
+        return { date: today, streak: d.streak, bestStreak: d.bestStreak, solved: false, bestTime: d.bestTime };
+      }
+      return { date: today, streak: 0, bestStreak: d.bestStreak, solved: false, bestTime: d.bestTime };
+    }
+    function saveState(solved, time) {
+      const today = getToday();
+      let st = loadState() || { date: today, streak: 0, bestStreak: 0, bestTime: null };
+      if (solved && !st.solved) {
+        st.streak += 1;
+        st.bestStreak = Math.max(st.bestStreak, st.streak);
+        st.solved = true;
+        if (time && (!st.bestTime || time < st.bestTime)) st.bestTime = time;
+      }
+      st.lastPlayedDate = today;
+      st.date = today;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(st));
+      return st;
+    }
+    function getBadge(streak) {
+      if (streak >= 30) return { emoji: '👑', label: 'Cat Royalty', color: '#FFD700' };
+      if (streak >= 14) return { emoji: '💎', label: 'Diamond Paw', color: '#00BCD4' };
+      if (streak >= 7) return { emoji: '🌟', label: 'Star Cat', color: '#FF9800' };
+      if (streak >= 3) return { emoji: '🔥', label: 'On Fire', color: '#E8956A' };
+      return null;
+    }
+    function updateStreakDisplay() {
+      const state = loadState();
+      const streak = state ? state.streak : 0;
+      const bestStreak = state ? state.bestStreak : 0;
+      document.getElementById('streak-count').textContent = streak;
+      document.getElementById('best-streak').textContent = bestStreak;
+      const badge = getBadge(streak);
+      const badgeEl = document.getElementById('streak-badge');
+      if (badge) {
+        badgeEl.textContent = badge.emoji + ' ' + badge.label;
+        badgeEl.style.display = 'inline-block';
+        badgeEl.style.borderColor = badge.color;
+      } else {
+        badgeEl.style.display = 'none';
+      }
+      // Update personal best time
+      const bestTimeEl = document.getElementById('best-time');
+      if (state && state.bestTime) {
+        const m = Math.floor(state.bestTime / 60);
+        const s = state.bestTime % 60;
+        bestTimeEl.textContent = m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0');
+      } else {
+        bestTimeEl.textContent = '--:--';
+      }
+      // Update bottom stats panel
+      document.getElementById('stat-streak').textContent = streak;
+      document.getElementById('stat-best-streak').textContent = bestStreak;
+      document.getElementById('stat-best-time').textContent = bestTimeEl.textContent;
+      const statBadge = document.getElementById('stat-badge');
+      if (badge) {
+        statBadge.innerHTML = '<span style="padding:.3rem .8rem;border-radius:20px;font-size:.85rem;font-weight:700;border:2px solid ' + badge.color + ';background:#FFF8F0">' + badge.emoji + ' ' + badge.label + '</span>';
+      } else {
+        statBadge.innerHTML = '<span style="font-size:.85rem;color:#8B7B8B">Solve 3 days in a row to earn your first badge!</span>';
+      }
+    }
 
     // Generate daily seed based on date
     function getDailySeed() {
@@ -321,13 +407,21 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       if (checkWin(g, playerSolution, s)) { 
         won=true; 
         stopTimer();
+        const state = saveState(true, elapsedTime);
+        updateStreakDisplay();
         spawnConfetti(); 
         setTimeout(()=>{
           winOverlay.classList.add('show');
           document.getElementById('final-time').textContent = timerEl.textContent;
-          // Calculate percentile (simulated)
-          const percentile = Math.max(10, Math.min(99, 100 - Math.floor(elapsedTime / 10)));
-          document.getElementById('percentile').textContent = 'Top ' + percentile + '%';
+          const badge = getBadge(state.streak);
+          const streakInfo = document.getElementById('win-streak-info');
+          streakInfo.textContent = '🔥 ' + state.streak + ' day streak!';
+          if (badge) {
+            document.getElementById('win-badge').textContent = badge.emoji + ' ' + badge.label;
+            document.getElementById('win-badge').style.display = 'block';
+          } else {
+            document.getElementById('win-badge').style.display = 'none';
+          }
         },300); 
       }
     }
@@ -381,7 +475,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       ctx.fillText('🐱 MeowTrail Daily Challenge', 300, 50);
       
       ctx.font = 'bold 24px SF Pro Rounded, system-ui';
-      ctx.fillText('🔥 SUPER HARD', 300, 90);
+      ctx.fillText('🔥 14×14 SUPER HARD', 300, 90);
       
       ctx.font = 'bold 48px SF Pro Rounded, system-ui';
       ctx.fillText(timerEl.textContent, 300, 160);
@@ -389,40 +483,26 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       ctx.font = '18px SF Pro Rounded, system-ui';
       ctx.fillText('Your Time', 300, 190);
       
-      const percentile = document.getElementById('percentile').textContent;
+      const state = loadState();
+      const streak = state ? state.streak : 1;
       ctx.font = 'bold 24px SF Pro Rounded, system-ui';
-      ctx.fillText(percentile + ' of players', 300, 240);
+      ctx.fillText('🔥 ' + streak + ' day streak', 300, 240);
+      
+      const badge = getBadge(streak);
+      if (badge) {
+        ctx.font = '20px SF Pro Rounded, system-ui';
+        ctx.fillText(badge.emoji + ' ' + badge.label, 300, 275);
+      }
       
       ctx.font = '16px SF Pro Rounded, system-ui';
       ctx.fillStyle = '#8B7B8B';
-      ctx.fillText('Play free at meowtrail.org', 300, 300);
+      ctx.fillText('Play free at meowtrail.org', 300, 320);
       
       ctx.font = '40px serif';
-      ctx.fillText('🐾', 50, 350);
-      ctx.fillText('🐾', 550, 350);
+      ctx.fillText('🐾', 50, 370);
+      ctx.fillText('🐾', 550, 370);
       
       return canvas.toDataURL('image/png');
-    }
-
-    // Load leaderboard
-    function loadLeaderboard() {
-      const leaderboard = document.getElementById('leaderboard-list');
-      // Simulated leaderboard data
-      const data = [
-        { rank: 1, name: 'CatMaster', time: '02:34' },
-        { rank: 2, name: 'PuzzlePro', time: '03:12' },
-        { rank: 3, name: 'LightUp', time: '03:45' },
-        { rank: 4, name: 'MeowFan', time: '04:01' },
-        { rank: 5, name: 'You', time: '--:--' }
-      ];
-      
-      leaderboard.innerHTML = data.map(item => `
-        <div class="leaderboard-item">
-          <span class="rank">#${item.rank}</span>
-          <span class="player-name">${item.name}</span>
-          <span class="time">${item.time}</span>
-        </div>
-      `).join('');
     }
 
     document.getElementById('start-btn').addEventListener('click', startDailyChallenge);
@@ -445,16 +525,30 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       showToast('📸 Share card downloaded!', 'success');
     });
     document.getElementById('share-copy').addEventListener('click', () => {
-      const text = '🐱 MeowTrail Daily Challenge\n⏱️ ' + timerEl.textContent + '\n' + document.getElementById('percentile').textContent + ' of players\n\nPlay free at meowtrail.org';
+      const state = loadState();
+      const streak = state ? state.streak : 1;
+      const badge = getBadge(streak);
+      const badgeText = badge ? ' ' + badge.emoji + ' ' + badge.label : '';
+      const text = '🐱 MeowTrail Daily Challenge\n⏱️ ' + timerEl.textContent + '\n🔥 ' + streak + ' day streak' + badgeText + '\n\nPlay free at meowtrail.org';
       navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!', 'success'));
     });
     document.getElementById('share-twitter').addEventListener('click', () => {
-      const text = encodeURIComponent('🐱 Just completed the MeowTrail Daily Challenge!\n⏱️ ' + timerEl.textContent + '\n' + document.getElementById('percentile').textContent + ' of players\n\nPlay free at meowtrail.org');
+      const state = loadState();
+      const streak = state ? state.streak : 1;
+      const badge = getBadge(streak);
+      const badgeText = badge ? ' ' + badge.emoji + ' ' + badge.label : '';
+      const text = encodeURIComponent('🐱 Just completed the MeowTrail Daily Challenge!\n⏱️ ' + timerEl.textContent + '\n🔥 ' + streak + ' day streak' + badgeText + '\n\nPlay free at meowtrail.org');
       window.open('https://twitter.com/intent/tweet?text=' + text, '_blank');
     });
 
     updateHealth();
-    loadLeaderboard();
+    updateStreakDisplay();
+    // Check if already solved today
+    const state = loadState();
+    if (state && state.solved) {
+      document.getElementById('start-btn').textContent = '✅ Already Solved Today';
+      document.getElementById('start-btn').disabled = true;
+    }
   </script>
 </body>
 </html>

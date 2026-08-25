@@ -1086,7 +1086,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
         return true;
       } catch (e) { return false; }
     }
-    if (!loadCustomPuzzle()) { if (!loadAutoSave()) { newPuzzle(); } }
+    // Always start fresh from Level 1
+    newPuzzle();
   </script>
 </body>
 </html>

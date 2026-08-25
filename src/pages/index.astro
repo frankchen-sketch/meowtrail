@@ -97,6 +97,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     <p class="subtitle">Place cats to light up every corner. A cozy Akari puzzle for cat lovers.</p>
     <div class="controls">
       <a href="/daily/" class="btn btn-primary" style="text-decoration:none;background:linear-gradient(145deg,#E8956A,#D47A50)">🔥 Daily Challenge</a>
+      <a href="/create/" class="btn btn-secondary" style="text-decoration:none">🎨 Create Puzzle</a>
       <select id="difficulty-select"><option value="beginner">Beginner (5×5)</option><option value="easy" selected>Easy (7×7)</option><option value="medium">Medium (10×10)</option><option value="hard">Hard (12×12)</option></select>
       <button class="btn btn-primary" id="new-btn">🔄 New Puzzle</button>
       <button class="btn btn-secondary" id="hint-btn">💡 Hint</button>
@@ -594,9 +595,62 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     diffSelect.addEventListener('change', newPuzzle);
     updateHealth();
     updateLevel();
-    // Try to restore auto-saved puzzle, otherwise start new
-    if (!loadAutoSave()) {
-      newPuzzle();
+    
+    // Check for custom puzzle in URL hash
+    function loadCustomPuzzle() {
+      if (!window.location.hash) return false;
+      const encoded = window.location.hash.substring(1);
+      const parts = encoded.split(':');
+      if (parts.length !== 2) return false;
+      const s = parseInt(parts[0]);
+      const data = parts[1];
+      if (data.length !== s * s) return false;
+      
+      const g = Array.from({length: s}, () => Array(s).fill(9));
+      for (let i = 0; i < data.length; i++) {
+        const r = Math.floor(i / s);
+        const c = i % s;
+        const ch = data[i];
+        if (ch === 'w') g[r][c] = 9;
+        else if (ch === 'b') g[r][c] = -1;
+        else if (ch >= '0' && ch <= '4') g[r][c] = parseInt(ch);
+        else return false;
+      }
+      
+      // Validate the puzzle has a unique solution
+      try {
+        const result = solve(g, s, 2);
+        if (result.count !== 1 || !result.solution) return false;
+        
+        // Load the custom puzzle
+        currentPuzzle = {
+          id: 'custom-' + Date.now(),
+          size: s,
+          grid: g,
+          solution: result.solution,
+          difficulty: 'custom',
+          backtrackDepth: result.backtrackDepth
+        };
+        playerSolution = Array.from({length: s}, () => Array(s).fill(false));
+        markX = Array.from({length: s}, () => Array(s).fill(false));
+        health = 3;
+        won = false;
+        gameStartTime = Date.now();
+        updateHealth();
+        renderBoard();
+        updateProgress();
+        showToast('Custom puzzle loaded!', 'success');
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    
+    // Try: custom puzzle from URL > auto-save > new puzzle
+    if (!loadCustomPuzzle()) {
+      if (!loadAutoSave()) {
+        newPuzzle();
+      }
     }
   </script>
 </body>

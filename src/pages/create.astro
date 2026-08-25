@@ -18,41 +18,74 @@ const description = "Design your own Akari (Light Up) puzzle! Set grid size, pla
   })} />
   <style is:global>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"SF Pro Rounded","Segoe UI","Noto Sans SC",system-ui,sans-serif;background:linear-gradient(180deg,#FBF8FF,#F8F5F0);color:#3B2B4B;min-height:100vh}
+    body{font-family:"SF Pro Rounded","Segoe UI","Noto Sans SC",system-ui,sans-serif;background:linear-gradient(180deg,#f8f6ef,#f8f6ef);color:#342421;min-height:100vh}
     .container{max-width:720px;margin:0 auto;padding:1rem}
-    h1{font-size:1.8rem;color:#7B6B8A;text-align:center;margin:.5rem 0}
-    .subtitle{text-align:center;color:#8B7B8B;margin-bottom:1rem;font-size:.95rem}
+    h1{font-size:1.8rem;color:#342421;text-align:center;margin:.5rem 0}
+    .subtitle{text-align:center;color:#6f5651;margin-bottom:1rem;font-size:.95rem}
     .controls{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;align-items:center;margin:.8rem 0}
     .btn{padding:.6rem 1.2rem;border:none;border-radius:14px;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .2s;font-family:inherit;box-shadow:0 4px 12px rgba(0,0,0,.1)}
     .btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15)}
     .btn:active{transform:scale(.95)}
     .btn-primary{background:linear-gradient(145deg,#F0B898,#E09878);color:#fff}
-    .btn-secondary{background:linear-gradient(145deg,#F8F0FF,#F0E8FF);color:#7B6B8A}
-    .btn-success{background:linear-gradient(145deg,#88C8A8,#68B888);color:#fff}
+    .btn-secondary{background:linear-gradient(145deg,#F8F0FF,#fff4f0);color:#342421}
+    .btn-success{background:linear-gradient(145deg,#559c68,#68B888);color:#fff}
     .grid-wrapper{display:flex;justify-content:center;margin:1rem 0}
     .puzzle-grid{display:inline-grid;gap:2px;background:linear-gradient(145deg,#E8DDD8,#D8C8C0);padding:6px;border-radius:16px;box-shadow:0 8px 32px rgba(123,107,138,.15)}
     .cell{display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;transition:all .15s;font-weight:800;user-select:none}
     .cell-white{background:linear-gradient(145deg,#FFF8F0,#FFF0E0)}
     .cell-white:hover{background:#FFE8D0}
-    .cell-black{background:linear-gradient(145deg,#8B7B9A,#6B5B7A);color:#F0E8FF}
-    .cell-black:hover{background:linear-gradient(145deg,#9B8BAA,#7B6B8A)}
+    .cell-black{background:linear-gradient(145deg,#8B7B9A,#6B5B7A);color:#fff4f0}
+    .cell-black:hover{background:linear-gradient(145deg,#9B8BAA,#342421)}
     .cell-invalid{box-shadow:inset 0 0 0 3px #E74C3C}
     .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#E74C3C;color:#fff;padding:.6rem 1.2rem;border-radius:12px;font-size:.9rem;font-weight:600;z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none}
-    .toast.show{opacity:1}.toast.success{background:#88C8A8}
+    .toast.show{opacity:1}.toast.success{background:#559c68}
     .link-box{margin:1rem 0;padding:1rem;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(123,107,138,.1);display:none}
     .link-box.show{display:block}
-    .link-box input{width:100%;padding:.5rem;border:2px solid #E0D0F0;border-radius:8px;font-size:.9rem;font-family:monospace}
+    .link-box input{width:100%;padding:.5rem;border:2px solid #e7dacf;border-radius:8px;font-size:.9rem;font-family:monospace}
     .link-box .btn{margin-top:.5rem}
-    .instructions{margin:1.5rem 0;padding:1rem;background:#FBF8FF;border-radius:12px;font-size:.9rem;line-height:1.6}
-    .instructions h3{color:#7B6B8A;margin-bottom:.5rem}
+    .instructions{margin:1.5rem 0;padding:1rem;background:#f8f6ef;border-radius:12px;font-size:.9rem;line-height:1.6}
+    .instructions h3{color:#342421;margin-bottom:.5rem}
     .instructions ul{padding-left:1.5rem}
     .instructions li{margin-bottom:.3rem}
-    footer{text-align:center;margin:2rem 0 1rem;font-size:.8rem;color:#8B7B8B}
-    footer a{color:#8B7B8B}
+    footer{text-align:center;margin:2rem 0 1rem;font-size:.8rem;color:#6f5651}
+    footer a{color:#6f5651}
     @media(max-width:480px){h1{font-size:1.3rem}.controls{gap:.3rem}.btn{padding:.4rem .7rem;font-size:.8rem}}
+  
+    /* ── Header ── */
+    .site-header{position:sticky;top:0;z-index:30;border-bottom:1px solid #f4dfdc;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .header-inner{max-width:80rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;padding:0 1rem}
+    .brand{display:flex;align-items:center;gap:0.75rem;text-decoration:none}
+    .brand-logo{width:2.25rem;height:2.25rem;border-radius:0.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.08);overflow:hidden}
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+    .brand-name{line-height:1.1}
+    .brand-name .big{font-weight:900;color:#342421;font-size:1.05rem;display:block}
+    .brand-name .small{font-weight:600;color:#9b726c;font-size:0.75rem}
+    .nav{display:flex;align-items:center;gap:0.25rem}
+    .nav a{border-radius:0.375rem;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:700;color:#6f5651;text-decoration:none}
+    .nav a:hover{background:#fff4f0;color:#342421}
+
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" aria-label="MeowTrail home">
+        <span class="brand-logo"><img src="/assets/logo-clay-cat.png" alt="MeowTrail cat mascot" width="40" height="40" /></span>
+        <span class="brand-name">
+          <span class="big">MeowTrail</span>
+          <span class="small">Akari Puzzle Game</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/">Play</a>
+        <a href="/how-to-play/">How to Play</a>
+        <a href="/tips/">Tips</a>
+        <a href="/daily/">Daily</a>
+        <a href="/solver/">Solver</a>
+      </nav>
+    </div>
+  </header>
+
   <div class="container">
     <h1>🎨 Create Your Own Puzzle</h1>
     <p class="subtitle">Design an Akari puzzle and share it with friends!</p>
@@ -76,7 +109,7 @@ const description = "Design your own Akari (Light Up) puzzle! Set grid size, pla
     <div class="toast" id="toast"></div>
     
     <div class="link-box" id="link-box">
-      <h3 style="color:#7B6B8A;margin-bottom:.5rem">🔗 Share Your Puzzle</h3>
+      <h3 style="color:#342421;margin-bottom:.5rem">🔗 Share Your Puzzle</h3>
       <input type="text" id="share-link" readonly />
       <button class="btn btn-primary" id="copy-link-btn" style="width:100%">📋 Copy Link</button>
     </div>

@@ -36,6 +36,13 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     .heart svg{width:24px;height:24px}
     .heart.lost{filter:grayscale(1) opacity(.4);transform:scale(.8)}
     .level-display{font-size:1rem;font-weight:700;color:#7B6B8A;background:#F0E8FF;padding:.3rem .8rem;border-radius:20px;box-shadow:0 2px 8px rgba(123,107,138,.15)}
+    .difficulty-badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-left:6px;vertical-align:middle}
+    .badge-tutorial{background:#E8F5E9;color:#2E7D32}
+    .badge-easy{background:#E8F5E9;color:#2E7D32}
+    .badge-medium{background:#FFF3E0;color:#E65100}
+    .badge-medium-hard{background:#FFE0B2;color:#BF360C}
+    .badge-hard{background:#FFCDD2;color:#C62828}
+    .badge-expert{background:#F3E5F5;color:#6A1B9A}
     .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#E74C3C;color:#fff;padding:.6rem 1.2rem;border-radius:12px;font-size:.9rem;font-weight:600;z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none}
     .toast.show{opacity:1}.toast.success{background:#88C8A8}
     .grid-wrapper{display:flex;justify-content:center;margin:.5rem 0}
@@ -98,7 +105,6 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     <div class="controls">
       <a href="/daily/" class="btn btn-primary" style="text-decoration:none;background:linear-gradient(145deg,#E8956A,#D47A50)">🔥 Daily Challenge</a>
       <a href="/create/" class="btn btn-secondary" style="text-decoration:none">🎨 Create Puzzle</a>
-      <select id="difficulty-select"><option value="beginner">Beginner (5×5)</option><option value="easy" selected>Easy (7×7)</option><option value="medium">Medium (10×10)</option><option value="hard">Hard (12×12)</option></select>
       <button class="btn btn-primary" id="new-btn">🔄 New Puzzle</button>
       <button class="btn btn-secondary" id="hint-btn">💡 Hint</button>
       <button class="btn btn-secondary" id="reset-btn">↺ Reset</button>
@@ -110,7 +116,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
         <span class="heart" id="heart2"><svg width="24" height="24" viewBox="0 0 24 24" fill="#C8A8E8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
         <span class="heart" id="heart3"><svg width="24" height="24" viewBox="0 0 24 24" fill="#C8A8E8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
       </div>
-      <div class="level-display" id="level-display">Level 1</div>
+      <div class="level-display" id="level-display">Level 1 <span class="difficulty-badge badge-tutorial" id="diff-badge">Tutorial</span></div>
       <div class="progress" id="progress"></div>
     </div>
     <div class="grid-wrapper"><div class="puzzle-grid" id="puzzle-grid"></div></div>
@@ -194,8 +200,18 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     }
     let CAT_IMG = getCatImg(1);
     const X_MARK = '<svg viewBox="0 0 24 24" width="50%" height="50%" style="opacity:0.4"><line x1="6" y1="6" x2="18" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/></svg>';
-    const SIZE_MAP = { beginner: 5, easy: 7, medium: 10, hard: 12 };
     const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
+    
+    // Difficulty system (aligned with meowblock)
+    function getDifficulty(level) {
+      if (level <= 3)  return { label: 'Tutorial',    badge: 'badge-tutorial',    size: 5 };
+      if (level <= 6)  return { label: 'Easy',        badge: 'badge-easy',        size: 6 };
+      if (level <= 9)  return { label: 'Medium',      badge: 'badge-medium',      size: 7 };
+      if (level <= 12) return { label: 'Medium-Hard', badge: 'badge-medium-hard', size: 8 };
+      if (level <= 15) return { label: 'Hard',        badge: 'badge-hard',        size: 9 };
+      if (level <= 18) return { label: 'Expert',      badge: 'badge-expert',      size: 10 };
+      return                  { label: 'Master',      badge: 'badge-expert',      size: 12 };
+    }
     let currentPuzzle = null, playerSolution = null, markX = null, won = false;
     let health = 3, level = 0;
     let lastPlacedCell = null;
@@ -243,10 +259,10 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     const gridEl = document.getElementById('puzzle-grid');
     const progressEl = document.getElementById('progress');
     const toastEl = document.getElementById('toast');
-    const diffSelect = document.getElementById('difficulty-select');
     const winOverlay = document.getElementById('win-overlay');
     const healthDisplay = document.getElementById('health-display');
     const levelDisplay = document.getElementById('level-display');
+    const diffBadge = document.getElementById('diff-badge');
     let toastTimer = null;
 
     function showToast(m, t) {
@@ -280,14 +296,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       updateLevel();
       CAT_IMG = getCatImg(level);
       gameStartTime = Date.now();
-      // Auto-determine difficulty based on level
-      let d;
-      if (level <= 2) d = 'beginner';
-      else if (level <= 4) d = 'easy';
-      else if (level <= 9) d = 'medium';
-      else d = 'hard';
-      diffSelect.value = d;
-      const s = SIZE_MAP[d];
+      const diff = getDifficulty(level);
+      const s = diff.size;
       gridEl.innerHTML = '<div style="padding:2rem;color:#8B7B8B;font-size:0.9rem;">Generating...</div>';
       progressEl.textContent = '';
       setTimeout(() => {
@@ -435,7 +445,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     }
 
     function updateLevel() {
-      levelDisplay.textContent = 'Level ' + level;
+      const diff = getDifficulty(level);
+      levelDisplay.innerHTML = 'Level ' + level + ' <span class="difficulty-badge ' + diff.badge + '" id="diff-badge">' + diff.label + '</span>';
     }
 
     function loseHealth() {
@@ -467,13 +478,13 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     });
     document.getElementById('win-next').addEventListener('click', () => { winOverlay.classList.remove('show'); newPuzzle(); });
     document.getElementById('share-copy').addEventListener('click', () => {
-      const d = diffSelect.value, s = SIZE_MAP[d];
-      const text = '🐱 MeowTrail — Cat Logic Puzzle\n' + s + '×' + s + ' ' + d + ' puzzle solved!\n\nPlay free at meowtrail.org';
+      const diff = getDifficulty(level);
+      const text = '🐱 MeowTrail — Cat Logic Puzzle\nLevel ' + level + ' (' + diff.label + ') ' + diff.size + '×' + diff.size + ' solved!\n\nPlay free at meowtrail.org';
       navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!', 'success'));
     });
     document.getElementById('share-twitter').addEventListener('click', () => {
-      const d = diffSelect.value, s = SIZE_MAP[d];
-      const text = encodeURIComponent('🐱 Just solved a ' + s + '×' + s + ' ' + d + ' cat logic puzzle on MeowTrail! 🧩\n\nPlay free at meowtrail.org');
+      const diff = getDifficulty(level);
+      const text = encodeURIComponent('🐱 Just solved MeowTrail Level ' + level + ' (' + diff.label + ') ' + diff.size + '×' + diff.size + ' cat logic puzzle! 🧩\n\nPlay free at meowtrail.org');
       window.open('https://twitter.com/intent/tweet?text=' + text, '_blank');
     });
     
@@ -512,8 +523,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       // Subtitle
       ctx.font = '16px SF Pro Rounded, system-ui';
       ctx.fillStyle = '#8B7B8B';
-      const d = diffSelect.value;
-      ctx.fillText(s + '×' + s + ' · ' + d.charAt(0).toUpperCase() + d.slice(1) + ' · Level ' + level, cardW / 2, 65);
+      const diff = getDifficulty(level);
+      ctx.fillText(s + '×' + s + ' · ' + diff.label + ' · Level ' + level, cardW / 2, 65);
       
       // Stats bar
       ctx.font = 'bold 18px SF Pro Rounded, system-ui';
@@ -603,7 +614,6 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       link.click();
       showToast('📸 Share card downloaded!', 'success');
     });
-    diffSelect.addEventListener('change', newPuzzle);
     updateHealth();
     updateLevel();
     

@@ -495,7 +495,9 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
           <div class="game-actions">
             <button class="icon-btn" id="new-btn" aria-label="New Puzzle"><span>🔄</span><span class="tip">New</span></button>
             <button class="icon-btn" id="hint-btn" aria-label="Hint"><span>💡</span><span class="tip">Hint</span></button>
-            <button class="icon-btn" id="reset-btn" aria-label="Restart"><span>↩️</span><span class="tip">Restart</span></button>
+            <button class="icon-btn" id="undo-btn" aria-label="Undo"><span>↩️</span><span class="tip">Undo (Ctrl+Z)</span></button>
+            <button class="icon-btn" id="redo-btn" aria-label="Redo"><span>↪️</span><span class="tip">Redo (Ctrl+Y)</span></button>
+            <button class="icon-btn" id="reset-btn" aria-label="Restart"><span>🗑️</span><span class="tip">Restart</span></button>
             <button class="icon-btn" id="sound-btn" aria-label="Sound"><span>🔇</span><span class="tip">Sound</span></button>
             <a href="/daily/" class="icon-btn" aria-label="Daily Challenge" style="text-decoration:none;background:linear-gradient(145deg,#E8956A,#D47A50);color:#fff;border-color:#D47A50"><span>🔥</span><span class="tip">Daily</span></a>
           </div>
@@ -524,7 +526,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
 
       <!-- ═══════════ Video Walkthroughs ═══════════ -->
       <section id="walkthroughs" class="section">
-        <h2 class="section-title">Level <span class="accent">Walkthroughs</span></h2>
+        <h2 class="section-title">Level <span class="accent">Guides</span></h2>
         <div class="video-grid">
           <a class="video-card" href="/levels/easy/">
             <div class="thumb"><img src="/assets/screenshots/game-beginner.png" alt="MeowTrail Beginner puzzle — 5×5 Akari grid with cat icons" loading="lazy"><span class="level-tag">Beginner</span></div>
@@ -846,6 +848,26 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     let health = 3, level = 0;
     let lastPlacedCell = null;
     let gameStartTime = null;
+    let historyStack = [], redoStack = [];
+    
+    function snapshot() {
+      return { ps: playerSolution.map(r => r.slice()), mx: markX.map(r => r.slice()) };
+    }
+    function pushHistory() { historyStack.push(snapshot()); redoStack = []; }
+    function undo() {
+      if (!historyStack.length || won) return;
+      redoStack.push(snapshot());
+      const prev = historyStack.pop();
+      playerSolution = prev.ps; markX = prev.mx;
+      renderBoard(); updateProgress(); autoSave();
+    }
+    function redo() {
+      if (!redoStack.length || won) return;
+      historyStack.push(snapshot());
+      const next = redoStack.pop();
+      playerSolution = next.ps; markX = next.mx;
+      renderBoard(); updateProgress(); autoSave();
+    }
     
     function autoSave() {
       if (!currentPuzzle || won) return;
@@ -900,6 +922,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     function newPuzzle() {
       won = false; winOverlay.classList.remove('show'); health = 3; updateHealth();
       level++; updateLevel(); CAT_IMG = getCatImg(level); gameStartTime = Date.now();
+      historyStack = []; redoStack = [];
       const diff = getDifficulty(level); const s = diff.size;
       gridEl.innerHTML = '<div style="padding:2rem;color:var(--text-muted);font-size:0.9rem;">Generating...</div>';
       progressEl.textContent = '';
@@ -955,8 +978,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
           else if (lit[r][c]) { cell.classList.add('cell-lit'); }
           else { cell.classList.add('cell-dark'); }
           cell.addEventListener('click', e => { e.preventDefault(); if(!won) handleClick(r,c); });
-          cell.addEventListener('dblclick', e => { e.preventDefault(); if(!won){markX[r][c]=!markX[r][c];renderBoard();} });
-          cell.addEventListener('contextmenu', e => { e.preventDefault(); if(!won){markX[r][c]=!markX[r][c];renderBoard();} });
+          cell.addEventListener('dblclick', e => { e.preventDefault(); if(!won){pushHistory();markX[r][c]=!markX[r][c];renderBoard();} });
+          cell.addEventListener('contextmenu', e => { e.preventDefault(); if(!won){pushHistory();markX[r][c]=!markX[r][c];renderBoard();} });
           let lpt=null,dlp=false;
           cell.addEventListener('touchstart',()=>{dlp=false;lpt=setTimeout(()=>{dlp=true;if(!won){markX[r][c]=!markX[r][c];renderBoard();}},500);},{passive:true});
           cell.addEventListener('touchend',e=>{if(lpt)clearTimeout(lpt);if(dlp)e.preventDefault();});
@@ -968,6 +991,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     function handleClick(r, c) {
       if (!currentPuzzle) return;
       const g = currentPuzzle.grid, s = currentPuzzle.size;
+      pushHistory();
       if (playerSolution[r][c]) {
         playerSolution[r][c] = false; lastPlacedCell = null; SFX.remove();
       } else {
@@ -1021,6 +1045,12 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     document.getElementById('sound-btn').addEventListener('click', () => {
       const muted = SFX.toggle();
       document.getElementById('sound-btn').textContent = muted ? '🔇' : '🔊';
+    });
+    document.getElementById('undo-btn').addEventListener('click', undo);
+    document.getElementById('redo-btn').addEventListener('click', redo);
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey||e.metaKey) && e.key==='z') { e.preventDefault(); e.shiftKey ? redo() : undo(); }
+      if ((e.ctrlKey||e.metaKey) && e.key==='y') { e.preventDefault(); redo(); }
     });
     document.getElementById('win-next').addEventListener('click', () => { winOverlay.classList.remove('show'); newPuzzle(); });
     document.getElementById('share-copy').addEventListener('click', () => {

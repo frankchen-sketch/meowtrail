@@ -21,7 +21,7 @@ const {
 } = Astro.props;
 
 const fullUrl = `https://meowtrail.org${canonical}`;
-const fullTitle = canonical === '/' ? title : `${title} | MeowTrail`
+const fullTitle = canonical === '/' ? title : (title.includes('MeowTrail') ? title : `${title} | MeowTrail`)
 ---
 
 <!-- Primary Meta -->

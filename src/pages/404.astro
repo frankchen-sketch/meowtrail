@@ -1,0 +1,29 @@
+---
+import SEOHead from '../components/SEOHead.astro';
+const title = "Page Not Found — MeowTrail";
+const description = "The page you're looking for doesn't exist. Play free Akari puzzles at meowtrail.org.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <SEOHead title={title} description={description} canonical="/404" noindex={true} />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "SF Pro Rounded", system-ui, sans-serif; background: #f8f6ef; color: #342421; min-height: 100vh; display: flex; flex-direction: column; }
+    .container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+    .emoji { font-size: 4rem; margin-bottom: 1rem; }
+    h1 { font-size: 1.5rem; font-weight: 900; color: #342421; margin-bottom: 0.5rem; }
+    p { color: #6f5651; margin-bottom: 1.5rem; line-height: 1.6; }
+    a { display: inline-block; padding: 0.75rem 1.5rem; background: #E8A888; color: #fff; border-radius: 0.75rem; font-weight: 700; text-decoration: none; transition: background 0.15s; }
+    a:hover { background: #D09070; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="emoji">🐱💨</div>
+    <h1>Page Not Found</h1>
+    <p>The page you're looking for doesn't exist or has been moved.<br>Try playing a puzzle instead!</p>
+    <a href="/">Play MeowTrail →</a>
+  </div>
+</body>
+</html>

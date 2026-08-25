@@ -102,6 +102,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       <button class="btn btn-primary" id="new-btn">🔄 New Puzzle</button>
       <button class="btn btn-secondary" id="hint-btn">💡 Hint</button>
       <button class="btn btn-secondary" id="reset-btn">↺ Reset</button>
+      <button class="btn btn-secondary" id="sound-btn" title="Toggle sound">🔇</button>
     </div>
     <div class="game-status">
       <div class="health-display" id="health-display">
@@ -178,6 +179,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     <footer><p>MeowTrail by <a href="https://oakevergames.com/">Oakever Games</a>. Unofficial fan site.</p></footer>
   </div>
   <script is:inline src="/akari-engine.js"></script>
+  <script is:inline src="/sfx.js"></script>
   <script type="module">
     const CAT_IMAGES = [
       '/assets/cats/cat-clay-purple.png',
@@ -364,10 +366,12 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       if (playerSolution[r][c]) {
         playerSolution[r][c] = false;
         lastPlacedCell = null;
+        SFX.remove();
       }
       else {
         markX[r][c] = false; playerSolution[r][c] = true;
         lastPlacedCell = {r, c};
+        SFX.place();
         const v = checkViolations(g, playerSolution, s);
         let hasViolation = false;
         for (const x of v) { 
@@ -385,6 +389,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
           }
         }
         if (hasViolation) {
+          SFX.error();
           loseHealth();
         }
       }
@@ -395,6 +400,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       if (checkWin(g, playerSolution, s)) { 
         won=true; 
         clearAutoSave();
+        SFX.win();
         spawnConfetti(); 
         setTimeout(()=>{
           winOverlay.classList.add('show');
@@ -449,11 +455,16 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       if (h) {
         const cell = gridEl.querySelector('[data-row="'+h[0]+'"][data-col="'+h[1]+'"]');
         if (cell) { cell.classList.add('cell-hint'); setTimeout(()=>cell.classList.remove('cell-hint'),2000); }
+        SFX.hint();
         showToast('Hint: try row '+(h[0]+1)+', col '+(h[1]+1),'success');
       } else showToast('No hints!','error');
     });
     document.getElementById('reset-btn').addEventListener('click', resetPuzzle);
     document.getElementById('new-btn').addEventListener('click', newPuzzle);
+    document.getElementById('sound-btn').addEventListener('click', () => {
+      const muted = SFX.toggle();
+      document.getElementById('sound-btn').textContent = muted ? '🔇' : '🔊';
+    });
     document.getElementById('win-next').addEventListener('click', () => { winOverlay.classList.remove('show'); newPuzzle(); });
     document.getElementById('share-copy').addEventListener('click', () => {
       const d = diffSelect.value, s = SIZE_MAP[d];

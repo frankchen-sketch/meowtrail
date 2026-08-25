@@ -25,7 +25,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
     .btn-secondary:hover{background:linear-gradient(145deg,#fff4f0,#E8E0F8);box-shadow:0 6px 16px rgba(123,107,138,.15)}
     .game-status{display:flex;flex-direction:column;align-items:center;gap:.5rem;margin:.8rem 0}
     .health-display{display:flex;gap:.3rem;font-size:1.5rem}
-    .heart{transition:all .3s ease;filter:drop-shadow(0 2px 4px rgba(200,168,232,.3))}
+    .heart{transition:all .3s ease;filter:drop-shadow(0 2px 4px rgba(232,168,136,.3))}
     .heart svg{width:24px;height:24px}
     .heart.lost{filter:grayscale(1) opacity(.4);transform:scale(.8)}
     .progress{text-align:center;font-size:.85rem;color:#6f5651;margin:.3rem 0;min-height:1.4rem}
@@ -36,7 +36,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
     .cell-black{background:linear-gradient(145deg,#8B7B9A,#6B5B7A);cursor:default;box-shadow:inset 0 3px 6px rgba(0,0,0,.3),0 2px 4px rgba(123,107,138,.2)}
     .cell-number{font-weight:800;color:#fff4f0;text-shadow:0 1px 2px rgba(0,0,0,.3)}
     .cell-lit{background:linear-gradient(145deg,#FFF8F0,#FFF0E0);box-shadow:inset 0 0 8px rgba(255,248,240,.5)}
-    .cell-cat{background:linear-gradient(145deg,#fff4f0,#e7dacf);box-shadow:inset 0 0 16px rgba(200,168,232,.4),0 4px 12px rgba(200,168,232,.3)}
+    .cell-cat{background:linear-gradient(145deg,#fff4f0,#e7dacf);box-shadow:inset 0 0 16px rgba(200,168,232,.4),0 4px 12px rgba(232,168,136,.3)}
     .cell-x{background:#FAFAFA;box-shadow:inset 0 0 4px rgba(0,0,0,.05)}
     .cell-dark{background:linear-gradient(145deg,#F0EBE5,#E8E0D8);box-shadow:inset 0 2px 4px rgba(0,0,0,.08)}
     @keyframes cat-place{0%{transform:scale(0) rotate(-10deg);opacity:0}50%{transform:scale(1.2) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
@@ -47,7 +47,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
     .win-overlay.show{opacity:1;pointer-events:auto}
     .win-cat{animation:cat-pop .8s cubic-bezier(.34,1.56,.64,1) forwards}
     @keyframes cat-pop{0%{transform:scale(0) rotate(-10deg)}50%{transform:scale(1.3) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
-    .win-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(200,168,232,.3) 0%,transparent 70%);animation:glow-pulse 2s ease-in-out infinite}
+    .win-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(232,168,136,.3) 0%,transparent 70%);animation:glow-pulse 2s ease-in-out infinite}
     @keyframes glow-pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.3);opacity:1}}
     .win-text{font-size:2rem;font-weight:800;color:#342421;margin-top:1.5rem;animation:text-pop .6s .3s cubic-bezier(.34,1.56,.64,1) both}
     @keyframes text-pop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}

@@ -490,7 +490,11 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
               <span class="heart" id="heart3"><svg width="24" height="24" viewBox="0 0 24 24" fill="#E8A888"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
             </div>
             <div class="level-title" id="level-display">Level 1 <span class="difficulty-badge badge-tutorial" id="diff-badge">Tutorial</span></div>
-            <div class="progress" id="progress"></div>
+            <div style="display:flex;align-items:center;gap:0.75rem;justify-content:center">
+              <div class="progress" id="progress"></div>
+              <div id="timer" style="font-size:0.85rem;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums">⏱ 0:00</div>
+              <div id="best-time" style="font-size:0.75rem;color:var(--text-muted);display:none">🏆 --:--</div>
+            </div>
           </div>
           <div class="game-actions">
             <button class="icon-btn" id="new-btn" aria-label="New Puzzle"><span>🔄</span><span class="tip">New</span></button>
@@ -849,6 +853,44 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     let lastPlacedCell = null;
     let gameStartTime = null;
     let historyStack = [], redoStack = [];
+    let timerInterval = null, timerSeconds = 0;
+    const timerEl = document.getElementById('timer');
+    const bestTimeEl = document.getElementById('best-time');
+    
+    function startTimer() {
+      stopTimer();
+      timerSeconds = 0;
+      timerEl.textContent = '⏱ 0:00';
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const m = Math.floor(timerSeconds / 60);
+        const s = timerSeconds % 60;
+        timerEl.textContent = '⏱ ' + m + ':' + String(s).padStart(2, '0');
+      }, 1000);
+    }
+    function stopTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
+    function formatTime(sec) { return Math.floor(sec/60) + ':' + String(sec%60).padStart(2,'0'); }
+    function checkBestTime() {
+      const diff = getDifficulty(level);
+      const key = 'meowtrail-best-' + diff.label;
+      const prev = localStorage.getItem(key);
+      if (!prev || timerSeconds < parseInt(prev)) {
+        localStorage.setItem(key, timerSeconds);
+        return true; // new record
+      }
+      return false;
+    }
+    function showBestTime() {
+      const diff = getDifficulty(level);
+      const key = 'meowtrail-best-' + diff.label;
+      const best = localStorage.getItem(key);
+      if (best) {
+        bestTimeEl.textContent = '🏆 ' + formatTime(parseInt(best));
+        bestTimeEl.style.display = 'block';
+      } else {
+        bestTimeEl.style.display = 'none';
+      }
+    }
     
     function snapshot() {
       return { ps: playerSolution.map(r => r.slice()), mx: markX.map(r => r.slice()) };
@@ -923,6 +965,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       won = false; winOverlay.classList.remove('show'); health = 3; updateHealth();
       level++; updateLevel(); CAT_IMG = getCatImg(level); gameStartTime = Date.now();
       historyStack = []; redoStack = [];
+      startTimer(); showBestTime();
       const diff = getDifficulty(level); const s = diff.size;
       gridEl.innerHTML = '<div style="padding:2rem;color:var(--text-muted);font-size:0.9rem;">Generating...</div>';
       progressEl.textContent = '';
@@ -940,7 +983,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       const s = currentPuzzle.size;
       playerSolution = Array.from({length:s}, () => Array(s).fill(false));
       markX = Array.from({length:s}, () => Array(s).fill(false));
-      health = 3; updateHealth(); renderBoard(); updateProgress(); showToast('Board reset!', 'success'); autoSave();
+      health = 3; updateHealth(); startTimer();
+      renderBoard(); updateProgress(); showToast('Board reset!', 'success'); autoSave();
     }
     function renderBoard() {
       if (!currentPuzzle) return;
@@ -1005,8 +1049,13 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       renderBoard(); updateProgress(); autoSave();
       setTimeout(() => { lastPlacedCell = null; }, 500);
       if (checkWin(g, playerSolution, s)) {
-        won=true; clearAutoSave(); SFX.win(); spawnConfetti();
+        won=true; clearAutoSave(); stopTimer();
+        const isNewRecord = checkBestTime();
+        SFX.win(); spawnConfetti();
         setTimeout(()=>{ winOverlay.classList.add('show');
+          if (isNewRecord) {
+            document.querySelector('.win-sub').textContent = '🏆 New Best Time: ' + formatTime(timerSeconds) + '!';
+          }
           setTimeout(() => { if (won) { winOverlay.classList.remove('show'); newPuzzle(); } }, 3000);
         },300);
       }
@@ -1029,7 +1078,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       if (badgeEl) badgeEl.innerHTML = level + '<span style="color:var(--text-muted)"> / ∞</span>';
     }
     function loseHealth() {
-      if (health > 0) { health--; updateHealth(); if (health === 0) { showToast('Game Over! Try again.', 'error'); setTimeout(resetPuzzle, 1500); } }
+      if (health > 0) { health--; updateHealth(); if (health === 0) { stopTimer(); showToast('Game Over! Try again.', 'error'); setTimeout(resetPuzzle, 1500); } }
     }
     document.getElementById('hint-btn').addEventListener('click', () => {
       if (!currentPuzzle || won) return;

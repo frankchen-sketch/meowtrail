@@ -5,7 +5,7 @@ import path from 'path';
 export default defineConfig({
   site: 'https://meowtrail.org',
   output: 'static',
-  trailingSlash: 'ignore',
+  trailingSlash: 'always',
   integrations: [
     sitemap({
       changefreq: 'weekly',

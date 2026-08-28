@@ -48,6 +48,10 @@ const description = `Play MeowTrail puzzle #${num} online. ${difficulty.charAt(0
     .win-text{font-size:1.6rem;font-weight:800;color:#342421;margin-top:1rem}
     .win-btn{margin-top:1.5rem;padding:.7rem 2rem;background:#E8A888;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit}
     .steps-section{margin-top:2rem;border-top:2px solid #e7dacf;padding-top:1.5rem}
+    .steps-section summary{font-size:1.3rem;font-weight:700;color:#342421;cursor:pointer;margin-bottom:1rem;list-style:none}
+    .steps-section summary::-webkit-details-marker{display:none}
+    .steps-section summary::before{content:'▶ ';font-size:.9rem;color:#E8A888}
+    .steps-section[open] summary::before{content:'▼ '}
     .steps-section h2{font-size:1.3rem;color:#342421;margin-bottom:1rem}
     .step{padding:.6rem .8rem;margin:.4rem 0;border-radius:8px;font-size:.9rem;line-height:1.5;cursor:pointer;transition:background .15s}
     .step:hover{background:#FFF8F0}.step.active{background:#fff4f0;box-shadow:inset 0 0 0 2px #E8A888}
@@ -113,8 +117,8 @@ const description = `Play MeowTrail puzzle #${num} online. ${difficulty.charAt(0
       <div class="win-text">🎉 Puzzle Solved!</div>
       <button class="win-btn" id="win-next">Next Puzzle →</button>
     </div>
-    <section class="steps-section" id="steps-section" style="display:none">
-      <h2>📖 Step-by-Step Solution ({steps.length} steps)</h2>
+    <details class="steps-section" id="steps-section">
+      <summary>📖 Step-by-Step Solution ({steps.length} steps)</summary>
       <div id="steps-list">
         {steps.map((step: any) => (
           <div class="step" data-step={step.no} data-row={step.cell[0]} data-col={step.cell[1]} data-type={step.type}>
@@ -122,14 +126,14 @@ const description = `Play MeowTrail puzzle #${num} online. ${difficulty.charAt(0
           </div>
         ))}
       </div>
-    </section>
+    </details>
     <section class="seo-content">
       <h2>About This Puzzle</h2>
       <p>MeowTrail puzzle #{num} is a {difficulty}-level {size}×{size} Akari puzzle with {cats} cats to place. It has a <strong>unique solution</strong> — every step can be deduced through pure logic.</p>
       <h2>How to Solve</h2>
       <p>Click white cells to place cats. Each cat illuminates its row and column until blocked by a wall. Numbered black cells show how many adjacent cats they need. No two cats can see each other. All white cells must be lit to win.</p>
       <h2>More Puzzles</h2>
-      <p><a href="/">← Play MeowTrail</a> · <a href="/cat-logic-puzzle">Cat Logic Puzzle Guide</a> · <a href="/akari-puzzle">Akari Puzzle Guide</a></p>
+      <p><a href="/">← Play MeowTrail</a> · <a href="/cat-logic-puzzle/">Cat Logic Puzzle Guide</a> · <a href="/akari-puzzle/">Akari Puzzle Guide</a></p>
     </section>
     <footer><p>MeowTrail — Cat Logic Puzzle · <a href="/" style="color:#6f5651">Play More</a></p></footer>
   </div>
@@ -158,7 +162,7 @@ const description = `Play MeowTrail puzzle #${num} online. ${difficulty.charAt(0
     function updateProgress(){var info=countLit(grid,playerSolution,size);progressEl.textContent=info.lit+' / '+info.total+' cells lit';}
     document.getElementById('hint-btn').addEventListener('click',function(){if(won)return;var h=getHint(grid,solution,playerSolution,size);if(h){var cell=gridEl.querySelector('[data-row="'+h[0]+'"][data-col="'+h[1]+'"]');if(cell){cell.classList.add('cell-hint');setTimeout(function(){cell.classList.remove('cell-hint');},2000);}showToast('Hint: try row '+(h[0]+1)+', col '+(h[1]+1),'success');}else showToast('No hints!','error');});
     document.getElementById('reset-btn').addEventListener('click',function(){won=false;winOverlay.classList.remove('show');for(var i=0;i<size;i++){playerSolution[i]=new Array(size).fill(false);markX[i]=new Array(size).fill(false);}renderBoard();updateProgress();showToast('Board reset!','success');});
-    document.getElementById('show-steps-btn').addEventListener('click',function(){var sec=document.getElementById('steps-section');sec.style.display=sec.style.display==='none'?'block':'none';this.textContent=sec.style.display==='none'?'📖 Show Solution':'📖 Hide Solution';});
+    document.getElementById('show-steps-btn').addEventListener('click',function(){var sec=document.getElementById('steps-section');sec.open=!sec.open;this.textContent=sec.open?'📖 Hide Solution':'📖 Show Solution';});
     document.querySelectorAll('.step').forEach(function(el){el.addEventListener('click',function(){var r=parseInt(this.dataset.row),c=parseInt(this.dataset.col);var cell=gridEl.querySelector('[data-row="'+r+'"][data-col="'+c+'"]');if(cell){cell.classList.add('cell-hint');setTimeout(function(){cell.classList.remove('cell-hint');},2000);}document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active');});this.classList.add('active');});});
     document.getElementById('new-btn').addEventListener('click',function(){window.location.href='/';});
     document.getElementById('win-next').addEventListener('click',function(){window.location.href='/';});

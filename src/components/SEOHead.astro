@@ -1,6 +1,7 @@
 ---
 // Reusable SEO head component for all pages
 // Usage: <SEOHead title="..." description="..." canonical="/play" />
+// Auto-generates Article + BreadcrumbList JSON-LD for article pages
 
 export interface Props {
   title: string;
@@ -9,6 +10,7 @@ export interface Props {
   type?: 'website' | 'article';
   image?: string;
   noindex?: boolean;
+  breadcrumbTitle?: string; // Override breadcrumb label (defaults to page title)
 }
 
 const {
@@ -18,10 +20,56 @@ const {
   type = 'website',
   image = '/og-default.png',
   noindex = false,
+  breadcrumbTitle,
 } = Astro.props;
 
-const fullUrl = `https://meowtrail.org${canonical}`;
+// Normalize: ensure trailing slash (match sitemap convention)
+const normalizedCanonical = canonical === '/' ? '/' : (canonical.endsWith('/') ? canonical : `${canonical}/`);
+const fullUrl = `https://meowtrail.org${normalizedCanonical}`;
 const fullTitle = canonical === '/' ? title : (title.includes('MeowTrail') ? title : `${title} | MeowTrail`)
+
+// Build BreadcrumbList from canonical path
+const pathParts = normalizedCanonical.split('/').filter(Boolean);
+const breadcrumbs = [
+  { name: 'Home', url: 'https://meowtrail.org/' },
+  ...pathParts.map((part, i) => {
+    const url = 'https://meowtrail.org/' + pathParts.slice(0, i + 1).join('/') + '/';
+    // Derive readable name from slug
+    const name = part
+      .replace(/^puzzle-/, 'Puzzle #')
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
+    return { name, url };
+  })
+];
+
+// Use breadcrumbTitle for the last crumb if provided
+if (breadcrumbTitle && breadcrumbs.length > 1) {
+  breadcrumbs[breadcrumbs.length - 1].name = breadcrumbTitle;
+}
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((b, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: b.name,
+    item: b.url,
+  })),
+};
+
+const articleJsonLd = type === 'article' ? {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title.replace(/ \| MeowTrail$/, ''),
+  description,
+  url: fullUrl,
+  image: `https://meowtrail.org${image}`,
+  author: { '@type': 'Organization', name: 'MeowTrail', url: 'https://meowtrail.org/' },
+  publisher: { '@type': 'Organization', name: 'MeowTrail', url: 'https://meowtrail.org/' },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': fullUrl },
+} : null;
 ---
 
 <!-- Primary Meta -->
@@ -58,3 +106,7 @@ const fullTitle = canonical === '/' ? title : (title.includes('MeowTrail') ? tit
 
 <!-- llms.txt reference -->
 <link rel="alternate" type="text/plain" href="/llms.txt" title="AI-friendly site map">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+{articleJsonLd && <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />}

@@ -274,6 +274,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     .share-copy:hover { background: #E0D0F0; }
     .share-twitter { background: #1DA1F2; color: #fff; }
     .share-twitter:hover { background: #0d8ddb; }
+    .share-reddit { background: #FF4500; color: #fff; }
+    .share-reddit:hover { background: #e03e00; }
     .confetti { position: absolute; width: 12px; height: 12px; border-radius: 3px; animation: confetti-fall linear forwards; }
     @keyframes confetti-fall { 0% { transform: translateY(-100vh) rotate(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
     .paw-confetti { position: absolute; font-size: 24px; animation: paw-fall linear forwards; }
@@ -349,30 +351,10 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       padding: 2rem;
     }
     .download-phone { flex-shrink: 0; }
-    .phone-frame {
-      width: 160px; height: 280px; border-radius: 24px;
-      background: #1a1a1a; padding: 8px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    .download-phone img {
+      width: 200px; height: auto; border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     }
-    .phone-screen {
-      width: 100%; height: 100%; border-radius: 16px;
-      background: #f8f6ef; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      padding: 12px;
-    }
-    .phone-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr);
-      gap: 3px; width: 100%;
-    }
-    .phone-cell {
-      aspect-ratio: 1; border-radius: 4px;
-      background: #F0EBE5; display: flex;
-      align-items: center; justify-content: center;
-      font-size: 0.6rem;
-    }
-    .phone-wall { background: #8B7B9A; color: #F0E8FF; font-weight: 800; font-size: 0.55rem; }
-    .phone-cat { background: #F0E8FF; font-size: 0.7rem; }
-    .phone-lit { background: #FFF8F0; }
     .download-text { flex: 1; min-width: 200px; }
     .download-buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; }
     .store-btn {
@@ -431,6 +413,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       .game-card { border-radius: 1.2rem; }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
 </head>
 <body>
 
@@ -503,7 +486,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
             <button class="icon-btn" id="redo-btn" aria-label="Redo"><span>↪️</span><span class="tip">Redo (Ctrl+Y)</span></button>
             <button class="icon-btn" id="reset-btn" aria-label="Restart"><span>🗑️</span><span class="tip">Restart</span></button>
             <button class="icon-btn" id="sound-btn" aria-label="Sound"><span>🔇</span><span class="tip">Sound</span></button>
-            <a href="/daily/" class="icon-btn" aria-label="Daily Challenge" style="text-decoration:none;background:linear-gradient(145deg,#E8956A,#D47A50);color:#fff;border-color:#D47A50"><span>🔥</span><span class="tip">Daily</span></a>
+            <a href="/daily/" id="daily-btn" class="icon-btn" aria-label="Daily Challenge" style="text-decoration:none;background:linear-gradient(145deg,#E8956A,#D47A50);color:#fff;border-color:#D47A50"><span>🔥</span><span class="tip">Daily</span></a>
           </div>
         </div>
 
@@ -525,6 +508,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
         <div class="win-share-row">
           <button class="share-btn share-copy" id="share-copy">📋 Copy Result</button>
           <button class="share-btn share-twitter" id="share-twitter">𝕏 Share</button>
+          <button class="share-btn share-reddit" id="share-reddit">👽 Reddit</button>
         </div>
       </div>
 
@@ -597,17 +581,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       <section class="section">
         <div class="card download-box">
           <div class="download-phone">
-            <div class="phone-frame">
-              <div class="phone-screen">
-                <div class="phone-grid">
-                  <div class="phone-cell phone-wall">1</div><div class="phone-cell"></div><div class="phone-cell phone-cat">🐱</div><div class="phone-cell"></div><div class="phone-cell phone-wall"></div>
-                  <div class="phone-cell"></div><div class="phone-cell phone-lit"></div><div class="phone-cell"></div><div class="phone-cell phone-lit"></div><div class="phone-cell"></div>
-                  <div class="phone-cell phone-cat">🐱</div><div class="phone-cell"></div><div class="phone-cell phone-wall">2</div><div class="phone-cell"></div><div class="phone-cell phone-cat">🐱</div>
-                  <div class="phone-cell"></div><div class="phone-cell phone-lit"></div><div class="phone-cell"></div><div class="phone-cell phone-lit"></div><div class="phone-cell"></div>
-                  <div class="phone-cell phone-wall"></div><div class="phone-cell"></div><div class="phone-cell phone-cat">🐱</div><div class="phone-cell"></div><div class="phone-cell phone-wall">1</div>
-                </div>
-              </div>
-            </div>
+            <img src="/assets/screenshots/app-gameplay.png" alt="MeowTrail mobile game — Akari puzzle on phone" loading="lazy">
           </div>
           <div class="download-text">
             <h2 class="section-title" style="margin:0 0 0.5rem">Get the <span class="accent">App</span></h2>
@@ -804,6 +778,11 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       <a href="/solver/">Solver</a> ·
       <a href="/akari-puzzle/">Akari Guide</a>
     </p>
+    <p style="margin-top:0.75rem">
+      <a href="https://meow-block.com" rel="noopener">MeowBlock</a> ·
+      <a href="https://furriq.com" rel="noopener">Furriq</a> ·
+      <a href="https://spatialreasoninggame.com" rel="noopener">Pictomino</a>
+    </p>
     <p style="margin-top:0.75rem">© 2026 Oakever Games. All rights reserved.</p>
   </footer>
 
@@ -838,6 +817,14 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     let CAT_IMG = getCatImg(1);
     const X_MARK = '<svg viewBox="0 0 24 24" width="50%" height="50%" style="opacity:0.4"><line x1="6" y1="6" x2="18" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/></svg>';
     const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
+    function track(event, params) {
+      if (typeof window.gtag === 'function') window.gtag('event', event, params || {});
+      if (typeof window.clarity === 'function') {
+        window.clarity('event', event);
+        if (params) Object.keys(params).forEach(k => window.clarity('set', k, String(params[k])));
+      }
+    }
+    let gaStarted = false;
     
     function getDifficulty(level) {
       if (level <= 3)  return { label: 'Tutorial',    badge: 'badge-tutorial',    size: 5 };
@@ -975,6 +962,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
           playerSolution = Array.from({length:s}, () => Array(s).fill(false));
           markX = Array.from({length:s}, () => Array(s).fill(false));
           renderBoard(); updateProgress();
+          if (!gaStarted) { gaStarted = true; track('game_start', { level: level, difficulty: diff.label }); }
         } catch(e) { showToast('Failed to generate.', 'error'); }
       }, 10);
     }
@@ -1082,6 +1070,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     }
     document.getElementById('hint-btn').addEventListener('click', () => {
       if (!currentPuzzle || won) return;
+      track('hint_click', { level: level });
       const h = getHint(currentPuzzle.grid, currentPuzzle.solution, playerSolution, currentPuzzle.size);
       if (h) {
         const cell = gridEl.querySelector('[data-row="'+h[0]+'"][data-col="'+h[1]+'"]');
@@ -1101,16 +1090,41 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
       if ((e.ctrlKey||e.metaKey) && e.key==='z') { e.preventDefault(); e.shiftKey ? redo() : undo(); }
       if ((e.ctrlKey||e.metaKey) && e.key==='y') { e.preventDefault(); redo(); }
     });
-    document.getElementById('win-next').addEventListener('click', () => { winOverlay.classList.remove('show'); newPuzzle(); });
+    document.getElementById('win-next').addEventListener('click', () => { track('level_up', { level: level, difficulty: getDifficulty(level).label }); winOverlay.classList.remove('show'); newPuzzle(); });
+    async function captureBoardToClipboard() {
+      try {
+        const boardEl = document.getElementById('puzzle-grid');
+        if (!boardEl || typeof html2canvas === 'undefined') return;
+        const canvas = await html2canvas(boardEl, { backgroundColor: '#f8f6ef', scale: 2 });
+        canvas.toBlob(async (blob) => {
+          if (!blob) return;
+          try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]); } catch(e) {}
+        }, 'image/png');
+      } catch(e) {}
+    }
     document.getElementById('share-copy').addEventListener('click', () => {
+      track('share_copy');
       const diff = getDifficulty(level);
-      const text = '🐱 MeowTrail — Cat Logic Puzzle\nLevel ' + level + ' (' + diff.label + ') ' + diff.size + '×' + diff.size + ' solved!\n\nPlay free at meowtrail.org';
+      const text = '🐱 Cleared MeowTrail Level ' + level + ' (' + diff.label + ' ' + diff.size + '×' + diff.size + ') — can you beat my time?\nmeowtrail.org';
       navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!', 'success'));
     });
     document.getElementById('share-twitter').addEventListener('click', () => {
+      track('share_twitter');
       const diff = getDifficulty(level);
-      const text = encodeURIComponent('🐱 Just solved MeowTrail Level ' + level + ' (' + diff.label + ') ' + diff.size + '×' + diff.size + ' cat logic puzzle! 🧩\n\nPlay free at meowtrail.org');
+      const timeStr = timerSeconds > 0 ? '⏱ ' + formatTime(timerSeconds) + ' — ' : '';
+      const text = encodeURIComponent('🐱 Cleared MeowTrail Level ' + level + ' (' + diff.label + ' ' + diff.size + '×' + diff.size + ') ' + timeStr + 'your turn → meowtrail.org');
       window.open('https://twitter.com/intent/tweet?text=' + text, '_blank');
+    });
+    document.getElementById('share-reddit').addEventListener('click', async () => {
+      const diff = getDifficulty(level);
+      const timeStr = timerSeconds > 0 ? '⏱ ' + formatTime(timerSeconds) + ' — ' : '';
+      const text = encodeURIComponent('🐱 Cleared MeowTrail Level ' + level + ' (' + diff.label + ' ' + diff.size + '×' + diff.size + ') ' + timeStr + 'your turn → meowtrail.org');
+      track('share_reddit', { level: level, difficulty: diff.label });
+      await captureBoardToClipboard();
+      window.open('https://www.reddit.com/r/meowtrail/submit?url=' + encodeURIComponent('https://meowtrail.org') + '&title=' + text, '_blank');
+    });
+    document.getElementById('daily-btn').addEventListener('click', () => {
+      track('daily_challenge_click');
     });
     function generateShareCard() {
       const s = currentPuzzle.size, g = currentPuzzle.grid;

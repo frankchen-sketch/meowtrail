@@ -117,6 +117,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
   <div class="container">
     <h1>🐱 MeowTrail Daily Challenge</h1>
     <p class="subtitle">Super hard puzzle — can you solve it?</p>
+    <div id="account-area" style="display:flex;justify-content:center;align-items:center;gap:.6rem;margin:.6rem 0;min-height:2.2rem;flex-wrap:wrap"></div>
     <div style="text-align:center"><span class="daily-badge">🔥 SUPER HARD</span></div>
     <div class="timer" id="timer">00:00</div>
     <div style="display:flex;gap:1.5rem;justify-content:center;margin:.5rem 0;flex-wrap:wrap">
@@ -172,6 +173,11 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       </div>
       <div id="stat-badge" style="text-align:center;margin:.5rem 0"></div>
     </div>
+    <div class="leaderboard" id="daily-leaderboard">
+      <h3>🏆 Today's Leaderboard</h3>
+      <p style="font-size:.8rem;color:#6f5651;margin:.2rem 0 1rem">Sign in and solve today's challenge to appear here!</p>
+      <div id="leaderboard-list" style="text-align:left;max-width:420px;margin:0 auto"></div>
+    </div>
   </div>
   <script is:inline src="/akari-engine.js"></script>
   <script type="module">
@@ -189,6 +195,13 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
     const winOverlay = document.getElementById('win-overlay');
     const healthDisplay = document.getElementById('health-display');
     let toastTimer = null;
+    function track(event, params) {
+      if (typeof window.gtag === 'function') window.gtag('event', event, params || {});
+      if (typeof window.clarity === 'function') {
+        window.clarity('event', event);
+        if (params) Object.keys(params).forEach(k => window.clarity('set', k, String(params[k])));
+      }
+    }
 
     // Streak system
     function getToday() { return new Date().toISOString().split('T')[0]; }
@@ -443,6 +456,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
         const state = saveState(true, elapsedTime);
         updateStreakDisplay();
         syncToExtension();
+        syncWinToCloud(state, elapsedTime);
         spawnConfetti(); 
         setTimeout(()=>{
           winOverlay.classList.add('show');
@@ -539,9 +553,10 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       return canvas.toDataURL('image/png');
     }
 
-    document.getElementById('start-btn').addEventListener('click', startDailyChallenge);
+    document.getElementById('start-btn').addEventListener('click', () => { track('daily_start'); startDailyChallenge(); });
     document.getElementById('hint-btn').addEventListener('click', () => {
       if (!currentPuzzle || won) return;
+      track('hint_click');
       const h = getHint(currentPuzzle.grid, currentPuzzle.solution, playerSolution, currentPuzzle.size);
       if (h) {
         const cell = gridEl.querySelector('[data-row="'+h[0]+'"][data-col="'+h[1]+'"]');
@@ -559,6 +574,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       showToast('📸 Share card downloaded!', 'success');
     });
     document.getElementById('share-copy').addEventListener('click', () => {
+      track('share_copy');
       const state = loadState();
       const streak = state ? state.streak : 1;
       const badge = getBadge(streak);
@@ -567,6 +583,7 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
       navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!', 'success'));
     });
     document.getElementById('share-twitter').addEventListener('click', () => {
+      track('share_twitter');
       const state = loadState();
       const streak = state ? state.streak : 1;
       const badge = getBadge(streak);
@@ -577,12 +594,154 @@ const description = "Take on today's super hard MeowTrail challenge! Solve the d
 
     updateHealth();
     updateStreakDisplay();
+    syncCloudOnLoad();
+    renderLeaderboard();
     // Check if already solved today
     const state = loadState();
     if (state && state.solved) {
       document.getElementById('start-btn').textContent = '✅ Already Solved Today';
       document.getElementById('start-btn').disabled = true;
     }
+
+    // ─── Account & cloud sync ─────────────────────────────────────────
+    let currentUser = null;
+    function fetchWithTimeout(url, opts = {}, ms = 8000) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), ms);
+      return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(t));
+    }
+    function msToClock(ms) {
+      if (ms == null) return '--:--';
+      const total = Math.round(ms / 1000);
+      return Math.floor(total / 60).toString().padStart(2, '0') + ':' + (total % 60).toString().padStart(2, '0');
+    }
+    function renderAccountArea() {
+      const area = document.getElementById('account-area');
+      if (!area) return;
+      area.innerHTML = '';
+      if (currentUser) {
+        // DOM API 构建，避免 innerHTML 注入
+        if (currentUser.picture && /^https:\/\/(lh3|lh4|lh5|lh6)\.googleusercontent\.com\//.test(currentUser.picture)) {
+          const img = document.createElement('img');
+          img.src = currentUser.picture;
+          img.alt = '';
+          img.referrerPolicy = 'no-referrer';
+          img.style.cssText = 'width:28px;height:28px;border-radius:50%;vertical-align:middle';
+          area.appendChild(img);
+        }
+        const name = document.createElement('span');
+        name.textContent = currentUser.name || 'Cat Fan';
+        name.style.cssText = 'font-size:.85rem;font-weight:700;color:#342421';
+        area.appendChild(name);
+        const out = document.createElement('a');
+        out.href = '/api/auth/logout';
+        out.textContent = 'Sign out';
+        out.style.cssText = 'font-size:.75rem;color:#9b726c;text-decoration:underline';
+        area.appendChild(out);
+      } else {
+        const btn = document.createElement('a');
+        btn.href = '/api/auth/login?next=/daily';
+        btn.style.cssText = 'display:inline-flex;align-items:center;gap:.5rem;background:#fff;border:1.5px solid #dadce0;border-radius:24px;padding:.45rem 1.1rem;font-size:.85rem;font-weight:700;color:#3c4043;text-decoration:none;box-shadow:0 1px 3px rgba(0,0,0,.08)';
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 18.9 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.6 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>Sign in with Google';
+        area.appendChild(btn);
+      }
+    }
+    function applyCloudProgress(cloud) {
+      // 用云端数据覆盖 UI 与 localStorage（服务端已合并，云端即真源）
+      if (!cloud) return;
+      const local = loadState();
+      const st = {
+        date: getToday(),
+        streak: cloud.streak || 0,
+        bestStreak: cloud.bestStreak || 0,
+        bestTime: cloud.bestTime || null,
+        solved: !!(local && local.solved),
+        lastPlayedDate: cloud.lastSolvedDate || (local && local.lastPlayedDate) || null
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(st));
+      updateStreakDisplay();
+    }
+    async function syncCloudOnLoad() {
+      try {
+        const meRes = await fetchWithTimeout('/api/auth/me');
+        const me = await meRes.json();
+        currentUser = me && me.user ? me.user : null;
+        renderAccountArea();
+        if (!currentUser) return;
+        const cloudRes = await fetchWithTimeout('/api/progress');
+        if (!cloudRes.ok) return;
+        const cloudData = await cloudRes.json();
+        const cloud = cloudData.progress;
+        const local = loadState();
+        const localBestSec = local && local.bestTime != null ? local.bestTime : null;
+        const cloudBestMs = cloud && cloud.bestTime != null ? cloud.bestTime : null;
+        const localHasMore = local && (!cloud ||
+          (local.streak || 0) > (cloud.streak || 0) ||
+          (local.bestStreak || 0) > (cloud.bestStreak || 0) ||
+          (localBestSec != null && localBestSec * 1000 < (cloudBestMs ?? Infinity)));
+        if (localHasMore) {
+          // 本地领先 → 上传，服务端合并后以响应为准
+          const post = await fetchWithTimeout('/api/progress', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              date: (local && (local.lastPlayedDate || local.date)) || null,
+              streak: local.streak || 0,
+              bestStreak: local.bestStreak || 0,
+              bestTime: (local && local.bestTime != null) ? local.bestTime * 1000 : null
+            })
+          });
+          if (post.ok) {
+            const merged = (await post.json()).progress;
+            applyCloudProgress(merged);
+          }
+        } else if (cloud) {
+          applyCloudProgress(cloud);
+        }
+      } catch (e) { /* 静默降级：纯本地模式 */ }
+    }
+    async function syncWinToCloud(state, elapsedSeconds) {
+      if (!currentUser) return;
+      try {
+        await fetchWithTimeout('/api/progress', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            date: getToday(),
+            streak: state.streak || 0,
+            bestStreak: state.bestStreak || 0,
+            bestTime: (state.bestTime != null) ? state.bestTime * 1000 : null
+          })
+        });
+        await fetchWithTimeout('/api/leaderboard', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ date: getToday(), timeMs: Math.round(elapsedSeconds * 1000) })
+        });
+        renderLeaderboard();
+      } catch (e) { /* 静默 */ }
+    }
+    async function renderLeaderboard() {
+      const list = document.getElementById('leaderboard-list');
+      if (!list) return;
+      try {
+        const res = await fetchWithTimeout('/api/leaderboard?date=' + getToday());
+        if (!res.ok) return;
+        const data = await res.json();
+        const entries = data.entries || [];
+        if (!entries.length) {
+          list.innerHTML = '<p style="text-align:center;font-size:.85rem;color:#9b726c;padding:.5rem 0">🐾 Be the first cat on the leaderboard today!</p>';
+          return;
+        }
+        const medal = r => r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : '#' + r;
+        list.innerHTML = entries.map(e =>
+          '<div style="display:flex;justify-content:space-between;padding:.4rem .6rem;border-bottom:1px solid #f4dfdc;font-size:.85rem">'
+          + '<span style="font-weight:700;color:#342421">' + medal(e.rank) + ' ' + String(e.name || 'Anonymous Cat').replace(/[<>&]/g, '') + '</span>'
+          + '<span style="color:#559c68;font-weight:700">' + msToClock(e.timeMs) + '</span></div>'
+        ).join('');
+      } catch (e) { /* 静默 */ }
+    }
+    setInterval(renderLeaderboard, 60000);
 
     // Chrome Extension sync — post streak data to extension
     function syncToExtension() {

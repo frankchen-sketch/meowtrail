@@ -1,10 +1,11 @@
 ---
-// Reusable SEO head component for all pages
+// Reusable SEO head component for all game sites
 // Usage: <SEOHead title="..." description="..." canonical="/play" />
 // Auto-generates Article + BreadcrumbList JSON-LD for article pages
+// Requires site-config.ts in src/lib/ with ga4Id, clarityId, domain, brandName
 
 import { siteConfig } from '../lib/site-config';
-const { ga4Id } = siteConfig;
+const { ga4Id, clarityId, domain, brandName } = siteConfig;
 
 export interface Props {
   title: string;
@@ -28,15 +29,15 @@ const {
 
 // Normalize: ensure trailing slash (match sitemap convention)
 const normalizedCanonical = canonical === '/' ? '/' : (canonical.endsWith('/') ? canonical : `${canonical}/`);
-const fullUrl = `https://meowtrail.org${normalizedCanonical}`;
-const fullTitle = canonical === '/' ? title : (title.includes('MeowTrail') ? title : `${title} | MeowTrail`)
+const fullUrl = `https://${domain}${normalizedCanonical}`;
+const fullTitle = canonical === '/' ? title : (title.includes(brandName) ? title : `${title} | ${brandName}`);
 
 // Build BreadcrumbList from canonical path
 const pathParts = normalizedCanonical.split('/').filter(Boolean);
 const breadcrumbs = [
-  { name: 'Home', url: 'https://meowtrail.org/' },
+  { name: 'Home', url: `https://${domain}/` },
   ...pathParts.map((part, i) => {
-    const url = 'https://meowtrail.org/' + pathParts.slice(0, i + 1).join('/') + '/';
+    const url = `https://${domain}/` + pathParts.slice(0, i + 1).join('/') + '/';
     // Derive readable name from slug
     const name = part
       .replace(/^puzzle-/, 'Puzzle #')
@@ -65,12 +66,12 @@ const breadcrumbJsonLd = {
 const articleJsonLd = type === 'article' ? {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: title.replace(/ \| MeowTrail$/, ''),
+  headline: title.replace(new RegExp(` \\| ${brandName}$`), ''),
   description,
   url: fullUrl,
-  image: `https://meowtrail.org${image}`,
-  author: { '@type': 'Organization', name: 'MeowTrail', url: 'https://meowtrail.org/' },
-  publisher: { '@type': 'Organization', name: 'MeowTrail', url: 'https://meowtrail.org/' },
+  image: `https://${domain}${image}`,
+  author: { '@type': 'Organization', name: brandName, url: `https://${domain}/` },
+  publisher: { '@type': 'Organization', name: brandName, url: `https://${domain}/` },
   mainEntityOfPage: { '@type': 'WebPage', '@id': fullUrl },
 } : null;
 ---
@@ -88,24 +89,24 @@ const articleJsonLd = type === 'article' ? {
 <meta property="og:title" content={fullTitle}>
 <meta property="og:description" content={description}>
 <meta property="og:url" content={fullUrl}>
-<meta property="og:image" content={`https://meowtrail.org${image}`}>
+<meta property="og:image" content={`https://${domain}${image}`}>
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="MeowTrail — Free Akari Light Up Puzzle Game with Cats">
-<meta property="og:site_name" content="MeowTrail">
+<meta property="og:image:alt" content={`${brandName} — Free Puzzle Game`}>
+<meta property="og:site_name" content={brandName}>
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content={fullTitle}>
 <meta name="twitter:description" content={description}>
-<meta name="twitter:image" content={`https://meowtrail.org${image}`}>
+<meta name="twitter:image" content={`https://${domain}${image}`}>
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 <!-- Preconnect for performance -->
-<link rel="preconnect" href="https://meowtrail.org">
+<link rel="preconnect" href={`https://${domain}`}>
 
 <!-- llms.txt reference -->
 <link rel="alternate" type="text/plain" href="/llms.txt" title="AI-friendly site map">
@@ -124,10 +125,10 @@ const articleJsonLd = type === 'article' ? {
 </script>
 
 <!-- Microsoft Clarity -->
-<script type="text/javascript">
+<script define:vars={{ clarityId }}>
   (function(c,l,a,r,i,t,y){
     c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
     t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window, document, "clarity", "script", "yaiysek0y6");
+  })(window, document, "clarity", "script", clarityId);
 </script>

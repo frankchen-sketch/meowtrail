@@ -11,6 +11,12 @@ const { id, size, difficulty, grid, solution, cats, steps } = puzzle;
 const num = id.split('-')[1];
 const title = `Akari Puzzle #${num} — ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ${size}×${size} | MeowTrail`;
 const description = `Play MeowTrail Akari puzzle #${num} online. ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ${size}×${size} Light Up puzzle with ${cats} cats to place. Solve step by step.`;
+
+// Prev/Next navigation
+const puzzleIndex = puzzles.findIndex(p => p.id === id);
+const prevPuzzle = puzzleIndex > 0 ? puzzles[puzzleIndex - 1] : null;
+const nextPuzzle = puzzleIndex < puzzles.length - 1 ? puzzles[puzzleIndex + 1] : null;
+const totalPuzzles = puzzles.length;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -63,6 +69,14 @@ const description = `Play MeowTrail Akari puzzle #${num} online. ${difficulty.ch
     .seo-content p{margin:.5rem 0;line-height:1.7}
     .seo-content a{color:#E8A888;text-decoration:underline}
     footer{text-align:center;margin:2rem 0 1rem;font-size:.8rem;color:#6f5651}
+    /* ── Puzzle Nav ── */
+    .puzzle-nav{display:flex;justify-content:space-between;align-items:center;margin:.5rem 0;gap:.5rem}
+    .puzzle-nav a,.puzzle-nav span{font-size:.85rem;font-weight:600;text-decoration:none;border-radius:8px;padding:.4rem .8rem;transition:all .15s}
+    .puzzle-nav .nav-prev{background:#fff4f0;color:#342421}.puzzle-nav .nav-prev:hover{background:#e7dacf}
+    .puzzle-nav .nav-next{background:#E8A888;color:#fff;margin-left:auto}.puzzle-nav .nav-next:hover{background:#D09070}
+    .puzzle-nav .nav-disabled{opacity:.4;cursor:default;pointer-events:none}
+    .puzzle-nav .nav-counter{color:#6f5651;font-size:.8rem}
+    .solved-badge{display:inline-block;background:#88C8A8;color:#fff;font-size:.75rem;font-weight:700;padding:.15rem .5rem;border-radius:10px;margin-left:.5rem;vertical-align:middle}
     @media(max-width:480px){h1{font-size:1.3rem}.controls{gap:.3rem}.btn{padding:.4rem .7rem;font-size:.8rem}}
   
     /* ── Header ── */
@@ -101,7 +115,12 @@ const description = `Play MeowTrail Akari puzzle #${num} online. ${difficulty.ch
   </header>
 
   <div class="container">
-    <h1>🐱 MeowTrail Puzzle #{num}</h1>
+    <nav class="puzzle-nav">
+      {prevPuzzle ? <a href={`/puzzle/${prevPuzzle.id}/`} class="nav-prev">← Prev</a> : <span class="nav-prev nav-disabled">← Prev</span>}
+      <span class="nav-counter">Puzzle {num} / {totalPuzzles}</span>
+      {nextPuzzle ? <a href={`/puzzle/${nextPuzzle.id}/`} class="nav-next">Next →</a> : <span class="nav-next nav-disabled">Next →</span>}
+    </nav>
+    <h1>🐱 Akari Puzzle #{num}<span class="solved-badge" id="solved-badge" style="display:none">✓ Solved</span></h1>
     <div class="meta"><span>Difficulty: <strong>{difficulty}</strong></span><span>Size: <strong>{size}×{size}</strong></span><span>Cats: <strong>{cats}</strong></span></div>
     <div class="controls">
       <button class="btn btn-primary" id="new-btn">🔄 New Puzzle</button>
@@ -138,12 +157,18 @@ const description = `Play MeowTrail Akari puzzle #${num} online. ${difficulty.ch
     <footer><p>MeowTrail — Cat Logic Puzzle · <a href="/" style="color:#6f5651">Play More</a></p></footer>
   </div>
   <script is:inline src="/akari-engine.js"></script>
-  <script define:vars={{ puzzleData: puzzle }}>
+  <script define:vars={{ puzzleData: puzzle, nextPuzzleId: nextPuzzle ? nextPuzzle.id : null }}>
     var CAT_IMG='<img src="/assets/cats/cat-clay-purple.png" style="width:85%;height:85%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 2px 4px rgba(123,107,138,.3))" />';
     var X_MARK='<svg viewBox="0 0 24 24" width="50%" height="50%" style="opacity:0.4"><line x1="6" y1="6" x2="18" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/></svg>';
     var grid=puzzleData.grid,solution=puzzleData.solution,size=puzzleData.size,DIRS=[[-1,0],[1,0],[0,-1],[0,1]];
     var playerSolution=[],markX=[];for(var i=0;i<size;i++){playerSolution.push(new Array(size).fill(false));markX.push(new Array(size).fill(false));}
     var won=false,gridEl=document.getElementById('puzzle-grid'),progressEl=document.getElementById('progress'),toastEl=document.getElementById('toast'),winOverlay=document.getElementById('win-overlay'),toastTimer=null;
+    var PUZZLE_ID=puzzleData.id,STORAGE_KEY='meowtrail-progress';
+    function getSolved(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch(e){return[]}}
+    function markSolved(id){var s=getSolved();if(s.indexOf(id)===-1){s.push(id);localStorage.setItem(STORAGE_KEY,JSON.stringify(s));}}
+    function isSolved(id){return getSolved().indexOf(id)!==-1}
+    // Show solved badge on load
+    if(isSolved(PUZZLE_ID)){document.getElementById('solved-badge').style.display='inline-block';}
     function showToast(m,t){toastEl.textContent=m;toastEl.className='toast show'+(t==='success'?' success':'');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(function(){toastEl.className='toast';},2500);}
     function renderBoard(){
       var lit=illuminate(grid,playerSolution,size),v=checkViolations(grid,playerSolution,size),vc={},cp={};
@@ -158,14 +183,14 @@ const description = `Play MeowTrail Akari puzzle #${num} online. ${difficulty.ch
           (function(r2,c2){cell.addEventListener('click',function(e){e.preventDefault();if(!won)handleClick(r2,c2);});cell.addEventListener('dblclick',function(e){e.preventDefault();if(!won){markX[r2][c2]=!markX[r2][c2];renderBoard();}});cell.addEventListener('contextmenu',function(e){e.preventDefault();if(!won){markX[r2][c2]=!markX[r2][c2];renderBoard();}});})(r,c);}
         gridEl.appendChild(cell);}
     }
-    function handleClick(r,c){if(playerSolution[r][c])playerSolution[r][c]=false;else{markX[r][c]=false;playerSolution[r][c]=true;var v=checkViolations(grid,playerSolution,size);for(var i=0;i<v.length;i++){if(v[i].type==='number_excess'){showToast('Too many cats around number '+v[i].number+'!','error');break;}}for(var i=0;i<v.length;i++){if(v[i].type==='cat_conflict'){showToast('Two cats are facing each other!','error');break;}}}renderBoard();updateProgress();if(checkWin(grid,playerSolution,size)){won=true;setTimeout(function(){winOverlay.classList.add('show');},300);}}
+    function handleClick(r,c){if(playerSolution[r][c])playerSolution[r][c]=false;else{markX[r][c]=false;playerSolution[r][c]=true;var v=checkViolations(grid,playerSolution,size);for(var i=0;i<v.length;i++){if(v[i].type==='number_excess'){showToast('Too many cats around number '+v[i].number+'!','error');break;}}for(var i=0;i<v.length;i++){if(v[i].type==='cat_conflict'){showToast('Two cats are facing each other!','error');break;}}}renderBoard();updateProgress();if(checkWin(grid,playerSolution,size)){won=true;markSolved(PUZZLE_ID);document.getElementById('solved-badge').style.display='inline-block';setTimeout(function(){winOverlay.classList.add('show');},300);}}
     function updateProgress(){var info=countLit(grid,playerSolution,size);progressEl.textContent=info.lit+' / '+info.total+' cells lit';}
     document.getElementById('hint-btn').addEventListener('click',function(){if(won)return;var h=getHint(grid,solution,playerSolution,size);if(h){var cell=gridEl.querySelector('[data-row="'+h[0]+'"][data-col="'+h[1]+'"]');if(cell){cell.classList.add('cell-hint');setTimeout(function(){cell.classList.remove('cell-hint');},2000);}showToast('Hint: try row '+(h[0]+1)+', col '+(h[1]+1),'success');}else showToast('No hints!','error');});
     document.getElementById('reset-btn').addEventListener('click',function(){won=false;winOverlay.classList.remove('show');for(var i=0;i<size;i++){playerSolution[i]=new Array(size).fill(false);markX[i]=new Array(size).fill(false);}renderBoard();updateProgress();showToast('Board reset!','success');});
     document.getElementById('show-steps-btn').addEventListener('click',function(){var sec=document.getElementById('steps-section');sec.open=!sec.open;this.textContent=sec.open?'📖 Hide Solution':'📖 Show Solution';});
     document.querySelectorAll('.step').forEach(function(el){el.addEventListener('click',function(){var r=parseInt(this.dataset.row),c=parseInt(this.dataset.col);var cell=gridEl.querySelector('[data-row="'+r+'"][data-col="'+c+'"]');if(cell){cell.classList.add('cell-hint');setTimeout(function(){cell.classList.remove('cell-hint');},2000);}document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active');});this.classList.add('active');});});
     document.getElementById('new-btn').addEventListener('click',function(){window.location.href='/';});
-    document.getElementById('win-next').addEventListener('click',function(){window.location.href='/';});
+    document.getElementById('win-next').addEventListener('click',function(){window.location.href=nextPuzzleId?'/puzzle/'+nextPuzzleId+'/':'/';});
     renderBoard();updateProgress();
   </script>
 </body>

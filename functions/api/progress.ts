@@ -75,6 +75,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const localStreak = clampInt(body.streak, 0, 3650);
   const localBest = clampInt(body.bestStreak, 0, 3650);
   const localBestTime = body.bestTime == null ? null : clampInt(body.bestTime, 0, 86_400_000);
+  // 防循环污染：超过 2h 的 bestTime 视为脏数据拒收（正常 daily 解题 <2h）
+  const localBestTimeClean = (localBestTime != null && localBestTime > 7_200_000) ? null : localBestTime;
   const localDate = validDate(body.date);
 
   const db = env.meowtrail_users;
@@ -88,7 +90,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const best = Math.max(localBest, localStreak);
     await db
       .prepare('INSERT INTO daily_progress (user_id, streak, best_streak, best_time_ms, last_solved_date, updated_at) VALUES (?, ?, ?, ?, ?, ?)')
-      .bind(uid, localStreak, best, localBestTime, localDate, Date.now())
+      .bind(uid, localStreak, best, localBestTimeClean, localDate, Date.now())
       .run();
   } else {
     // 合并：best 取 max；streak 取 last_solved_date 较新的一方；best_time 取 min
@@ -96,7 +98,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const streak = cloudNewer ? row.streak : localStreak;
     const best = Math.max(row.best_streak, localBest, streak); // best 永远 >= streak
     const bestTime =
-      row.best_time_ms == null ? localBestTime : localBestTime == null ? row.best_time_ms : Math.min(row.best_time_ms, localBestTime);
+      row.best_time_ms == null ? localBestTimeClean : localBestTimeClean == null ? row.best_time_ms : Math.min(row.best_time_ms, localBestTimeClean);
     const lastDate = cloudNewer ? row.last_solved_date : localDate;
     await db
       .prepare('UPDATE daily_progress SET streak = ?, best_streak = ?, best_time_ms = ?, last_solved_date = ?, updated_at = ? WHERE user_id = ?')

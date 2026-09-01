@@ -87,9 +87,21 @@ const gridSize = sizes.map(s => `${s}×${s}`).join(', ');
       ) : (
         <div class="level-grid">
           {filtered.map(p => (
-            <a href={`/puzzle/${p.id}/`} class="level-link">Puzzle {p.id.split('-')[1]}</a>
+            <a href={`/puzzle/${p.id}/`} class="level-link" data-puzzle-id={p.id}>Puzzle {p.id.split('-')[1]}</a>
           ))}
         </div>
+        <script is:inline>
+          (function(){
+            var solved = [];
+            try { solved = JSON.parse(localStorage.getItem('meowtrail-progress') || '[]'); } catch(e) {}
+            document.querySelectorAll('.level-link[data-puzzle-id]').forEach(function(el) {
+              if (solved.indexOf(el.dataset.puzzleId) !== -1) {
+                el.style.borderLeft = '4px solid #88C8A8';
+                el.innerHTML = '✓ ' + el.innerHTML;
+              }
+            });
+          })();
+        </script>
       )}
       <details>
         <summary>What makes these puzzles "hard"?</summary>

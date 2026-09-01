@@ -54,7 +54,9 @@ scripts/
 - 首页有 "🔥 Daily Challenge" 入口按钮
 - og:image / favicon 已替换为真实素材
 - GSC 已提交 sitemap
+- GA4 事件打点：game_start / level_up / hint_click / daily_challenge_click / share_copy / share_twitter / share_reddit / daily_start
+- Clarity 客户端 API：track() helper 自动同步所有事件到 Clarity（yaiysek0y6）
+- Reddit 分享：预填 r/meowtrail，计时+关卡+挑战文案，html2canvas 棋盘截图到剪贴板
 
 ## 下一步
-- 分享卡升级为棋盘截图合成（当前只有文字统计）
 - 自定义棋盘生成器（用户创建题目 → 分享链接）

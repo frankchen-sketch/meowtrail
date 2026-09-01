@@ -22,3 +22,6 @@ Thumbs.db
 *.log
 *.tmp
 .vercel
+
+# Wrangler local secrets
+.dev.vars

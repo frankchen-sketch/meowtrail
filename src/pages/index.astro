@@ -529,8 +529,8 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
             <div class="meta"><h3>Hard Puzzles — Advanced Logic</h3><small>9×9 · 10×10 grids</small></div>
           </a>
           <a class="video-card" href="/daily/">
-            <div class="thumb"><img src="/assets/screenshots/game-daily.png" alt="MeowTrail Daily Challenge — 14×14 super hard Akari puzzle" loading="lazy"><span class="level-tag">Daily</span></div>
-            <div class="meta"><h3>Daily Challenge — Super Hard</h3><small>New puzzle every day</small></div>
+            <div class="thumb"><img src="/assets/screenshots/game-daily.png" alt="MeowTrail Daily Challenge — daily Akari puzzle with weekend super challenge" loading="lazy"><span class="level-tag">Daily</span></div>
+            <div class="meta"><h3>Daily Challenge</h3><small>10×10 daily · 14×14 weekends</small></div>
           </a>
         </div>
       </section>
@@ -645,7 +645,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
 
         <h2><span class="accent">Why</span> Play Akari Puzzle Online at MeowTrail?</h2>
         <p>Logic puzzles like MeowTrail are a relaxing way to train pattern recognition and deductive reasoning. Because the rules are compact and visual, each session stays lightweight — perfect for a coffee break — while the larger boards reward deliberate, layered thinking.</p>
-        <p>Unlike many puzzle games, MeowTrail has <strong>no timers, no ads interrupting gameplay, and no paywalls</strong>. Every puzzle is free, every solution is unique, and every successfully lit room ends with a delightful feline flourish. Plus, the <a href="/daily/">Daily Challenge</a> gives you a reason to come back every day with a fresh 14×14 super-hard puzzle.</p>
+        <p>Unlike many puzzle games, MeowTrail has <strong>no timers, no ads interrupting gameplay, and no paywalls</strong>. Every puzzle is free, every solution is unique, and every successfully lit room ends with a delightful feline flourish. Plus, the <a href="/daily/">Daily Challenge</a> gives you a reason to come back every day with a fresh 10×10 puzzle — and a 14×14 Weekend Super Challenge on Saturdays and Sundays.</p>
         <p>If you enjoy Sudoku, KenKen, or other number logic puzzles, <strong>Akari</strong> offers a refreshing change of pace with spatial reasoning instead of arithmetic. And if you're already an Akari fan, MeowTrail's cat theme adds a layer of charm that makes every solve feel like a small celebration.</p>
 
         <h3>Common Akari Puzzle Mistakes to Avoid</h3>
@@ -743,7 +743,7 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
         </details>
         <details class="faq-item">
           <summary>Does MeowTrail have a daily challenge?</summary>
-          <div class="faq-answer">Yes! A new super-hard 14×14 puzzle is generated every day. Track your solving streak and earn badges at 3, 7, 14, and 30 consecutive days. Visit the <a href="/daily/">Daily Challenge</a> page to play today's puzzle.</div>
+          <div class="faq-answer">Yes! A fresh 10×10 puzzle is generated every day, and weekends (Sat & Sun UTC) feature a 14×14 Weekend Super Challenge. Track your solving streak and earn badges at 3, 7, 14, and 30 consecutive days. Visit the <a href="/daily/">Daily Challenge</a> page to play today's puzzle.</div>
         </details>
       </section>
 
@@ -819,6 +819,9 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
     const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
     function track(event, params) {
       if (typeof window.gtag === 'function') window.gtag('event', event, params || {});
+      if (window.posthog && typeof window.posthog.capture === 'function') {
+        window.posthog.capture(event, Object.assign({ site: 'meowtrail' }, params || {}));
+      }
       if (typeof window.clarity === 'function') {
         window.clarity('event', event);
         if (params) Object.keys(params).forEach(k => window.clarity('set', k, String(params[k])));
@@ -948,9 +951,57 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
         el.style.animationDelay = Math.random()*2+'s'; c.appendChild(el);
       }
     }
+    // ─── Level cloud sync（静默：登录态在 daily 页建立，这里只同步数据）───
+    let currentUser = null;
+    function mtFetch(url, opts, ms = 8000) {
+      opts = opts || {};
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), ms);
+      return fetch(url, Object.assign({}, opts, { signal: ctrl.signal })).finally(() => clearTimeout(t));
+    }
+    function postLevel(lv) {
+      mtFetch('/api/level', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ level: lv }) }).catch(() => {});
+    }
+    function syncLevelOnLoad() {
+      mtFetch('/api/auth/me').then(r => r.json()).then(me => {
+        currentUser = me && me.user ? me.user : null;
+        if (!currentUser) return;
+        mtFetch('/api/level').then(r => r.ok ? r.json() : null).then(data => {
+          if (!data) return;
+          if (data.level == null) {
+            if (level + 1 > 1) postLevel(level + 1);
+          } else if (data.level > level + 1) {
+            // 云端领先（换设备恢复）→ 跳关
+            level = data.level - 1;
+            updateLevel(); CAT_IMG = getCatImg(level);
+            clearAutoSave(); newPuzzleSkip();
+          } else if (level + 1 > data.level) {
+            postLevel(level + 1);
+          }
+        }).catch(() => {});
+      }).catch(() => {});
+    }
+    function newPuzzleSkip() {
+      won = false; winOverlay.classList.remove('show'); health = 3; updateHealth();
+      historyStack = []; redoStack = [];
+      startTimer(); showBestTime();
+      const diff = getDifficulty(level); const s = diff.size;
+      gridEl.innerHTML = '<div style="padding:2rem;color:var(--text-muted);font-size:0.9rem;">Generating...</div>';
+      progressEl.textContent = '';
+      setTimeout(() => {
+        try {
+          currentPuzzle = generatePuzzle(s);
+          playerSolution = Array.from({length:s}, () => Array(s).fill(false));
+          markX = Array.from({length:s}, () => Array(s).fill(false));
+          renderBoard(); updateProgress(); autoSave();
+        } catch(e) {}
+      }, 10);
+    }
+
     function newPuzzle() {
       won = false; winOverlay.classList.remove('show'); health = 3; updateHealth();
       level++; updateLevel(); CAT_IMG = getCatImg(level); gameStartTime = Date.now();
+      if (currentUser) postLevel(level + 1);
       historyStack = []; redoStack = [];
       startTimer(); showBestTime();
       const diff = getDifficulty(level); const s = diff.size;
@@ -1188,8 +1239,9 @@ const description = "Play MeowTrail, a free Light Up puzzle game with cute cats.
         return true;
       } catch (e) { return false; }
     }
-    // Always start fresh from Level 1
+    // Always start fresh from Level 1, then pull cloud level if signed in
     newPuzzle();
+    syncLevelOnLoad();
   </script>
 </body>
 </html>

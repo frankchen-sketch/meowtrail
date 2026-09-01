@@ -1,8 +1,8 @@
 ---
 import SEOHead from '../components/SEOHead.astro';
 
-const title = "MeowTrail Tips & Strategy — Master Every Puzzle";
-const description = "Expert MeowTrail strategies: beginner tips, advanced techniques, and solving patterns to beat every difficulty level. From first puzzle to ultra mastery.";
+const title = "Light Up Puzzle Strategy & Tips — Master Akari Logic | MeowTrail";
+const description = "Master Light Up puzzle strategy with our expert tips. From beginner techniques to advanced Akari logic — solve every puzzle with confidence.";
 ---
 
 <!DOCTYPE html>
@@ -11,12 +11,61 @@ const description = "Expert MeowTrail strategies: beginner tips, advanced techni
   <SEOHead title={title} description={description} canonical="/tips" type="article" />
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "MeowTrail Tips & Strategy Guide",
-    "description": description,
-    "url": "https://meowtrail.org/tips",
-    "author": { "@type": "Organization", "name": "MeowTrail" }
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question", "name": "What is the best strategy for starting a Light Up puzzle?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Start with numbered cells: place bulbs next to every '4' cell (all 4 neighbors must be bulbs), and mark X's around every '0' cell (no neighbors can be bulbs). This gives you the most forced placements immediately." }
+      },
+      {
+        "@type": "Question", "name": "How do you use line-of-sight in Akari?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Every bulb illuminates all white cells in its row and column until blocked by a black wall. Cells that are already lit cannot hold another bulb. If a white cell is not yet lit, at least one bulb must be placed within its line-of-sight." }
+      },
+      {
+        "@type": "Question", "name": "What is the elimination technique in Akari?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The elimination technique is a proof-by-contradiction method: assume a cell has a bulb, follow the logical consequences, and if a contradiction appears (like a numbered cell exceeding its count), the assumption was wrong and the cell must be empty." }
+      }
+    ]
   })} />
+  <style is:global>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"SF Pro Rounded","Segoe UI","Noto Sans SC",system-ui,sans-serif;background:linear-gradient(180deg,#f8f6ef,#f8f6ef);color:#342421;min-height:100vh}
+    .container{max-width:720px;margin:0 auto;padding:1rem}
+    h1{font-size:1.8rem;color:#342421;text-align:center;margin:.5rem 0}
+    .seo-content{margin-top:1.5rem;padding-top:1.5rem;border-top:2px solid #e7dacf}
+    .seo-content p{margin:.5rem 0;line-height:1.7}
+    .seo-content ol,.seo-content ul{padding-left:1.5rem;margin:.5rem 0}
+    .seo-content li{margin-bottom:.4rem}
+    .seo-content a{color:#E8A888;text-decoration:underline}
+    .seo-content h2{font-size:1.3rem;color:#342421;margin:1.5rem 0 .5rem}
+    .seo-content h3{font-size:1.1rem;color:#342421;margin:1rem 0 .3rem}
+    details{margin:.5rem 0;padding:.5rem .8rem;background:#f8f6ef;border-radius:8px}
+    summary{cursor:pointer;font-weight:600;color:#E8A888}
+    .strategy-card{margin:1rem 0;padding:1rem 1.2rem;background:#fff;border-radius:12px;border-left:4px solid #E8A888;box-shadow:0 2px 8px rgba(123,107,138,.08)}
+    .strategy-card h3{margin-top:0;color:#E8A888}
+    .strategy-card.difficulty-easy{border-left-color:#88C8A8}
+    .strategy-card.difficulty-easy h3{color:#559c68}
+    .strategy-card.difficulty-advanced{border-left-color:#7B6B8A}
+    .strategy-card.difficulty-advanced h3{color:#7B6B8A}
+    footer{text-align:center;margin:2rem 0 1rem;font-size:.8rem;color:#6f5651}
+    footer a{color:#6f5651}
+    .play-cta{display:block;text-align:center;margin:2rem 0;padding:1rem;background:linear-gradient(145deg,#F0B898,#E09878);color:#fff;border-radius:12px;text-decoration:none;font-weight:600;font-size:1.1rem}
+    .play-cta:hover{background:linear-gradient(145deg,#E0A888,#D08868)}
+
+    /* ── Header ── */
+    .site-header{position:sticky;top:0;z-index:30;border-bottom:1px solid #f4dfdc;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .header-inner{max-width:80rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;padding:0 1rem}
+    .brand{display:flex;align-items:center;gap:0.75rem;text-decoration:none}
+    .brand-logo{width:2.25rem;height:2.25rem;border-radius:0.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.08);overflow:hidden}
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+    .brand-name{line-height:1.1}
+    .brand-name .big{font-weight:900;color:#342421;font-size:1.05rem;display:block}
+    .brand-name .small{font-weight:600;color:#9b726c;font-size:0.75rem}
+    .nav{display:flex;align-items:center;gap:0.25rem}
+    .nav a{border-radius:0.375rem;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:700;color:#6f5651;text-decoration:none}
+    .nav a:hover{background:#fff4f0;color:#342421}
+
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -38,31 +87,133 @@ const description = "Expert MeowTrail strategies: beginner tips, advanced techni
     </div>
   </header>
 
-  <nav aria-label="Breadcrumb"><a href="/">Home</a> &gt; <span>Tips</span></nav>
-  <main>
-    <h1>MeowTrail Tips & Strategy</h1>
+  <div class="container">
+    <h1>🐱 Light Up Puzzle Strategy & Tips</h1>
+    <p style="text-align:center;color:#6f5651;margin-bottom:1rem;">Master Akari logic with strategies for every skill level — from your first puzzle to expert grids.</p>
 
-    <h2>Beginner Tips</h2>
-    <ol>
-      <li><strong>Start with 4-cells</strong> — A black cell with "4" means all 4 neighbors must have bulbs. Place them immediately.</li>
-      <li><strong>Start with 0-cells</strong> — A "0" means none of its neighbors can have bulbs. Mark them as blocked.</li>
-      <li><strong>Work from corners</strong> — Corner cells can only be lit from two directions, making them easier to reason about.</li>
-      <li><strong>Mark X for impossible spots</strong> — If placing a bulb would violate a number constraint, mark that cell as empty.</li>
-    </ol>
+    <section class="seo-content">
+      <p>Whether you are picking up your first <strong>light up puzzle</strong> or you have been solving <strong>Akari</strong> for years, the right <strong>strategy</strong> makes all the difference. This guide breaks down techniques by skill level — beginner, intermediate, and advanced — so you always know what to try next.</p>
+      <p>Prefer to learn by doing? <a href="/">Play free on MeowTrail</a> and apply each strategy as you go.</p>
 
-    <h2>Intermediate Techniques</h2>
-    <ol>
-      <li><strong>Line-of-sight elimination</strong> — If a bulb is placed, no other bulb can be in its row/column until a black cell.</li>
-      <li><strong>Counting remaining neighbors</strong> — If a "3" cell has 2 neighbors already blocked, the remaining 2 must both have bulbs.</li>
-      <li><strong>Cross-hatching</strong> — Use the intersection of row and column constraints to narrow down bulb positions.</li>
-    </ol>
+      <h2>🟢 Beginner Strategies</h2>
+      <p>These are the first techniques every <strong>light up puzzle</strong> solver should master. They handle most of the grid on easy and medium puzzles.</p>
 
-    <h2>Advanced Strategies</h2>
-    <ol>
-      <li><strong>Chain reasoning</strong> — Placing one bulb forces or eliminates others. Follow the chain until contradiction or solution.</li>
-      <li><strong>Parity checks</strong> — Some grid sections have forced patterns based on available cells vs. required bulbs.</li>
-      <li><strong>Hypothetical reasoning</strong> — If placing a bulb at position X leads to a contradiction, X must be empty.</li>
-    </ol>
-  </main>
+      <div class="strategy-card difficulty-easy">
+        <h3>1. Corner Strategy</h3>
+        <p>Corner cells are the easiest to reason about because they have only two neighbors. If a corner cell needs to be lit and one of its two neighbors is blocked by a wall, the <strong>other neighbor must contain a bulb</strong>. This is the most basic <strong>Akari strategy</strong> and a great starting point for beginners.</p>
+        <p><strong>Example:</strong> In the top-left corner, if the cell below the corner is a black wall, the cell to the right must hold a bulb to light the corner. Place it immediately.</p>
+      </div>
+
+      <div class="strategy-card difficulty-easy">
+        <h3>2. Number 4 Strategy</h3>
+        <p>When you see a black cell marked <strong>4</strong>, it has exactly four orthogonal neighbors — and all four must be bulbs. This is the most powerful forced placement in any <strong>light up puzzle</strong>. Place them right away, then mark all the cells they illuminate.</p>
+        <p><strong>Pro tip:</strong> A "2" in a corner (which only has 2 neighbors) is just as decisive — both neighbors must be bulbs.</p>
+      </div>
+
+      <div class="strategy-card difficulty-easy">
+        <h3>3. Number 0 Strategy</h3>
+        <p>A black cell marked <strong>0</strong> means none of its adjacent white cells can hold a bulb. Mark all four neighbors with an X. Every X you place reduces the grid's possibilities and often cascades into forced placements on nearby numbered cells.</p>
+        <p><strong>Why it matters:</strong> If a "3" cell now has three of its four neighbors marked X, the <strong>remaining neighbor must be a bulb</strong> — even if that was not obvious at first glance.</p>
+      </div>
+
+      <h2>🔵 Intermediate Techniques</h2>
+      <p>Once you have mastered the basics, these techniques will help you solve medium and hard puzzles without guessing.</p>
+
+      <div class="strategy-card">
+        <h3>4. Line-of-Sight Elimination</h3>
+        <p>This is the core mechanic that makes <strong>Akari</strong> unique. Every bulb illuminates all white cells in its row and column until a black wall blocks the beam. This has two consequences:</p>
+        <ul>
+          <li><strong>Lit cells cannot have bulbs.</strong> If a cell is already illuminated by an existing bulb, placing another bulb there would create a clash — two bulbs would see each other.</li>
+          <li><strong>Dark cells must be lit.</strong> If a white cell is not yet illuminated, at least one bulb must be placed in its row or column (within line-of-sight).</li>
+        </ul>
+        <p>After every bulb placement, trace its beams and update your <strong>strategy</strong>. This single technique resolves more cells than any other.</p>
+      </div>
+
+      <div class="strategy-card">
+        <h3>5. Edge Strategy</h3>
+        <p>Cells along the grid edge have only three neighbors (instead of four for interior cells). This makes edge constraints tighter. If an edge cell is dark and only one direction can light it, that direction is forced.</p>
+        <p><strong>Look for:</strong> Edge cells sandwiched between two black walls. They can only be lit from one direction — the bulb is forced.</p>
+      </div>
+
+      <div class="strategy-card">
+        <h3>6. Counting Remaining Neighbors</h3>
+        <p>After you have placed some bulbs and marked X's, re-check every numbered cell. If a "2" cell has two neighbors already occupied by bulbs and two neighbors marked X, the constraint is satisfied and you can stop worrying about it. But if a "2" cell has one neighbor already a bulb and one neighbor marked X, the remaining two open neighbors must contain exactly one bulb — not both, not zero.</p>
+        <p>This <strong>counting strategy</strong> is the bread and butter of intermediate <strong>Light Up puzzle</strong> solving.</p>
+      </div>
+
+      <h2>🟣 Advanced Strategies</h2>
+      <p>For hard and expert puzzles, you need techniques that reason about multiple cells at once. These strategies will help you crack the toughest <strong>Akari</strong> grids.</p>
+
+      <div class="strategy-card difficulty-advanced">
+        <h3>7. Unlit Cell Analysis</h3>
+        <p>If a white cell can only be lit by one specific neighbor (because walls block all other directions), that neighbor must contain a bulb. This is especially powerful in narrow corridors between walls where lighting options are severely limited.</p>
+        <p><strong>Application:</strong> Scan the grid for dark cells that have exactly one path of illumination remaining. Any cell that passes through only one candidate bulb position forces that position.</p>
+      </div>
+
+      <div class="strategy-card difficulty-advanced">
+        <h3>8. Shared Light Source</h3>
+        <p>When two or more dark cells can only be lit from the same single cell, that cell is a forced bulb. This is a pattern recognition <strong>strategy</strong>: look for clusters of dark cells that funnel down to one candidate position.</p>
+        <p>If that single position fails to light all of them, you have a contradiction — meaning the assumption that led to all those dark cells was wrong.</p>
+      </div>
+
+      <div class="strategy-card difficulty-advanced">
+        <h3>9. Elimination (Hypothetical Reasoning)</h3>
+        <p>When direct techniques are not enough, use elimination — a formal proof-by-contradiction method:</p>
+        <ol>
+          <li>Pick a cell with exactly two possibilities (bulb or no bulb).</li>
+          <li><strong>Assume it IS a bulb.</strong> Follow the consequences: mark illumination, update numbered cells, look for forced placements. If you reach a contradiction (a numbered cell gets too many bulbs, or a cell becomes impossible to light), the assumption was wrong — mark it X.</li>
+          <li><strong>Assume it is NOT a bulb.</strong> If that leads to a contradiction, then it must be a bulb.</li>
+        </ol>
+        <p>This is not guessing — it is formal logic. Choose cells adjacent to numbered walls for the fastest contradiction detection.</p>
+      </div>
+
+      <div class="strategy-card difficulty-advanced">
+        <h3>10. Chain Reasoning</h3>
+        <p>Chain reasoning links multiple techniques together. Place one bulb, trace its line-of-sight, update numbered cells, find a forced placement, place another bulb, repeat. A single chain can resolve 10-20 cells in sequence.</p>
+        <p><strong>Master tip:</strong> On hard <strong>light up puzzle</strong> grids, look for the cell with the most constraints (surrounded by numbered walls) and start your chain there. The chain will propagate faster because each numbered wall provides immediate feedback on whether your placements are correct.</p>
+      </div>
+
+      <h2>Common Mistakes</h2>
+      <p>Even experienced solvers make these errors. Watch for them as you work through any <strong>Akari puzzle</strong>:</p>
+      <ul>
+        <li><strong>Forgetting to trace full beams.</strong> A bulb lights its entire row and column until a wall — not just the adjacent cells. Always trace to the grid edge or the first black cell.</li>
+        <li><strong>Ignoring numbered cells after initial placement.</strong> Re-check every numbered cell after each new bulb. A placement that was fine earlier may now violate a constraint.</li>
+        <li><strong>Placing bulbs without checking line-of-sight.</strong> Before committing, verify no existing bulb in the same row or column can see the new position.</li>
+        <li><strong>Assuming symmetry.</strong> Some grids look symmetrical, but the solution may not be. Always solve based on logic, not visual pattern-matching.</li>
+        <li><strong>Giving up too early.</strong> If you feel stuck, go back to the numbered cells and re-check. Often a small deduction you missed unlocks the entire puzzle.</li>
+      </ul>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <details>
+        <summary>What is the best strategy for starting a Light Up puzzle?</summary>
+        <p>Start with numbered cells: place bulbs next to every "4" cell (all 4 neighbors must be bulbs), and mark X's around every "0" cell (no neighbors can be bulbs). This gives you the most forced placements immediately. Then scan for corner cells that can only be lit from one direction. These two <strong>strategies</strong> alone will resolve 30-50% of most grids.</p>
+      </details>
+
+      <details>
+        <summary>How do you use line-of-sight in Akari?</summary>
+        <p>Every bulb illuminates all white cells in its row and column until blocked by a black wall. Cells that are already lit cannot hold another bulb. If a white cell is not yet lit, at least one bulb must be placed within its line-of-sight. This bidirectional constraint is the heart of <strong>Light Up puzzle</strong> logic.</p>
+      </details>
+
+      <details>
+        <summary>What is the elimination technique in Akari?</summary>
+        <p>The elimination technique is a proof-by-contradiction method: assume a cell has a bulb, follow the logical consequences, and if a contradiction appears (like a numbered cell exceeding its count), the assumption was wrong and the cell must be empty. This is a legitimate and sometimes necessary <strong>strategy</strong> for the hardest grids.</p>
+      </details>
+
+      <details>
+        <summary>Do I need different strategies for different grid sizes?</summary>
+        <p>No — the same <strong>strategies</strong> work on all grid sizes. What changes is how often you use each one. Small grids (5×5 to 7×7) mostly need beginner techniques. Medium grids (10×10) require intermediate techniques like line-of-sight elimination. Large grids (14×14 and above) may need the full advanced toolkit including elimination and chain reasoning.</p>
+      </details>
+
+      <details>
+        <summary>What is the hardest strategy to master?</summary>
+        <p>Chain reasoning is the most challenging because it requires holding multiple logical steps in your head. Start by practicing on medium puzzles where chains are short (2-3 steps), then gradually work up to hard puzzles where chains can be 10+ steps long. The <a href="/solver/">MeowTrail solver</a> can help you verify your chain reasoning.</p>
+      </details>
+    </section>
+
+    <a href="/" class="play-cta">🎮 Play Free on MeowTrail</a>
+
+    <footer><p>Made by <a href="https://oakevergames.com/">Oakever Games</a>. © 2026 All rights reserved.</p></footer>
+  </div>
 </body>
 </html>

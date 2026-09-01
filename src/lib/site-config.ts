@@ -6,6 +6,9 @@ export const siteConfig = {
   // Microsoft Clarity — https://clarity.microsoft.com → Settings → Overview
   clarityId: 'yaiysek0y6',
 
+  // PostHog — https://us.posthog.com → Settings → Project API key (public, safe to ship)
+  posthogKey: 'phc_sfqHUyLnWEARfrpFiqe4HGBt297LLsXxG5pFEZ7n9ykC',
+
   // Domain (no protocol, no trailing slash)
   domain: 'meowtrail.org',
 

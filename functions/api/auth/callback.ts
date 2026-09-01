@@ -10,12 +10,17 @@ import {
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env, params }) => {
   const url = new URL(request.url);
+  // Google 授权失败/用户取消：跳回带 error 参数
+  const oauthError = url.searchParams.get('error');
+  if (oauthError) {
+    return Response.redirect(url.origin + '/daily/?auth_error=' + encodeURIComponent(oauthError), 302);
+  }
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
   const stateCookieVal = getCookie(request, 'mt_oauth_state');
 
   if (!code || !state || !stateCookieVal) {
-    return json({ error: 'missing_code_or_state' }, 400);
+    return Response.redirect(url.origin + '/daily/?auth_error=missing_code', 302);
   }
 
   // state 校验 + 取出回跳路径（再次过同源白名单，纵深防御）
@@ -40,8 +45,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, params })
     }),
   });
   if (!tokenRes.ok) {
-    // 不泄露上游错误详情，只返回固定错误码
-    return json({ error: 'token_exchange_failed' }, 502);
+    // Google 拒绝 code：重定向回页面带提示，不泄露上游详情
+    return Response.redirect(url.origin + '/daily/?auth_error=token_exchange', 302);
   }
   const { access_token } = (await tokenRes.json()) as { access_token: string };
 
@@ -49,7 +54,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, params })
   const uiRes = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
     headers: { Authorization: `Bearer ${access_token}` },
   });
-  if (!uiRes.ok) return json({ error: 'userinfo_failed' }, 502);
+  if (!uiRes.ok) return Response.redirect(url.origin + '/daily/?auth_error=userinfo', 302);
   const ui = (await uiRes.json()) as {
     sub: string;
     email?: string;

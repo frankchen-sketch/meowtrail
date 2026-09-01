@@ -1,8 +1,14 @@
 ---
 import SEOHead from '../../components/SEOHead.astro';
+import puzzles from '../../data/puzzles.json';
+
+const filtered = puzzles.filter(p => p.difficulty === 'hard');
 const title = "Hard Akari Puzzles — Expert 14×14 Light Up Challenges | MeowTrail";
 const description = "Play hard Akari puzzles online free. Expert 14×14 Light Up challenges with dense walls and advanced logic. Master the toughest puzzles at MeowTrail.";
+const sizes = [...new Set(filtered.map(p => p.size))].sort();
+const gridSize = sizes.map(s => `${s}×${s}`).join(', ');
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +31,7 @@ const description = "Play hard Akari puzzles online free. Expert 14×14 Light Up
     footer a{color:#6f5651}
     .play-cta{display:block;text-align:center;margin:2rem 0;padding:1rem;background:linear-gradient(145deg,#F0B898,#E09878);color:#fff;border-radius:12px;text-decoration:none;font-weight:600;font-size:1.1rem}
     .play-cta:hover{background:linear-gradient(145deg,#E0A888,#D08868)}
-  
+
     /* ── Header ── */
     .site-header{position:sticky;top:0;z-index:30;border-bottom:1px solid #f4dfdc;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
     .header-inner{max-width:80rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;padding:0 1rem}
@@ -63,46 +69,31 @@ const description = "Play hard Akari puzzles online free. Expert 14×14 Light Up
 
   <div class="container">
     <h1>🐱 Hard Akari Puzzles</h1>
-    <p style="text-align:center;color:#6f5651;margin-bottom:1rem;">10 hard puzzles to solve.</p>
+    <p style="text-align:center;color:#6f5651;margin-bottom:1rem;">{filtered.length} hard puzzles ({gridSize}) to solve.</p>
     <section class="seo-content">
-      <h2>All Hard Puzzles</h2>
-      <div class="level-grid">
-        <a href="/puzzle/puzzle-021/" class="level-link">Puzzle 21</a>
-        <a href="/puzzle/puzzle-022/" class="level-link">Puzzle 22</a>
-        <a href="/puzzle/puzzle-023/" class="level-link">Puzzle 23</a>
-        <a href="/puzzle/puzzle-024/" class="level-link">Puzzle 24</a>
-        <a href="/puzzle/puzzle-025/" class="level-link">Puzzle 25</a>
-        <a href="/puzzle/puzzle-026/" class="level-link">Puzzle 26</a>
-        <a href="/puzzle/puzzle-027/" class="level-link">Puzzle 27</a>
-        <a href="/puzzle/puzzle-028/" class="level-link">Puzzle 28</a>
-        <a href="/puzzle/puzzle-029/" class="level-link">Puzzle 29</a>
-        <a href="/puzzle/puzzle-030/" class="level-link">Puzzle 30</a>
-      </div>
-
-      <h2>Expert Akari Strategies for Hard Puzzles</h2>
-      <p>Hard <strong>Akari puzzles</strong> require more than just the basics. Here are strategies specifically for cracking tough grids:</p>
+      <p>Hard Akari puzzles require more than just the basics. Here are strategies specifically for cracking tough grids:</p>
       <h3>1. Start with Forced Deductions</h3>
       <p>Even on hard puzzles, the same rules apply. Scan for <strong>number 4</strong> and <strong>number 0</strong> cells first. On expert grids, these are less common, but they still exist — and they are the most efficient way to start.</p>
       <h3>2. Track Dark Cells Ruthlessly</h3>
       <p>After placing each bulb, identify every white cell that is still dark. If a dark cell can only be lit from one direction, that direction is forced. On hard puzzles, this is often the only way to make progress — do not skip this step.</p>
       <h3>3. Use Elimination (Hypothesis Testing)</h3>
-      <p>When direct logic stalls, pick a cell with exactly two possibilities and test one. If it leads to a contradiction, the other option must be correct. This is not guessing — it is a formal proof technique that expert solvers use regularly.</p>
+      <p>When direct logic stalls, pick a cell with exactly two possibilities and test one. If it leads to a contradiction, the other option must be correct. This is a formal proof technique that expert solvers use regularly.</p>
       <h3>4. Practice the Daily Challenge</h3>
-      <p>The <a href="/daily/">daily challenge</a> on weekends is a 14×14 grid — the same size as our hardest puzzles. Regular practice on the daily puzzle is the best way to build the chain reasoning skills needed for expert-level <strong>Light Up</strong> solving.</p>
+      <p>The <a href="/daily/">daily challenge</a> on weekends is a 14×14 grid — the same size as our hardest puzzles. Regular practice on the daily puzzle is the best way to build chain reasoning skills.</p>
 
-      <h2>What Makes a Hard Akari Puzzle?</h2>
-      <p>Hard and expert <strong>Light Up puzzles</strong> differ from easier ones in several ways:</p>
-      <ul>
-        <li><strong>Larger grids.</strong> Hard puzzles are 12×12 or 14×14, compared to 7×7 or 10×10 for easier levels. More cells mean more possibilities and longer deduction chains.</li>
-        <li><strong>Denser wall placement.</strong> Hard puzzles have more black cells, which creates narrow corridors and complex line-of-sight constraints. Each bulb placement affects fewer cells, making deductions harder to find.</li>
-        <li><strong>Fewer number-4 cells.</strong> Easy puzzles often have a "4" near the start to give you a foothold. Hard puzzles may have zero — you must work from partial constraints.</li>
-        <li><strong>Longer chain reasoning.</strong> Instead of resolving 3-5 cells per deduction, hard puzzles require chains of 10-15 steps. Missing one intermediate deduction can stall the entire solve.</li>
-      </ul>
-      <p>For a complete walkthrough of each technique, visit our <a href="/how-to-solve/">strategy guide</a> or try the <a href="/solver/">Akari solver</a> when you get stuck.</p>
-
+      <h2>All Hard Puzzles</h2>
+      {filtered.length === 0 ? (
+        <p>More hard puzzles coming soon! In the meantime, try the <a href="/daily/">Daily Challenge</a> for a tough 14×14 weekend puzzle.</p>
+      ) : (
+        <div class="level-grid">
+          {filtered.map(p => (
+            <a href={`/puzzle/${p.id}/`} class="level-link">Puzzle {p.id.split('-')[1]}</a>
+          ))}
+        </div>
+      )}
       <details>
         <summary>What makes these puzzles "hard"?</summary>
-        <p>Hard Akari puzzles use 12×12 grids packed with walls and numbered constraints. Solving them requires advanced deduction chains — placing one bulb can cascade into multiple forced placements across the grid.</p>
+        <p>Hard Akari puzzles use 12×12 or 14×14 grids packed with walls and numbered constraints. Solving them requires advanced deduction chains — placing one bulb can cascade into multiple forced placements across the grid.</p>
       </details>
       <details>
         <summary>How do I play Akari?</summary>

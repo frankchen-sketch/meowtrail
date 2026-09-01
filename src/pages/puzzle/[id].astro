@@ -9,8 +9,8 @@ export function getStaticPaths() {
 const { puzzle } = Astro.props;
 const { id, size, difficulty, grid, solution, cats, steps } = puzzle;
 const num = id.split('-')[1];
-const title = `MeowTrail Puzzle #${num} — ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ${size}×${size}`;
-const description = `Play MeowTrail puzzle #${num} online. ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ${size}×${size} grid with step-by-step solution. ${cats} cats to place.`;
+const title = `Akari Puzzle #${num} — ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ${size}×${size} | MeowTrail`;
+const description = `Play MeowTrail Akari puzzle #${num} online. ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ${size}×${size} Light Up puzzle with ${cats} cats to place. Solve step by step.`;
 ---
 <!DOCTYPE html>
 <html lang="en">

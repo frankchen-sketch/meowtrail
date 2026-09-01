@@ -38,6 +38,8 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
     .cell-lit{background:linear-gradient(145deg,#FFF8F0,#FFF0E0);box-shadow:inset 0 0 8px rgba(255,248,240,.5)}
     .cell-cat{background:linear-gradient(145deg,#fff4f0,#e7dacf);box-shadow:inset 0 0 16px rgba(200,168,232,.4),0 4px 12px rgba(232,168,136,.3)}
     .cell-x{background:#FAFAFA;box-shadow:inset 0 0 4px rgba(0,0,0,.05)}
+    @keyframes hint-pulse { 0%,100% { box-shadow: inset 0 0 0 3px #E8A888; } 50% { box-shadow: inset 0 0 0 3px #E8A888, 0 0 16px rgba(232,168,136,0.5); } }
+    .cell-hint { animation: hint-pulse 0.8s ease-in-out infinite; }
     .cell-dark{background:linear-gradient(145deg,#F0EBE5,#E8E0D8);box-shadow:inset 0 2px 4px rgba(0,0,0,.08)}
     @keyframes cat-place{0%{transform:scale(0) rotate(-10deg);opacity:0}50%{transform:scale(1.2) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
     .cell-cat-new{animation:cat-place .4s cubic-bezier(.34,1.56,.64,1) forwards}
@@ -130,6 +132,7 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
       <button class="btn btn-primary" id="start-btn">▶ Start Challenge</button>
       <button class="btn btn-secondary" id="hint-btn">💡 Hint</button>
       <button class="btn btn-secondary" id="reset-btn">↺ Reset</button>
+      <button class="btn btn-secondary" id="sound-btn">🔊 Sound</button>
     </div>
     <div class="game-status">
       <div class="health-display" id="health-display">
@@ -158,11 +161,12 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
         </div>
       </div>
       <div id="win-badge" style="display:none;font-size:1.2rem;font-weight:700;margin:.5rem 0;padding:.4rem 1rem;border-radius:20px;background:#FFF8F0;border:2px solid #E8A888"></div>
-      <button class="win-btn" id="share-card-btn">📸 Download Share Card</button>
       <div class="win-share-row">
+        <button class="share-btn share-reddit" id="share-reddit" style="background:#FF4500;color:#fff">👽 Reddit</button>
         <button class="share-btn share-copy" id="share-copy">📋 Copy Result</button>
         <button class="share-btn share-twitter" id="share-twitter">𝕏 Share</button>
       </div>
+      <button class="win-btn" id="win-close" style="margin-top:.8rem;background:none;border:1.5px solid #E8A888;color:#E8A888;font-weight:700;padding:.5rem 1.6rem;border-radius:999px;cursor:pointer">Continue ✓</button>
     </div>
     <div class="leaderboard">
       <h3>📊 Your Daily Stats</h3>
@@ -202,6 +206,8 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
     </section>
   </div>
   <script is:inline src="/akari-engine.js"></script>
+  <script is:inline src="/sfx.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
   <script type="module">
     const CAT_IMG = '<img src="/assets/cats/cat-clay-purple.png" style="width:95%;height:95%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 2px 6px rgba(123,107,138,.4))" />';
     const X_MARK = '<svg viewBox="0 0 24 24" width="50%" height="50%" style="opacity:0.4"><line x1="6" y1="6" x2="18" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="#B8A8C8" stroke-width="2.5" stroke-linecap="round"/></svg>';
@@ -235,6 +241,8 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
       const s = localStorage.getItem(STORAGE_KEY);
       if (!s) return null;
       const d = JSON.parse(s);
+      // 单位污染自愈：bestTime 合法范围 10s~2h（秒）。历史 bug 曾把毫秒当秒写入，且在本地/云端间循环放大。
+      if (d.bestTime != null && (d.bestTime > 7200 || d.bestTime < 10)) d.bestTime = null;
       const today = getToday();
       if (d.date === today) return d;
       const yesterday = getYesterday();
@@ -251,7 +259,7 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
         st.streak += 1;
         st.bestStreak = Math.max(st.bestStreak, st.streak);
         st.solved = true;
-        if (time && (!st.bestTime || time < st.bestTime)) st.bestTime = time;
+        if (time && time <= 7200 && (!st.bestTime || time < st.bestTime)) st.bestTime = time;
       }
       st.lastPlayedDate = today;
       st.date = today;
@@ -295,9 +303,14 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
       document.getElementById('stat-best-time').textContent = bestTimeEl.textContent;
       const statBadge = document.getElementById('stat-badge');
       if (badge) {
-        statBadge.innerHTML = '<span style="padding:.3rem .8rem;border-radius:20px;font-size:.85rem;font-weight:700;border:2px solid ' + badge.color + ';background:#FFF8F0">' + badge.emoji + ' ' + badge.label + '</span>';
+        const next = streak >= 30 ? null : streak >= 14 ? { d: 30, e: '👑', l: 'Cat Royalty' } : streak >= 7 ? { d: 14, e: '💎', l: 'Diamond Paw' } : streak >= 3 ? { d: 7, e: '🌟', l: 'Star Cat' } : { d: 3, e: '🔥', l: 'On Fire' };
+        statBadge.innerHTML = '<span style="padding:.3rem .8rem;border-radius:20px;font-size:.85rem;font-weight:700;border:2px solid ' + badge.color + ';background:#FFF8F0">' + badge.emoji + ' ' + badge.label + '</span>'
+          + (next ? '<span style="font-size:.8rem;color:#9b726c;margin-left:.6rem">' + (next.d - streak) + ' more day' + (next.d - streak > 1 ? 's' : '') + ' → ' + next.e + ' ' + next.l + '</span>' : streak >= 30 ? '<span style="font-size:.8rem;color:#9b726c;margin-left:.6rem">Max badge!</span>' : '');
       } else {
-        statBadge.innerHTML = '<span style="font-size:.85rem;color:#6f5651">Solve 3 days in a row to earn your first badge!</span>';
+        const to3 = 3 - streak;
+        statBadge.innerHTML = '<span style="font-size:.85rem;color:#6f5651">' + (streak > 0
+          ? '🔥 ' + streak + ' day' + (streak > 1 ? 's' : '') + ' in a row — ' + to3 + ' more to earn your first badge!'
+          : 'Come back tomorrow and keep your streak going — 3 days earns your first badge!') + '</span>';
       }
     }
 
@@ -457,10 +470,12 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
       if (playerSolution[r][c]) {
         playerSolution[r][c] = false;
         lastPlacedCell = null;
+        if (typeof SFX !== 'undefined') SFX.remove();
       }
       else {
         markX[r][c] = false; playerSolution[r][c] = true;
         lastPlacedCell = {r, c};
+        if (typeof SFX !== 'undefined') SFX.place();
         if (!window.__firstMoveTracked) { window.__firstMoveTracked = true; track('first_move', { board: 'daily' }); }
         const v = checkViolations(g, playerSolution, s);
         let hasViolation = false;
@@ -479,13 +494,15 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
           }
         }
         if (hasViolation) {
+          if (typeof SFX !== 'undefined') SFX.error();
           loseHealth();
         }
       }
       renderBoard(); updateProgress();
       setTimeout(() => { lastPlacedCell = null; }, 500);
-      if (checkWin(g, playerSolution, s)) { 
-        won=true; 
+      if (checkWin(g, playerSolution, s)) {
+        won=true;
+        if (typeof SFX !== 'undefined') SFX.win();
         stopTimer();
         const state = saveState(true, elapsedTime);
         track('daily_solved', { streak: state.streak, seconds: elapsedTime });
@@ -602,13 +619,40 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
       } else showToast('No hints!','error');
     });
     document.getElementById('reset-btn').addEventListener('click', resetPuzzle);
-    document.getElementById('share-card-btn').addEventListener('click', () => {
+    document.getElementById('sound-btn').addEventListener('click', () => {
+      const muted = SFX.toggle();
+      document.getElementById('sound-btn').textContent = muted ? '🔇 Sound' : '🔊 Sound';
+    });
+    // Download Share Card（弹窗外的隐藏功能，保留给需要图片的用户）
+    const scb = document.getElementById('share-card-btn');
+    if (scb) scb.addEventListener('click', () => {
       const cardData = generateShareCard();
       const link = document.createElement('a');
       link.download = 'meowtrail-daily-' + new Date().toISOString().split('T')[0] + '.png';
       link.href = cardData;
       link.click();
       showToast('📸 Share card downloaded!', 'success');
+    });
+    document.getElementById('share-reddit').addEventListener('click', async () => {
+      track('share_reddit', { board: 'daily' });
+      // 棋盘截图到剪贴板（Reddit 发帖时可直接粘贴）
+      try {
+        if (typeof html2canvas !== 'undefined') {
+          const canvas = await html2canvas(document.getElementById('puzzle-grid'), { backgroundColor: '#f8f6ef', scale: 2 });
+          canvas.toBlob(async (blob) => {
+            if (blob) { try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]); } catch(e) {} }
+          }, 'image/png');
+        }
+      } catch(e) {}
+      const state = loadState();
+      const streak = state ? state.streak : 1;
+      const badge = getBadge(streak);
+      const badgeText = badge ? ' ' + badge.emoji + badge.label : '';
+      const text = encodeURIComponent('🐱 Cleared the MeowTrail Daily Challenge (10×10 Akari)! ⏱ ' + timerEl.textContent + ' 🔥 ' + streak + ' day streak' + badgeText + ' — your turn → meowtrail.org');
+      window.open('https://www.reddit.com/r/meowtrail/submit?url=' + encodeURIComponent('https://meowtrail.org/daily/') + '&title=' + text, '_blank');
+    });
+    document.getElementById('win-close').addEventListener('click', () => {
+      winOverlay.classList.remove('show');
     });
     document.getElementById('share-copy').addEventListener('click', () => {
       track('share_copy');
@@ -636,8 +680,18 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
     // Check if already solved today
     const state = loadState();
     if (state && state.solved) {
-      document.getElementById('start-btn').textContent = '✅ Already Solved Today';
+      document.getElementById('start-btn').textContent = '✅ Solved Today — Nice!';
       document.getElementById('start-btn').disabled = true;
+      // UTC 午夜解锁下一关的倒计时
+      const tick = () => {
+        const now = new Date();
+        const next = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
+        const left = Math.floor((next - now) / 1000);
+        const h = Math.floor(left / 3600), m = Math.floor((left % 3600) / 60);
+        document.getElementById('daily-badge').textContent = '✅ Solved · New puzzle in ' + h + 'h ' + m + 'm';
+      };
+      tick();
+      setInterval(tick, 30000);
     }
 
     // ─── Account & cloud sync ─────────────────────────────────────────
@@ -685,13 +739,14 @@ const description = "Take on today's MeowTrail challenge! A fresh 10×10 Akari p
     }
     function applyCloudProgress(cloud) {
       // 用云端数据覆盖 UI 与 localStorage（服务端已合并，云端即真源）
+      // 注意：云端 bestTime 单位是毫秒，localStorage bestTime 单位是秒
       if (!cloud) return;
       const local = loadState();
       const st = {
         date: getToday(),
         streak: cloud.streak || 0,
         bestStreak: cloud.bestStreak || 0,
-        bestTime: cloud.bestTime || null,
+        bestTime: (cloud.bestTime != null && cloud.bestTime <= 7200000) ? Math.round(cloud.bestTime / 1000) : null,
         solved: !!(local && local.solved),
         lastPlayedDate: cloud.lastSolvedDate || (local && local.lastPlayedDate) || null
       };

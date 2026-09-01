@@ -1,8 +1,14 @@
 ---
 import SEOHead from '../../components/SEOHead.astro';
-const title = "Easy Akari Puzzles — Play 10 Levels Online | MeowTrail";
-const description = "Play 10 easy Akari (Light Up) puzzles online free. 7×7 grids with gentle logic, perfect for beginners. Solve them all at MeowTrail.";
+import puzzles from '../../data/puzzles.json';
+
+const filtered = puzzles.filter(p => p.difficulty === 'easy');
+const title = "Easy Akari Puzzles — Play Online Free | MeowTrail";
+const description = "Play easy Akari (Light Up) puzzles online free. 7×7 grids with gentle logic, perfect for beginners. Solve them all at MeowTrail.";
+const sizes = [...new Set(filtered.map(p => p.size))].sort();
+const gridSize = sizes.map(s => `${s}×${s}`).join(', ');
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +31,7 @@ const description = "Play 10 easy Akari (Light Up) puzzles online free. 7×7 gri
     footer a{color:#6f5651}
     .play-cta{display:block;text-align:center;margin:2rem 0;padding:1rem;background:linear-gradient(145deg,#F0B898,#E09878);color:#fff;border-radius:12px;text-decoration:none;font-weight:600;font-size:1.1rem}
     .play-cta:hover{background:linear-gradient(145deg,#E0A888,#D08868)}
-  
+
     /* ── Header ── */
     .site-header{position:sticky;top:0;z-index:30;border-bottom:1px solid #f4dfdc;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
     .header-inner{max-width:80rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;padding:0 1rem}
@@ -63,24 +69,17 @@ const description = "Play 10 easy Akari (Light Up) puzzles online free. 7×7 gri
 
   <div class="container">
     <h1>🐱 Easy Akari Puzzles</h1>
-    <p style="text-align:center;color:#6f5651;margin-bottom:1rem;">10 easy puzzles to solve.</p>
+    <p style="text-align:center;color:#6f5651;margin-bottom:1rem;">{filtered.length} easy puzzles ({gridSize}) to solve.</p>
     <section class="seo-content">
       <h2>All Easy Puzzles</h2>
       <div class="level-grid">
-        <a href="/puzzle/puzzle-001/" class="level-link">Puzzle 1</a>
-        <a href="/puzzle/puzzle-002/" class="level-link">Puzzle 2</a>
-        <a href="/puzzle/puzzle-003/" class="level-link">Puzzle 3</a>
-        <a href="/puzzle/puzzle-004/" class="level-link">Puzzle 4</a>
-        <a href="/puzzle/puzzle-005/" class="level-link">Puzzle 5</a>
-        <a href="/puzzle/puzzle-006/" class="level-link">Puzzle 6</a>
-        <a href="/puzzle/puzzle-007/" class="level-link">Puzzle 7</a>
-        <a href="/puzzle/puzzle-008/" class="level-link">Puzzle 8</a>
-        <a href="/puzzle/puzzle-009/" class="level-link">Puzzle 9</a>
-        <a href="/puzzle/puzzle-010/" class="level-link">Puzzle 10</a>
+        {filtered.map(p => (
+          <a href={`/puzzle/${p.id}/`} class="level-link">Puzzle {p.id.split('-')[1]}</a>
+        ))}
       </div>
       <details>
         <summary>What makes these puzzles "easy"?</summary>
-        <p>Easy Akari puzzles use 7×7 grids with fewer walls and more open space. The logic needed to solve them is straightforward — perfect for learning the rules of Light Up.</p>
+        <p>Easy Akari puzzles use {sizes[0]}×{sizes[0]} grids with fewer walls and more open space. The logic needed to solve them is straightforward — perfect for learning the rules of Light Up.</p>
       </details>
       <details>
         <summary>How do I play Akari?</summary>

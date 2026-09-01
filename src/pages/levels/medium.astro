@@ -1,8 +1,14 @@
 ---
 import SEOHead from '../../components/SEOHead.astro';
-const title = "Medium Akari Puzzles — Play 10 Levels Online | MeowTrail";
-const description = "Play 10 medium Akari (Light Up) puzzles online free. 10×10 grids with balanced challenge. Solve them all at MeowTrail.";
+import puzzles from '../../data/puzzles.json';
+
+const filtered = puzzles.filter(p => p.difficulty === 'medium');
+const title = "Medium Akari Puzzles — Play Online Free | MeowTrail";
+const description = "Play medium Akari (Light Up) puzzles online free. 10×10 grids with balanced challenge. Solve them all at MeowTrail.";
+const sizes = [...new Set(filtered.map(p => p.size))].sort();
+const gridSize = sizes.map(s => `${s}×${s}`).join(', ');
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +31,7 @@ const description = "Play 10 medium Akari (Light Up) puzzles online free. 10×10
     footer a{color:#6f5651}
     .play-cta{display:block;text-align:center;margin:2rem 0;padding:1rem;background:linear-gradient(145deg,#F0B898,#E09878);color:#fff;border-radius:12px;text-decoration:none;font-weight:600;font-size:1.1rem}
     .play-cta:hover{background:linear-gradient(145deg,#E0A888,#D08868)}
-  
+
     /* ── Header ── */
     .site-header{position:sticky;top:0;z-index:30;border-bottom:1px solid #f4dfdc;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
     .header-inner{max-width:80rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;padding:0 1rem}
@@ -63,24 +69,17 @@ const description = "Play 10 medium Akari (Light Up) puzzles online free. 10×10
 
   <div class="container">
     <h1>🐱 Medium Akari Puzzles</h1>
-    <p style="text-align:center;color:#6f5651;margin-bottom:1rem;">10 medium puzzles to solve.</p>
+    <p style="text-align:center;color:#6f5651;margin-bottom:1rem;">{filtered.length} medium puzzles ({gridSize}) to solve.</p>
     <section class="seo-content">
       <h2>All Medium Puzzles</h2>
       <div class="level-grid">
-        <a href="/puzzle/puzzle-011/" class="level-link">Puzzle 11</a>
-        <a href="/puzzle/puzzle-012/" class="level-link">Puzzle 12</a>
-        <a href="/puzzle/puzzle-013/" class="level-link">Puzzle 13</a>
-        <a href="/puzzle/puzzle-014/" class="level-link">Puzzle 14</a>
-        <a href="/puzzle/puzzle-015/" class="level-link">Puzzle 15</a>
-        <a href="/puzzle/puzzle-016/" class="level-link">Puzzle 16</a>
-        <a href="/puzzle/puzzle-017/" class="level-link">Puzzle 17</a>
-        <a href="/puzzle/puzzle-018/" class="level-link">Puzzle 18</a>
-        <a href="/puzzle/puzzle-019/" class="level-link">Puzzle 19</a>
-        <a href="/puzzle/puzzle-020/" class="level-link">Puzzle 20</a>
+        {filtered.map(p => (
+          <a href={`/puzzle/${p.id}/`} class="level-link">Puzzle {p.id.split('-')[1]}</a>
+        ))}
       </div>
       <details>
         <summary>What makes these puzzles "medium"?</summary>
-        <p>Medium Akari puzzles use 10×10 grids with more walls and numbered constraints. They require multi-step reasoning — you'll often need to deduce bulb placements from wall numbers before filling in the rest.</p>
+        <p>Medium Akari puzzles use {sizes[0]}×{sizes[0]} grids with more walls and numbered constraints. They require multi-step reasoning — you'll often need to deduce bulb placements from wall numbers before filling in the rest.</p>
       </details>
       <details>
         <summary>How do I play Akari?</summary>

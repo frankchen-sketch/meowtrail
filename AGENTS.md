@@ -1,5 +1,7 @@
 # MeowTrail — Agent Rules
 
+> ⚠️ **本项目已废弃（2026-09-17 归档确认）**：meowtrail.org 全站 301 → gridpaw.com（121/121 保路径生效，见 `~/workspace/gridpaw/REDIRECTS.md`），git 最后提交 2026-09-10。仓库仅作历史留存，**不要再部署、改代码或提交 SEO 内容**；游戏/SEO 工作全部走 gridpaw。以下规则仅当确需复活本站时参考。
+
 ## 项目定位
 猫主题 Akari (Light Up) 逻辑谜题游戏站。Astro 静态站 + Cloudflare Pages 部署。
 
